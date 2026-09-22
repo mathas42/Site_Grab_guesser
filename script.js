@@ -10,7 +10,26 @@ const produits = [
         description: "Thai Basil Minced Pork Rice",
         prix: 22.90,
         image: "Thai_basil_minced_pork_rice.jpg"
+    },
+    {
+        nom: "6-Inch Mushroom Chicken and Garlic Butter Meal with corn/toasties",
+        description: "Subway - Asia Pacific University",
+        prix: 25.94,
+        image: "6-Inch_Mushroom_Chicken.jpg"
+    },
+        {
+        nom: "Shredded Chicken Noodle",
+        description: "Noodlicious by 1977 - Sri Petaling [Non-Halal]",
+        prix: 12.90,
+        image: "Shredded_Chicken_Noodle.jpg"
+    },
+            {
+        nom: "Tender Wrap",
+        description: "Texas Chicken - Sg Besi Shell DT",
+        prix: 9.34,
+        image: "Tender_wrap.jpg"
     }
+    
 ];
 
 function new_() {
