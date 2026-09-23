@@ -35,6 +35,7 @@ const produits = [
 function new_() {
     localStorage.setItem("score", 0);
     localStorage.setItem("round", 0);
+    localStorage.setItem("produitsUtilises", JSON.stringify([]));
     window.location.href = "jeu.html";
 }
 
@@ -43,7 +44,29 @@ let round = Number(localStorage.getItem("round")) || 0;
 
 document.getElementById("score").textContent = Math.round(score * 100) / 100;
 
-const produit = produits[Math.floor(Math.random() * produits.length)];
+let produitsUtilises = JSON.parse(localStorage.getItem("produitsUtilises")) || [];
+
+let indexProduit;
+
+if (produitsUtilises.length < produits.length) {
+
+    do {
+        indexProduit = Math.floor(Math.random() * produits.length);
+    } while (produitsUtilises.includes(indexProduit));
+
+    produitsUtilises.push(indexProduit);
+
+    localStorage.setItem(
+        "produitsUtilises",
+        JSON.stringify(produitsUtilises)
+    );
+
+} else {
+    console.log("Tous les produits ont été utilisés !");
+}
+
+const produit = produits[indexProduit];
+
 
 document.getElementById("liste-produits").innerHTML = `
     <div class="produit">
