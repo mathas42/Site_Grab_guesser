@@ -3,31 +3,31 @@ const produits = [
         nom: "Shawarma Al Sham - Bandar Tasik Selatan",
         description: "Shawarma Beef Medium",
         prix: 17.90,
-        image: "Shawarma_beef.jpg"
+        image: "image/Shawarma_beef.jpg"
     },
     {
         nom: "7StarThaiBasilRice - Taman Oversea Union [Non-Halal]",
         description: "Thai Basil Minced Pork Rice",
         prix: 22.90,
-        image: "Thai_basil_minced_pork_rice.jpg"
+        image: "image/Thai_basil_minced_pork_rice.jpg"
     },
     {
         nom: "6-Inch Mushroom Chicken and Garlic Butter Meal with corn/toasties",
         description: "Subway - Asia Pacific University",
         prix: 25.94,
-        image: "6-Inch_Mushroom_Chicken.jpg"
+        image: "image/6-Inch_Mushroom_Chicken.jpg"
     },
         {
         nom: "Shredded Chicken Noodle",
         description: "Noodlicious by 1977 - Sri Petaling [Non-Halal]",
         prix: 12.90,
-        image: "Shredded_Chicken_Noodle.jpg"
+        image: "image/Shredded_Chicken_Noodle.jpg"
     },
             {
         nom: "Tender Wrap",
         description: "Texas Chicken - Sg Besi Shell DT",
         prix: 9.34,
-        image: "Tender_wrap.jpg"
+        image: "image/Tender_wrap.jpg"
     }
     
 ];
@@ -36,7 +36,7 @@ function new_() {
     localStorage.setItem("score", 0);
     localStorage.setItem("round", 0);
     localStorage.setItem("produitsUtilises", JSON.stringify([]));
-    window.location.href = "jeu.html";
+    window.location.href = "/jeu";
 }
 
 let score = Number(localStorage.getItem("score")) || 0;
@@ -129,9 +129,9 @@ function valider() {
 function next() {
 
         if (round > 4) {
-        window.location.href = "resultat.html";
+        window.location.href = "/resultat";
     } else {
-        window.location.href = "jeu.html";
+        window.location.href = "/jeu";
     }
 
 
