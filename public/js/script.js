@@ -37,6 +37,7 @@ function new_() {
     localStorage.setItem("round", 0);
     localStorage.setItem("produitsUtilises", JSON.stringify([]));
     window.location.href = "/jeu";
+    barre.disabled = false;
 }
 
 let score = Number(localStorage.getItem("score")) || 0;
@@ -61,8 +62,6 @@ if (produitsUtilises.length < produits.length) {
         JSON.stringify(produitsUtilises)
     );
 
-} else {
-    console.log("Tous les produits ont été utilisés !");
 }
 
 const produit = produits[indexProduit];
@@ -75,6 +74,13 @@ document.getElementById("liste-produits").innerHTML = `
         <h3>${produit.description}</h3>
     </div>
 `;
+
+let barre = document.getElementById("reponse");
+let value = document.getElementById("value");
+
+barre.addEventListener("input", function() {
+    value.textContent =Number(barre.value).toFixed(2);
+});
 
 function valider() {
     let reponse_joueur = Number(document.getElementById("reponse").value);
@@ -94,8 +100,7 @@ function valider() {
     document.getElementById("score").textContent = Math.round(score * 100)/100;
 
     document.getElementById("valider").remove();
-
-    document.getElementById("reponse").remove();
+    barre.disabled = true;
 
     let bouton = document.createElement("button");
 
@@ -107,12 +112,23 @@ function valider() {
 
     document.querySelector(".suivant").appendChild(bouton);
 
-    let annonce = document.createElement("p");
-    annonce.textContent = "Votre réponse : " + reponse_joueur ;
-    document.querySelector(".annonce").appendChild(annonce);
+    let annonce22 = document.createElement("p");
+    annonce22.textContent = "La bonne réponse :";
+    document.querySelector(".annonce22").appendChild(annonce22);
 
-        let annonce2 = document.createElement("p");
-    annonce2.textContent = "La bonne réponse : " + produit.prix;
+    let barre2 = document.createElement("input");
+
+    barre2.id = "barre";
+
+    barre2.type = "range";
+    barre2.min = 0;
+    barre2.max = 40;
+    barre2.value = produit.prix;
+    barre2.disabled = true;
+
+        document.querySelector(".annonce2").appendChild(barre2);
+    let annonce2 = document.createElement("p");
+    annonce2.textContent = produit.prix;
     document.querySelector(".annonce2").appendChild(annonce2);
 
     let points_pourcent = Math.abs(Math.round(((reponse_joueur * 100 / produit.prix) - 100)));

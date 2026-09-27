@@ -11,13 +11,16 @@ html(lang="fr")
 
         #liste-produits
 
-        input#reponse(type="number")
+        div.annonce Votre réponse :
+
+        input#reponse(type="range" min="0" max="40" value="20" step="0.01") 
+        span#value 20.00
         button#valider(onclick="valider()") Valider
 
         script(src="/js/script.js")
 
-        p.annonce
-        p.annonce2
+        p.annonce22
+        div.annonce2
         p.annonce3
         p.annonce4
 
