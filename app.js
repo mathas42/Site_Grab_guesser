@@ -4,6 +4,8 @@ const app = express();
 
 const PORT = 3000;
 
+const db = require("./database");
+
 // Pug
 app.set("view engine", "pug");
 app.set("views", "./views");
@@ -30,6 +32,17 @@ app.get("/jeu", (req, res) => {
 // Page résultat
 app.get("/resultat", (req, res) => {
     res.render("resultat");
+});
+
+app.get("/api/produits", (req, res) => {
+    db.query("SELECT * FROM produit", (err, results) => {
+        if (err) {
+            console.error("Erreur BDD :", err);
+            return res.status(500).json({ erreur: "Erreur BDD" });
+        }
+
+        res.json(results);
+    });
 });
 
 

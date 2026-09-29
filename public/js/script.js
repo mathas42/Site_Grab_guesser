@@ -1,36 +1,16 @@
-const produits = [
-    {
-        nom: "Shawarma Al Sham - Bandar Tasik Selatan",
-        description: "Shawarma Beef Medium",
-        prix: 17.90,
-        image: "image/Shawarma_beef.jpg"
-    },
-    {
-        nom: "7StarThaiBasilRice - Taman Oversea Union [Non-Halal]",
-        description: "Thai Basil Minced Pork Rice",
-        prix: 22.90,
-        image: "image/Thai_basil_minced_pork_rice.jpg"
-    },
-    {
-        nom: "6-Inch Mushroom Chicken and Garlic Butter Meal with corn/toasties",
-        description: "Subway - Asia Pacific University",
-        prix: 25.94,
-        image: "image/6-Inch_Mushroom_Chicken.jpg"
-    },
-        {
-        nom: "Shredded Chicken Noodle",
-        description: "Noodlicious by 1977 - Sri Petaling [Non-Halal]",
-        prix: 12.90,
-        image: "image/Shredded_Chicken_Noodle.jpg"
-    },
-            {
-        nom: "Tender Wrap",
-        description: "Texas Chicken - Sg Besi Shell DT",
-        prix: 9.34,
-        image: "image/Tender_wrap.jpg"
-    }
-    
-];
+let produits = [];
+let produit;
+let score = 0;
+let round = 0;
+let barre;
+
+fetch("/api/produits")
+    .then(response => response.json())
+    .then(data => {
+        produits = data;
+
+        begin();
+    });
 
 function new_() {
     localStorage.setItem("score", 0);
@@ -40,8 +20,9 @@ function new_() {
     barre.disabled = false;
 }
 
-let score = Number(localStorage.getItem("score")) || 0;
-let round = Number(localStorage.getItem("round")) || 0;
+function begin() {
+score = Number(localStorage.getItem("score")) || 0;
+round = Number(localStorage.getItem("round")) || 0;
 
 document.getElementById("score").textContent = Math.round(score * 100) / 100;
 
@@ -64,23 +45,23 @@ if (produitsUtilises.length < produits.length) {
 
 }
 
-const produit = produits[indexProduit];
+produit = produits[indexProduit];
 
 
 document.getElementById("liste-produits").innerHTML = `
     <div class="produit">
         <img src="${produit.image}">
         <h2>${produit.nom}</h2>
-        <h3>${produit.description}</h3>
+        <h3>${produit.nom_restaurant}</h3>
     </div>
 `;
 
-let barre = document.getElementById("reponse");
-let value = document.getElementById("value");
+barre = document.getElementById("reponse");
+value = document.getElementById("value");
 
 barre.addEventListener("input", function() {
     value.textContent =Number(barre.value).toFixed(2);
-});
+})}
 
 function valider() {
     let reponse_joueur = Number(document.getElementById("reponse").value);

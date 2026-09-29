@@ -18,17 +18,4 @@ db.connect((err) => {
     console.log("Connecté à MySQL !");
 });
 
-db.query(
-    "SELECT * FROM produit",
-    (err, results) => {
-        if (err) {
-            console.error(err);
-            return err;
-        }
-
-        console.log(results)
-        return results;;
-    },
-);
-
 module.exports = db;
