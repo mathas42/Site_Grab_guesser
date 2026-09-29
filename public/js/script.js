@@ -1,3 +1,5 @@
+
+//variable utilisé
 let produits = [];
 let produit;
 let score = 0;
@@ -5,6 +7,7 @@ let round = 1;
 let hint_count = 3;
 let barre;
 
+//recupère le json qui contient les produits et leurs informations
 fetch("/api/produits")
     .then(response => response.json())
     .then(data => {
@@ -24,6 +27,7 @@ fetch("/api/produits")
         }
     });
 
+    //fonction qui s'effectue au lancement du jeu et qui initialise les variables globales
 function new_() {
     localStorage.setItem("score", 0);
     localStorage.setItem("round", 1);
@@ -33,40 +37,41 @@ function new_() {
     barre.disabled = false;
 }
 
+//fonction qui s'effectue au début de chaque page
 function begin() {
+
+//initialise les valeurs dans des variables pour les modifier
 score = Number(localStorage.getItem("score")) || 0;
 round = Number(localStorage.getItem("round")) || 1;
-
 hint_count = Number(localStorage.getItem("hint_count"));
+
+// supprime le bouton hint si plus d'indice sinon décremente le compteur sur le bouton
   if (hint_count <= 0){ document.getElementById("hint").remove(); } else {
 document.getElementById("hint").textContent = "Hint : " + hint_count;}
 
- document.getElementById("round").textContent = round + " / 5";
+//affiche la manche à l'utilisateur
+document.getElementById("round").textContent = round + " / 5";
 
+//affiche le score 
 document.getElementById("score").textContent = Math.round(score * 100) / 100;
 
+//tout ça, ça permet de pas retomber sur le même produit 2 fois pendant le jeu (vérifie que l'index est pas déjà dans la liste)
 let produitsUtilises = JSON.parse(localStorage.getItem("produitsUtilises")) || [];
-
 let indexProduit;
-
 if (produitsUtilises.length < produits.length) {
-
     do {
         indexProduit = Math.floor(Math.random() * produits.length);
     } while (produitsUtilises.includes(indexProduit));
-
     produitsUtilises.push(indexProduit);
-
     localStorage.setItem(
         "produitsUtilises",
         JSON.stringify(produitsUtilises)
     );
-
 }
-
 produit = produits[indexProduit];
 
 
+//affiche les informations du produit sur la page pour le joueur
 document.getElementById("liste-produits").innerHTML = `
     <div class="produit">
         <img src="${produit.image}">
@@ -75,37 +80,49 @@ document.getElementById("liste-produits").innerHTML = `
     </div>
 `;
 
+//récupére les informations de la barre de guess du joueur
 barre = document.getElementById("reponse");
 value = document.getElementById("value");
-
 barre.addEventListener("input", function() {
     value.textContent =Number(barre.value).toFixed(2);
 })}
 
+//se déclenche quand le joueur valide son choix
 function valider() {
+    //récupere le guess du joueur
     let reponse_joueur = Number(document.getElementById("reponse").value);
 
+    //récupère les points
     let points = (
         1 - Math.abs((reponse_joueur * 100 / produit.prix) - 100) / 100
     ) * 4;
 
+    //arrondi
     points = Math.max(0, points);
 
+    //incremente le score et les manches
     score += points;
     round += 1;
 
+    //sauvegarde le score et round pour consever après recharge de la page
     localStorage.setItem("score", score);
     localStorage.setItem("round", round);
 
+    //actualise le score
     document.getElementById("score").textContent = Math.round(score * 100)/100;
 
+    //suprime le bouton valider et hint (si présent)
     document.getElementById("valider").remove();
     if (hint_count > 0){ document.getElementById("hint").remove(); }
+
+    //enleve les indices affichés
     document.querySelector(".hint1").remove();
+
+    //empeche le joueur de modifier son guess
     barre.disabled = true;
 
+    //ajoute un bouton suivant
     let bouton = document.createElement("button");
-
     bouton.textContent = "Suivant";
 
     bouton.onclick = function() {
@@ -113,7 +130,8 @@ function valider() {
 };
 
     document.querySelector(".suivant").appendChild(bouton);
-
+    
+    //affiche la réponse avec une barre graphique
     let annonce22 = document.createElement("p");
     annonce22.textContent = "La bonne réponse :";
     document.querySelector(".annonce22").appendChild(annonce22);
@@ -128,7 +146,8 @@ function valider() {
     barre2.value = produit.prix;
     barre2.disabled = true;
 
-        document.querySelector(".annonce2").appendChild(barre2);
+    //affiche les points gagné, le vrai prix et l'écart
+    document.querySelector(".annonce2").appendChild(barre2);
     let annonce2 = document.createElement("p");
     annonce2.textContent = produit.prix;
     document.querySelector(".annonce2").appendChild(annonce2);
@@ -144,24 +163,30 @@ function valider() {
    
 }
 
+//quand hint est cliqué
 function hint(){
 
-
+    //vide les indices affichés à l'écran
     document.querySelector(".hint1").innerHTML = "";
+
+    //compare la réponse du joueur
     let reponse_joueur = Number(document.getElementById("reponse").value);
+
+    //affiche more, less ou that is it selon la comparaison
     let hint = document.createElement("p");
     if (reponse_joueur < produit.prix) {
     hint.textContent = "more";
     } else if (reponse_joueur > produit.prix){
         hint.textContent = "less";
     } else { hint.textContent = "that's it !";}
-
     document.querySelector(".hint1").appendChild(hint);
 
+    //décremente le nombre d'indice
     hint_count -= 1;
     localStorage.setItem("hint_count", hint_count);
     document.getElementById("hint").textContent = "Hint : " + hint_count;
 
+    //si plus d'indice retire le bouton hint
     if (hint_count <= 0){
         document.getElementById("hint").remove();
     }
@@ -169,6 +194,7 @@ function hint(){
 
 }
 
+//bouton qui recharge la page si le jeu n'est pas terminé sinon va sur résultat
 function next() {
 
         if (round > 5) {
