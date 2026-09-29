@@ -8,6 +8,8 @@ html(lang="fr")
     body
         h2 Score : 
             span#score 0
+        h2 Round :
+            span#round 1/5
 
         #liste-produits
 
@@ -15,7 +17,9 @@ html(lang="fr")
 
         input#reponse(type="range" min="0" max="40" value="20" step="0.01") 
         span#value 20.00
-        button#valider(onclick="valider()") Valider
+        button#valider(onclick="valider()") Validate
+        button#hint(onclick="hint()") Hint : 3
+        p.hint1
 
         script(src="/js/script.js")
 
