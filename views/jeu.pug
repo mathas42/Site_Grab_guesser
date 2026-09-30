@@ -6,26 +6,36 @@ html(lang="fr")
         title Jeu
 
     body
-        h2 Score : 
-            span#score 0
-        h2 Round :
-            span#round 1/5
+        div#info
+            h2 Score : 
+                span#score 0
+            h2 Round :
+                span#round 1/5
 
-        #liste-produits
+        div#liste
+            #liste-produits
 
-        div.annonce Votre réponse :
-
-        input#reponse(type="range" min="0" max="40" value="20" step="0.01") 
-        span#value 20.00
-        button#valider(onclick="valider()") Validate
-        button#hint(onclick="hint()") Hint : 3
-        p.hint1
+        div#rep
+            div.annonce Votre réponse :
+            input#reponse(type="range" min="0" max="40" value="20" step="0.01") 
+            span#value 20.00 RM 4.30 Euro
+        div#valid
+            button#valider(onclick="valider()") Validate
+        div#secret
+            button#hint(onclick="hint()") Hint : 3
+            p.hint1
 
         script(src="/js/script.js")
 
-        p.annonce22
-        div.annonce2
-        p.annonce3
-        p.annonce4
+        div#reveal
+            p.annonce22
+            div.annonce2
+        
+        div#reveal3
+            p.annonce3
 
-        .suivant
+        div#reveal4
+            p.annonce4
+
+        div#reveal5
+            .suivant

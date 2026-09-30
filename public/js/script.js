@@ -50,7 +50,7 @@ hint_count = Number(localStorage.getItem("hint_count"));
 document.getElementById("hint").textContent = "Hint : " + hint_count;}
 
 //affiche la manche à l'utilisateur
-document.getElementById("round").textContent = round + " / 5";
+document.getElementById("round").textContent =  round + " / 5";
 
 //affiche le score 
 document.getElementById("score").textContent = Math.round(score * 100) / 100;
@@ -84,7 +84,7 @@ document.getElementById("liste-produits").innerHTML = `
 barre = document.getElementById("reponse");
 value = document.getElementById("value");
 barre.addEventListener("input", function() {
-    value.textContent =Number(barre.value).toFixed(2);
+    value.textContent =Number(barre.value).toFixed(2)+" RM " + Number(barre.value/4.65).toFixed(2)+" Euro";
 })}
 
 //se déclenche quand le joueur valide son choix

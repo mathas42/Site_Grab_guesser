@@ -62,3 +62,68 @@
     justify-content: center; 
     align-items: center;     
 }
+
+#info{
+    display: flex;
+    justify-content: center; 
+    align-items: center;   
+    margin: 20px;
+    background-color: darkolivegreen;
+    gap:20px;
+}
+
+#info h2{
+    color:aliceblue;
+}
+
+#liste{
+    display: flex;
+    justify-content: center; 
+    align-items: center;   
+    margin: 20px;
+}
+
+#rep{
+    display: flex;
+    justify-content: center; 
+    align-items: center;   
+    margin: 20px;
+}
+
+#valid{
+    display: flex;
+    justify-content: center; 
+    align-items: center;   
+}
+
+#secret{
+    display: flex;
+    justify-content: center; 
+    align-items: center;   
+}
+
+#reveal{
+    display: flex;
+    justify-content: center; 
+    align-items: center;   
+}
+
+#reveal3{
+    display: flex;
+    justify-content: center; 
+    align-items: center;
+    height: 10px;
+}
+
+#reveal4{
+    display: flex;
+    justify-content: center; 
+    align-items: center;   
+        height: 30px;
+}
+
+#reveal5{
+    display: flex;
+    justify-content: center; 
+    align-items: center;   
+}
