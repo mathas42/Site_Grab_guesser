@@ -24,3 +24,41 @@
     align-items: center;
     gap: 10px;
 }
+
+#title{
+    color:rgb(0, 151, 13);
+    align-items: center;
+    font-family: fantasy;
+    font-size: 100px;
+}
+
+#index{
+    background-color: rgb(246, 255, 246);
+}
+
+#new {
+    width: 300px;
+    background-color: greenyellow;
+    height: 70px;
+    font-size: 50px;
+    font-family: serif;
+}
+
+#new:hover{
+
+    background-color: rgb(238, 255, 47);
+}
+
+#screen{
+    display: flex;
+    justify-content: center; 
+    align-items: center;   
+    margin: 20px;
+    gap:20px;
+}
+
+#title_div{
+    display: flex;
+    justify-content: center; 
+    align-items: center;     
+}
