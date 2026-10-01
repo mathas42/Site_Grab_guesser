@@ -149,7 +149,7 @@ function valider() {
     //affiche les points gagné, le vrai prix et l'écart
     document.querySelector(".annonce2").appendChild(barre2);
     let annonce2 = document.createElement("p");
-    annonce2.textContent = produit.prix;
+    annonce2.textContent = produit.prix +" RM " + Number(produit.prix/4.65).toFixed(2)+" Euro";
     document.querySelector(".annonce2").appendChild(annonce2);
 
     let points_pourcent = Math.abs(Math.round(((reponse_joueur * 100 / produit.prix) - 100)));
@@ -176,9 +176,13 @@ function hint(){
     let hint = document.createElement("p");
     if (reponse_joueur < produit.prix) {
     hint.textContent = "more";
+    hint.style.color = "red";
     } else if (reponse_joueur > produit.prix){
-        hint.textContent = "less";
-    } else { hint.textContent = "that's it !";}
+    hint.textContent = "less";
+    hint.style.color = "blue";
+    } else { hint.textContent = "that's it !";
+        hint.style.color = "green";
+    }
     document.querySelector(".hint1").appendChild(hint);
 
     //décremente le nombre d'indice

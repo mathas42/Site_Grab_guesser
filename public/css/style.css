@@ -99,7 +99,8 @@
 #secret{
     display: flex;
     justify-content: center; 
-    align-items: center;   
+    align-items: center;
+    gap : 20px;
 }
 
 #reveal{
@@ -126,4 +127,36 @@
     display: flex;
     justify-content: center; 
     align-items: center;   
+}
+
+#hint {
+    width: 100px;
+    background-color: rgb(220, 34, 253);
+    height: 30px;
+    font-size: 20px;
+    font-family: serif;
+}
+
+#hint:hover{
+
+    background-color: rgb(255, 42, 230);
+}
+
+#valider {
+    width: 100px;
+    background-color: rgb(47, 255, 57);
+    height: 30px;
+    font-size: 20px;
+    font-family:Verdana, Geneva, Tahoma, sans-serif;
+    margin: 10px;
+}
+
+#valider:hover{
+
+    background-color: rgb(238, 255, 47);
+}
+
+.hint1 p {
+    font-size: 20px;
+    font-family:Verdana, Geneva, Tahoma, sans-serif;
 }
