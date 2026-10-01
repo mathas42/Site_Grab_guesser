@@ -4,7 +4,8 @@ let produits = [];
 let produit;
 let score = 0;
 let round = 1;
-let hint_count = 3;
+let hint_count = 2;
+let temp_count = 2;
 let barre;
 
 //recupère le json qui contient les produits et leurs informations
@@ -31,7 +32,8 @@ fetch("/api/produits")
 function new_() {
     localStorage.setItem("score", 0);
     localStorage.setItem("round", 1);
-    localStorage.setItem("hint_count", 3);
+    localStorage.setItem("hint_count", 2);
+    localStorage.setItem("temp_count", 2);
     localStorage.setItem("produitsUtilises", JSON.stringify([]));
     window.location.href = "/jeu";
     barre.disabled = false;
@@ -44,10 +46,14 @@ function begin() {
 score = Number(localStorage.getItem("score")) || 0;
 round = Number(localStorage.getItem("round")) || 1;
 hint_count = Number(localStorage.getItem("hint_count"));
+temp_count = Number(localStorage.getItem("temp_count"));
 
 // supprime le bouton hint si plus d'indice sinon décremente le compteur sur le bouton
   if (hint_count <= 0){ document.getElementById("hint").remove(); } else {
-document.getElementById("hint").textContent = "Hint : " + hint_count;}
+document.getElementById("hint").textContent = "More or Less : " + hint_count;}
+
+  if (temp_count <= 0){ document.getElementById("temperature").remove(); } else {
+document.getElementById("temperature").textContent = "Temperature : " + temp_count;}
 
 //affiche la manche à l'utilisateur
 document.getElementById("round").textContent =  round + " / 5";
@@ -114,9 +120,11 @@ function valider() {
     //suprime le bouton valider et hint (si présent)
     document.getElementById("valider").remove();
     if (hint_count > 0){ document.getElementById("hint").remove(); }
+    if (temp_count > 0){ document.getElementById("temperature").remove(); }
 
     //enleve les indices affichés
     document.querySelector(".hint1").remove();
+    document.querySelector(".hint2").remove();
 
     //empeche le joueur de modifier son guess
     barre.disabled = true;
@@ -188,14 +196,43 @@ function hint(){
     //décremente le nombre d'indice
     hint_count -= 1;
     localStorage.setItem("hint_count", hint_count);
-    document.getElementById("hint").textContent = "Hint : " + hint_count;
+    document.getElementById("hint").textContent = "More or Less : " + hint_count;
 
     //si plus d'indice retire le bouton hint
     if (hint_count <= 0){
         document.getElementById("hint").remove();
     }
+}
 
+//quand temperature est cliqué
+function temperature(){
 
+    //vide les indices affichés à l'écran
+    document.querySelector(".hint2").innerHTML = "";
+
+    //compare la réponse du joueur
+    let reponse_joueur = Number(document.getElementById("reponse").value);
+
+    //affiche more, less ou that is it selon la comparaison
+    let temp = document.createElement("p");
+    if ( Math.abs(reponse_joueur - produit.prix)  < 4) {
+    temp.textContent = "hot";
+    temp.style.color = "red";
+    } else { 
+    temp.textContent = "cold";
+    temp.style.color = "blue";
+    }
+    document.querySelector(".hint2").appendChild(temp);
+
+    //décremente le nombre d'indice
+    temp_count -= 1;
+    localStorage.setItem("temp_count", temp_count);
+    document.getElementById("temperature").textContent = "Temperature : " + temp_count;
+
+    //si plus d'indice retire le bouton hint
+    if (temp_count <= 0){
+        document.getElementById("temperature").remove();
+    }
 }
 
 //bouton qui recharge la page si le jeu n'est pas terminé sinon va sur résultat

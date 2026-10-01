@@ -103,6 +103,13 @@
     gap : 20px;
 }
 
+#secret2{
+    display: flex;
+    justify-content: center; 
+    align-items: center;
+    gap : 20px;
+}
+
 #reveal{
     display: flex;
     justify-content: center; 
@@ -130,7 +137,7 @@
 }
 
 #hint {
-    width: 100px;
+    width: 150px;
     background-color: rgb(220, 34, 253);
     height: 30px;
     font-size: 20px;
@@ -159,4 +166,22 @@
 .hint1 p {
     font-size: 20px;
     font-family:Verdana, Geneva, Tahoma, sans-serif;
+}
+
+.hint2 p {
+    font-size: 20px;
+    font-family:Verdana, Geneva, Tahoma, sans-serif;
+}
+
+#temperature {
+    width: 150px;
+    background-color: rgb(253, 129, 34);
+    height: 30px;
+    font-size: 20px;
+    font-family: serif;
+}
+
+#temperature:hover{
+
+    background-color: rgb(255, 209, 42);
 }
