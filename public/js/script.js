@@ -7,7 +7,6 @@ let round = 1;
 let hint_count = 2;
 let temp_count = 2;
 let barre;
-
 //recupère le json qui contient les produits et leurs informations
 fetch("/api/produits")
     .then(response => response.json())
@@ -35,12 +34,26 @@ function new_() {
     localStorage.setItem("hint_count", 2);
     localStorage.setItem("temp_count", 2);
     localStorage.setItem("produitsUtilises", JSON.stringify([]));
+    sessionStorage.setItem("next", "true");
     window.location.href = "/jeu";
     barre.disabled = false;
 }
 
 //fonction qui s'effectue au début de chaque page
 function begin() {
+
+    //anti-cheat, empeche de recharger la page en cours de jeu
+let navigationDepuisNext = sessionStorage.getItem("next");
+    if (navigationDepuisNext === "true") {
+        // Navigation normale avec Next
+        sessionStorage.removeItem("next");
+    } else {
+        // La page a été rechargée directement
+        localStorage.clear();
+        window.location.href = "/";
+        return;
+    }
+
 
 //initialise les valeurs dans des variables pour les modifier
 score = Number(localStorage.getItem("score")) || 0;
@@ -237,6 +250,9 @@ function temperature(){
 
 //bouton qui recharge la page si le jeu n'est pas terminé sinon va sur résultat
 function next() {
+
+    // indique que le changement de page vient du bouton Next
+    sessionStorage.setItem("next", "true");
 
         if (round > 5) {
         window.location.href = "/resultat";
