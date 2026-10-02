@@ -1,5 +1,6 @@
 .produit img {
-    width : 400px;
+    width: auto;
+    height: 370px;
 }
 
 #reponse{
@@ -87,7 +88,6 @@
     display: flex;
     justify-content: center; 
     align-items: center;   
-    margin: 20px;
 }
 
 #valid{
@@ -113,7 +113,8 @@
 #reveal{
     display: flex;
     justify-content: center; 
-    align-items: center;   
+    align-items: center; 
+    height :25px;  
 }
 
 #reveal3{

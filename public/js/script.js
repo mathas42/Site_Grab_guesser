@@ -1,187 +1,314 @@
-
-//variable utilisé
+// variables utilisées
 let produits = [];
 let produit;
-let score = 0;
-let round = 1;
-let hint_count = 2;
-let temp_count = 2;
 let barre;
-//recupère le json qui contient les produits et leurs informations
+
+
+// récupère le JSON qui contient les produits et leurs informations
 fetch("/api/produits")
     .then(response => response.json())
     .then(data => {
+
         produits = data;
 
-        //page du jeu
+        // page du jeu
         if (window.location.pathname === "/jeu") {
             begin();
         }
 
-        //page finale
+        // page finale
         if (window.location.pathname === "/resultat") {
-            let scoreFinal = Number(localStorage.getItem("score")) || 0;
 
-            document.getElementById("score").textContent =
-                Math.round(scoreFinal * 100) / 100;
+            let partieId = localStorage.getItem("partieId");
+
+            fetch("/api/partie/" + partieId)
+                .then(response => response.json())
+                .then(data => {
+
+                    // affiche le score final venant de la BDD
+                    document.getElementById("score").textContent =
+                        Math.round(Number(data.score) * 100) / 100;
+                });
         }
     });
 
-    //fonction qui s'effectue au lancement du jeu et qui initialise les variables globales
+
+// fonction qui s'effectue lorsque le joueur clique sur Play
+// elle crée une nouvelle partie dans la BDD
 function new_() {
-    localStorage.setItem("score", 0);
-    localStorage.setItem("round", 1);
-    localStorage.setItem("hint_count", 2);
-    localStorage.setItem("temp_count", 2);
-    localStorage.setItem("produitsUtilises", JSON.stringify([]));
-    sessionStorage.setItem("next", "true");
-    window.location.href = "/jeu";
-    barre.disabled = false;
+
+    fetch("/api/new-game", {
+        method: "POST"
+    })
+    .then(response => {
+
+        if (!response.ok) {
+            throw new Error(
+                "Erreur /api/new-game : " + response.status
+            );
+        }
+
+        return response.json();
+    })
+    .then(data => {
+
+        console.log("Nouvelle partie :", data);
+
+        // sauvegarde l'identifiant de la partie
+        localStorage.setItem("partieId", data.partieId);
+
+        // recommence la liste des produits utilisés
+        localStorage.setItem(
+            "produitsUtilises",
+            JSON.stringify([])
+        );
+
+        // indique que l'arrivée sur /jeu vient du bouton suivant/Play
+        sessionStorage.setItem("next", "true");
+
+        // va sur la page du jeu
+        window.location.href = "/jeu";
+    })
+    .catch(error => {
+        console.error(error);
+    });
 }
 
-//fonction qui s'effectue au début de chaque page
+
+// fonction qui s'effectue au début de chaque page du jeu
 function begin() {
 
-    //anti-cheat, empeche de recharger la page en cours de jeu
-let navigationDepuisNext = sessionStorage.getItem("next");
+    // vérifie si on arrive sur cette page depuis le bouton "Suivant"
+    let navigationDepuisNext =sessionStorage.getItem("next");
+
     if (navigationDepuisNext === "true") {
-        // Navigation normale avec Next
+        // supprime l'indication pour éviter
+        // qu'un simple rechargement soit considéré comme "Suivant"
         sessionStorage.removeItem("next");
-    } else {
-        // La page a été rechargée directement
+    }
+    else {
+
+        // si le joueur recharge directement la page,
+        // on considère que la partie doit être abandonnée
         localStorage.clear();
+        window.location.href = "/";
+
+        return;
+    }
+
+
+    // récupère l'identifiant de la partie
+    const partieId =localStorage.getItem("partieId");
+
+    if (!partieId) {
+        // aucune partie trouvée
         window.location.href = "/";
         return;
     }
 
 
-//initialise les valeurs dans des variables pour les modifier
-score = Number(localStorage.getItem("score")) || 0;
-round = Number(localStorage.getItem("round")) || 1;
-hint_count = Number(localStorage.getItem("hint_count"));
-temp_count = Number(localStorage.getItem("temp_count"));
+    // récupère les informations de la partie depuis la BDD
+    fetch("/api/partie/" + partieId)
+        .then(response => {
 
-// supprime le bouton hint si plus d'indice sinon décremente le compteur sur le bouton
-  if (hint_count <= 0){ document.getElementById("hint").remove(); } else {
-document.getElementById("hint").textContent = "More or Less : " + hint_count;}
+            if (!response.ok) {
+                throw new Error(
+                    "Erreur /api/partie/" +partieId +" : " +response.status
+                );
+            }
 
-  if (temp_count <= 0){ document.getElementById("temperature").remove(); } else {
-document.getElementById("temperature").textContent = "Temperature : " + temp_count;}
+            return response.json();
+        })
+        .then(data => {
 
-//affiche la manche à l'utilisateur
-document.getElementById("round").textContent =  round + " / 5";
+            // affiche le score venant de la BDD
+            document.getElementById("score").textContent =Math.round(Number(data.score) * 100) / 100;
 
-//affiche le score 
-document.getElementById("score").textContent = Math.round(score * 100) / 100;
 
-//tout ça, ça permet de pas retomber sur le même produit 2 fois pendant le jeu (vérifie que l'index est pas déjà dans la liste)
-let produitsUtilises = JSON.parse(localStorage.getItem("produitsUtilises")) || [];
-let indexProduit;
-if (produitsUtilises.length < produits.length) {
-    do {
-        indexProduit = Math.floor(Math.random() * produits.length);
-    } while (produitsUtilises.includes(indexProduit));
-    produitsUtilises.push(indexProduit);
-    localStorage.setItem(
-        "produitsUtilises",
-        JSON.stringify(produitsUtilises)
-    );
+            // affiche le numéro de la manche
+            document.getElementById("round").textContent =data.round + " / 5";
+
+
+            // affiche le nombre d'indices More or Less
+            if (data.hint_count <= 0) {
+                let boutonHint =
+                    document.getElementById("hint");
+                if (boutonHint) {
+                    boutonHint.remove();
+                }
+
+            }
+            else {
+                document.getElementById("hint").textContent =
+                    "More or Less : " +
+                    data.hint_count;
+            }
+
+
+            // affiche le nombre d'indices Temperature
+            if (data.temp_count <= 0) {
+
+                let boutonTemperature =document.getElementById("temperature");
+
+                if (boutonTemperature) {
+                    boutonTemperature.remove();
+                }
+
+            }
+            else {
+
+                document.getElementById("temperature").textContent ="Temperature : " +data.temp_count;
+            }
+
+
+            // récupère les produits déjà utilisés
+            let produitsUtilises =
+                JSON.parse(localStorage.getItem("produitsUtilises")) || [];
+
+
+            // choisit un produit aléatoire
+            // qui n'a pas encore été utilisé
+            let indexProduit;
+            do {
+
+                indexProduit =
+                    Math.floor(Math.random() * produits.length);
+
+            }
+            while (
+                produitsUtilises.includes(indexProduit)
+            );
+
+
+            // ajoute le produit à la liste des produits utilisés
+            produitsUtilises.push(indexProduit);
+
+            localStorage.setItem("produitsUtilises",JSON.stringify(produitsUtilises)
+            );
+
+
+            // récupère le produit choisi
+            produit = produits[indexProduit];
+
+
+            // affiche le produit à l'écran
+            document.getElementById("liste-produits").innerHTML = `
+
+                <div class="produit">
+                    <img src="${produit.image}">
+                    <h2>${produit.nom}</h2>
+                    <h3>${produit.nom_restaurant}</h3>
+
+                </div>
+            `;
+            // récupère la barre de réponse
+            barre =
+                document.getElementById("reponse");
+
+            // récupère le texte qui affiche la valeur
+            let value =document.getElementById("value");
+
+            // affiche la valeur de la barre
+            // lorsque le joueur la déplace
+            barre.addEventListener(
+                "input",
+                function() {
+
+                    value.textContent =Number(barre.value).toFixed(2) + " RM " +Number(barre.value / 4.65).toFixed(2) +" Euro";
+                }
+            );
+        })
+        .catch(error => {
+            console.error(error);
+        });
 }
-produit = produits[indexProduit];
 
 
-//affiche les informations du produit sur la page pour le joueur
-document.getElementById("liste-produits").innerHTML = `
-    <div class="produit">
-        <img src="${produit.image}">
-        <h2>${produit.nom}</h2>
-        <h3>${produit.nom_restaurant}</h3>
-    </div>
-`;
-
-//récupére les informations de la barre de guess du joueur
-barre = document.getElementById("reponse");
-value = document.getElementById("value");
-barre.addEventListener("input", function() {
-    value.textContent =Number(barre.value).toFixed(2)+" RM " + Number(barre.value/4.65).toFixed(2)+" Euro";
-})}
-
-//se déclenche quand le joueur valide son choix
+// se déclenche quand le joueur valide son choix
 function valider() {
 
-    // récupère la réponse du joueur
-    let reponse_joueur = Number(
-        document.getElementById("reponse").value
-    );
+    // récupère l'identifiant de la partie
+    let partieId =localStorage.getItem("partieId");
 
-    // demande au serveur de vérifier la réponse
+
+    // récupère la réponse du joueur
+    let reponse_joueur =
+        Number(document.getElementById("reponse").value);
+
+    // envoie la réponse au serveur
     fetch("/api/verifier", {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
         },
         body: JSON.stringify({
+
+            partieId: partieId,
+
             id: produit.id,
+
             reponse: reponse_joueur
         })
     })
     .then(response => response.json())
     .then(data => {
+        // vérifie si le serveur a renvoyé une erreur
+        if (data.erreur) {
+            console.error(data.erreur);
+            return;
+        }
 
-        // récupère les résultats envoyés par le serveur
+        // récupère les informations envoyées par le serveur
         let points = data.points;
         let prix = data.prix;
         let ecart = data.ecart;
 
-        // incrémente le score et les manches
-        score += points;
-        round += 1;
+        // le score vient maintenant de la BDD
+        document.getElementById("score").textContent =Math.round(Number(data.score) * 100) / 100;
 
-        // sauvegarde
-        localStorage.setItem("score", score);
-        localStorage.setItem("round", round);
+        // le numéro de la manche vient de la BDD
+        document.getElementById("round").textContent =data.round + " / 5";
 
-        // actualise le score
-        document.getElementById("score").textContent =
-            Math.round(score * 100) / 100;
-
-        // supprime les boutons
+        // retire le bouton Valider
         document.getElementById("valider").remove();
 
-        //suprime les boutons à l'affichage de la réponse
-        if (hint_count > 0) {
-            document.getElementById("hint").remove();
-        }
+        // retire le bouton More or Less
+        let boutonHint =document.getElementById("hint");
+        if (boutonHint) {
+            boutonHint.remove();}
 
-        if (temp_count > 0) {
-            document.getElementById("temperature").remove();
-        }
+        // retire le bouton Temperature
+        let boutonTemperature =document.getElementById("temperature");
 
-        // enlève les indices
-        document.querySelector(".hint1").remove();
-        document.querySelector(".hint2").remove();
+        if (boutonTemperature) {boutonTemperature.remove();}
 
-        // empêche de modifier la réponse
+        // retire les anciens indices
+        document.querySelector(".hint1").innerHTML = "";
+        document.querySelector(".hint2").innerHTML = "";
+
+        // désactive la barre de réponse
         barre.disabled = true;
 
-        // bouton suivant
-        let bouton = document.createElement("button");
+        // crée le bouton Suivant
+        let bouton =document.createElement("button");
         bouton.textContent = "Suivant";
-
-        bouton.onclick = function () {
+        bouton.onclick = function() {
             next();
         };
 
+        // ajoute le bouton à la page
         document.querySelector(".suivant").appendChild(bouton);
 
-        // affiche la bonne réponse
-        let annonce22 = document.createElement("p");
-        annonce22.textContent = "La bonne réponse :";
+        // affiche "La bonne réponse"
+        let annonce22 =document.createElement("p");
+
+        annonce22.textContent ="La bonne réponse :";
 
         document.querySelector(".annonce22").appendChild(annonce22);
 
-        // barre indiquant le vrai prix
-        let barre2 = document.createElement("input");
+        // crée une deuxième barre
+        // qui affiche la bonne réponse
+        let barre2 =document.createElement("input");
 
         barre2.id = "barre";
         barre2.type = "range";
@@ -192,101 +319,117 @@ function valider() {
 
         document.querySelector(".annonce2").appendChild(barre2);
 
-        // prix
-        let annonce2 = document.createElement("p");
+        //réduire l'espace
+        let div = document.getElementById("secret");
+        div.style.height = "5px";
+        let div2 = document.getElementById("secret2");
+        div2.style.height = "5px";
 
-        annonce2.textContent =
-            prix + " RM " +
-            Number(prix / 4.65).toFixed(2) +
-            " Euro";
+        // affiche le prix
+        let annonce2 =document.createElement("p");
+
+        annonce2.textContent =prix +" RM " +Number(prix / 4.65).toFixed(2) +" Euro";
 
         document.querySelector(".annonce2").appendChild(annonce2);
 
-        // écart
-        let annonce3 = document.createElement("p");
+        // affiche l'écart entre la réponse et le vrai prix
+        let annonce3 =document.createElement("p");
 
-        annonce3.textContent =
-            "écart : " + ecart + "%";
+        annonce3.textContent ="écart : " + ecart +"%";
 
         document.querySelector(".annonce3").appendChild(annonce3);
 
-        // points
-        let annonce4 = document.createElement("p");
+        // affiche les points gagnés
+        let annonce4 =document.createElement("p");
 
-        annonce4.textContent =
-            Math.round(points * 100) / 100 +
-            " points gagné sur 4";
+        annonce4.textContent =Math.round(points * 100) / 100 +" points gagné sur 4";
 
         document.querySelector(".annonce4").appendChild(annonce4);
     });
 }
 
-//quand hint est cliqué
+
+// quand le bouton More or Less est cliqué
 function hint() {
 
-    // récupère la réponse du joueur
-    let reponse_joueur = Number(document.getElementById("reponse").value);
+    // récupère l'identifiant de la partie
+    let partieId =localStorage.getItem("partieId");
 
+
+    // récupère la réponse actuelle du joueur
+    let reponse_joueur =Number(document.getElementById("reponse").value);
+
+
+    // envoie la demande au serveur
     fetch("/api/hint", {
         method: "POST",
         headers: {
-            "Content-Type": "application/json"
+        "Content-Type": "application/json"
         },
         body: JSON.stringify({
+            partieId: partieId,
             id: produit.id,
             reponse: reponse_joueur
         })
     })
     .then(response => response.json())
     .then(data => {
+        // affiche une erreur si le serveur en renvoie une
+        if (data.erreur) {
+            console.error(data.erreur);
+            return;
+        }
 
         // vide l'ancien indice
         document.querySelector(".hint1").innerHTML = "";
 
-        // crée l'indice
-        let hint = document.createElement("p");
-        hint.textContent = data.message;
+        // crée le texte de l'indice
+        let hint =document.createElement("p");
 
-        // couleur
-        if (data.message.startsWith("more")) {
-            hint.style.color = "red";
-        }
-        else if (data.message.startsWith("less")) {
-            hint.style.color = "blue";
+        hint.textContent =data.message;
+
+        // change la couleur selon la réponse
+        if (data.message.startsWith("more")) {hint.style.color = "red";}
+        else if (data.message.startsWith("less")) {hint.style.color = "blue";}
+        else {hint.style.color = "green";}
+
+        // affiche l'indice
+        document.querySelector(".hint1")
+            .appendChild(hint);
+
+        // met à jour le nombre d'indices avec la valeur venant de la BDD
+        if (data.hint_count <= 0) {
+
+            let boutonHint =document.getElementById("hint");
+
+            if (boutonHint) {boutonHint.remove();}
         }
         else {
-            hint.style.color = "green";
+            document.getElementById("hint").textContent ="More or Less : " +data.hint_count;
         }
-
-        document.querySelector(".hint1").appendChild(hint);
-
-        // décremente le nombre d'indices
-        hint_count -= 1;
-        localStorage.setItem("hint_count", hint_count);
-
-        // supprime le bouton si plus d'indice
-        if (hint_count <= 0) {
-            document.getElementById("hint").remove();
-        }
-        else {
-            document.getElementById("hint").textContent =
-                "More or Less : " + hint_count;
-        }
+        let div = document.getElementById("secret");
+        div.style.height = "35px";
     });
 }
 
-//quand temperature est cliqué
+// quand le bouton Temperature est cliqué
 function temperature() {
 
-    // récupère la réponse du joueur
-    let reponse_joueur = Number(document.getElementById("reponse").value);
+    // récupère l'identifiant de la partie
+    let partieId =localStorage.getItem("partieId");
 
+    // récupère la réponse actuelle du joueur
+    let reponse_joueur =
+        Number(document.getElementById("reponse").value);
+
+    // envoie la demande au serveur
     fetch("/api/temperature", {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
         },
         body: JSON.stringify({
+            partieId: partieId,
             id: produit.id,
             reponse: reponse_joueur
         })
@@ -294,43 +437,68 @@ function temperature() {
     .then(response => response.json())
     .then(data => {
 
+        // affiche une erreur si le serveur en renvoie une
+        if (data.erreur) {
+            console.error(data.erreur);
+            return;
+        }
+
         // vide l'ancien indice
         document.querySelector(".hint2").innerHTML = "";
 
-        // crée l'indice
-        let temp = document.createElement("p");
+        // crée le texte de l'indice
+        let temp =document.createElement("p");
 
         temp.textContent = data.message;
-        temp.style.color = data.couleur;
 
+        // applique la couleur envoyée par le serveur
+        temp.style.color =data.couleur;
+
+        // affiche l'indice
         document.querySelector(".hint2").appendChild(temp);
 
-        // décremente le nombre d'indices
-        temp_count -= 1;
-        localStorage.setItem("temp_count", temp_count);
+        // met à jour le nombre d'indices
+        // avec la valeur venant de la BDD
+        if (data.temp_count <= 0) {
+            let boutonTemperature =
+                document.getElementById(
+                    "temperature"
+                );
 
-        // supprime le bouton si plus d'indice
-        if (temp_count <= 0) {
-            document.getElementById("temperature").remove();
+            if (boutonTemperature) {boutonTemperature.remove();}
+
         }
         else {
-            document.getElementById("temperature").textContent =
-                "Temperature : " + temp_count;
+            document.getElementById("temperature").textContent ="Temperature : " +data.temp_count;
+
         }
+        let div2 = document.getElementById("secret2");
+        div2.style.height = "35px";
     });
 }
 
-//bouton qui recharge la page si le jeu n'est pas terminé sinon va sur résultat
+// bouton qui recharge la page si le jeu n'est pas terminé
+// sinon va sur la page résultat
 function next() {
 
-    // indique que le changement de page vient du bouton Next
+    // indique que le changement de page
+    // vient du bouton Suivant
     sessionStorage.setItem("next", "true");
 
-        if (round > 5) {
-        window.location.href = "/resultat";
-    } else {
-        window.location.href = "/jeu";
-    }
+    // récupère l'identifiant de la partie
+    let partieId =localStorage.getItem("partieId");
 
+    // récupère les informations de la partie
+    fetch("/api/partie/" + partieId)
+        .then(response => response.json())
+        .then(data => {
+            // si les 5 manches sont terminées
+            // on va sur la page résultat
+            if (data.round > 5) {window.location.href ="/resultat";}
 
+            // sinon on recommence une manche
+            else {
+                window.location.href ="/jeu";
+            }
+        });
 }
