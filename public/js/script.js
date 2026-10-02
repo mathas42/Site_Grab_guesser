@@ -196,12 +196,12 @@ function hint(){
     //affiche more, less ou that is it selon la comparaison
     let hint = document.createElement("p");
     if (reponse_joueur < produit.prix) {
-    hint.textContent = "more";
+    hint.textContent = "more than " + reponse_joueur;
     hint.style.color = "red";
     } else if (reponse_joueur > produit.prix){
-    hint.textContent = "less";
+    hint.textContent = "less than " + reponse_joueur;
     hint.style.color = "blue";
-    } else { hint.textContent = "that's it !";
+    } else { hint.textContent = "that's it ! " + reponse_joueur;
         hint.style.color = "green";
     }
     document.querySelector(".hint1").appendChild(hint);
@@ -228,13 +228,18 @@ function temperature(){
 
     //affiche more, less ou that is it selon la comparaison
     let temp = document.createElement("p");
-    if ( Math.abs(reponse_joueur - produit.prix)  < 4) {
-    temp.textContent = "hot";
+    if ( Math.abs(reponse_joueur - produit.prix)  < 1) {
+    temp.textContent = "very hot at " + reponse_joueur;
     temp.style.color = "red";
-    } else { 
-    temp.textContent = "cold";
+    } else if (Math.abs(reponse_joueur - produit.prix)  < 4) { 
+    temp.textContent = "hot at " + reponse_joueur;
+    temp.style.color = "orange";
+    } else if (Math.abs(reponse_joueur - produit.prix)  < 8) { 
+    temp.textContent = "cold at " + reponse_joueur;
     temp.style.color = "blue";
-    }
+    } else  { 
+    temp.textContent = "very cold at " + reponse_joueur;
+    temp.style.color = "darkblue";}
     document.querySelector(".hint2").appendChild(temp);
 
     //décremente le nombre d'indice
