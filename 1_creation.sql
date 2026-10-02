@@ -1,6 +1,6 @@
 USE projet_site;
 
-CREATE TABLE produits (
+CREATE TABLE produit (
     id INT AUTO_INCREMENT PRIMARY KEY,
     nom VARCHAR(255) NOT NULL,
     nom_restaurant VARCHAR(255) NOT NULL,

@@ -108,149 +108,216 @@ barre.addEventListener("input", function() {
 
 //se déclenche quand le joueur valide son choix
 function valider() {
-    //récupere le guess du joueur
-    let reponse_joueur = Number(document.getElementById("reponse").value);
 
-    //récupère les points
-    let points = (
-        1 - Math.abs((reponse_joueur * 100 / produit.prix) - 100) / 100
-    ) * 4;
+    // récupère la réponse du joueur
+    let reponse_joueur = Number(
+        document.getElementById("reponse").value
+    );
 
-    //arrondi
-    points = Math.max(0, points);
+    // demande au serveur de vérifier la réponse
+    fetch("/api/verifier", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            id: produit.id,
+            reponse: reponse_joueur
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
 
-    //incremente le score et les manches
-    score += points;
-    round += 1;
+        // récupère les résultats envoyés par le serveur
+        let points = data.points;
+        let prix = data.prix;
+        let ecart = data.ecart;
 
-    //sauvegarde le score et round pour consever après recharge de la page
-    localStorage.setItem("score", score);
-    localStorage.setItem("round", round);
+        // incrémente le score et les manches
+        score += points;
+        round += 1;
 
-    //actualise le score
-    document.getElementById("score").textContent = Math.round(score * 100)/100;
+        // sauvegarde
+        localStorage.setItem("score", score);
+        localStorage.setItem("round", round);
 
-    //suprime le bouton valider et hint (si présent)
-    document.getElementById("valider").remove();
-    if (hint_count > 0){ document.getElementById("hint").remove(); }
-    if (temp_count > 0){ document.getElementById("temperature").remove(); }
+        // actualise le score
+        document.getElementById("score").textContent =
+            Math.round(score * 100) / 100;
 
-    //enleve les indices affichés
-    document.querySelector(".hint1").remove();
-    document.querySelector(".hint2").remove();
+        // supprime les boutons
+        document.getElementById("valider").remove();
 
-    //empeche le joueur de modifier son guess
-    barre.disabled = true;
+        //suprime les boutons à l'affichage de la réponse
+        if (hint_count > 0) {
+            document.getElementById("hint").remove();
+        }
 
-    //ajoute un bouton suivant
-    let bouton = document.createElement("button");
-    bouton.textContent = "Suivant";
+        if (temp_count > 0) {
+            document.getElementById("temperature").remove();
+        }
 
-    bouton.onclick = function() {
-    next();
-};
+        // enlève les indices
+        document.querySelector(".hint1").remove();
+        document.querySelector(".hint2").remove();
 
-    document.querySelector(".suivant").appendChild(bouton);
-    
-    //affiche la réponse avec une barre graphique
-    let annonce22 = document.createElement("p");
-    annonce22.textContent = "La bonne réponse :";
-    document.querySelector(".annonce22").appendChild(annonce22);
+        // empêche de modifier la réponse
+        barre.disabled = true;
 
-    let barre2 = document.createElement("input");
+        // bouton suivant
+        let bouton = document.createElement("button");
+        bouton.textContent = "Suivant";
 
-    barre2.id = "barre";
+        bouton.onclick = function () {
+            next();
+        };
 
-    barre2.type = "range";
-    barre2.min = 0;
-    barre2.max = 40;
-    barre2.value = produit.prix;
-    barre2.disabled = true;
+        document.querySelector(".suivant").appendChild(bouton);
 
-    //affiche les points gagné, le vrai prix et l'écart
-    document.querySelector(".annonce2").appendChild(barre2);
-    let annonce2 = document.createElement("p");
-    annonce2.textContent = produit.prix +" RM " + Number(produit.prix/4.65).toFixed(2)+" Euro";
-    document.querySelector(".annonce2").appendChild(annonce2);
+        // affiche la bonne réponse
+        let annonce22 = document.createElement("p");
+        annonce22.textContent = "La bonne réponse :";
 
-    let points_pourcent = Math.abs(Math.round(((reponse_joueur * 100 / produit.prix) - 100)));
-    let annonce3 = document.createElement("p");
-    annonce3.textContent = "écart : " + points_pourcent + "%";
-    document.querySelector(".annonce3").appendChild(annonce3);
+        document.querySelector(".annonce22").appendChild(annonce22);
 
-    let annonce4 = document.createElement("p");
-    annonce4.textContent = Math.round(points * 100)/100 + " points gagné sur 4"
-    document.querySelector(".annonce4").appendChild(annonce4);
-   
+        // barre indiquant le vrai prix
+        let barre2 = document.createElement("input");
+
+        barre2.id = "barre";
+        barre2.type = "range";
+        barre2.min = 0;
+        barre2.max = 40;
+        barre2.value = prix;
+        barre2.disabled = true;
+
+        document.querySelector(".annonce2").appendChild(barre2);
+
+        // prix
+        let annonce2 = document.createElement("p");
+
+        annonce2.textContent =
+            prix + " RM " +
+            Number(prix / 4.65).toFixed(2) +
+            " Euro";
+
+        document.querySelector(".annonce2").appendChild(annonce2);
+
+        // écart
+        let annonce3 = document.createElement("p");
+
+        annonce3.textContent =
+            "écart : " + ecart + "%";
+
+        document.querySelector(".annonce3").appendChild(annonce3);
+
+        // points
+        let annonce4 = document.createElement("p");
+
+        annonce4.textContent =
+            Math.round(points * 100) / 100 +
+            " points gagné sur 4";
+
+        document.querySelector(".annonce4").appendChild(annonce4);
+    });
 }
 
 //quand hint est cliqué
-function hint(){
+function hint() {
 
-    //vide les indices affichés à l'écran
-    document.querySelector(".hint1").innerHTML = "";
-
-    //compare la réponse du joueur
+    // récupère la réponse du joueur
     let reponse_joueur = Number(document.getElementById("reponse").value);
 
-    //affiche more, less ou that is it selon la comparaison
-    let hint = document.createElement("p");
-    if (reponse_joueur < produit.prix) {
-    hint.textContent = "more than " + reponse_joueur;
-    hint.style.color = "red";
-    } else if (reponse_joueur > produit.prix){
-    hint.textContent = "less than " + reponse_joueur;
-    hint.style.color = "blue";
-    } else { hint.textContent = "that's it ! " + reponse_joueur;
-        hint.style.color = "green";
-    }
-    document.querySelector(".hint1").appendChild(hint);
+    fetch("/api/hint", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            id: produit.id,
+            reponse: reponse_joueur
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
 
-    //décremente le nombre d'indice
-    hint_count -= 1;
-    localStorage.setItem("hint_count", hint_count);
-    document.getElementById("hint").textContent = "More or Less : " + hint_count;
+        // vide l'ancien indice
+        document.querySelector(".hint1").innerHTML = "";
 
-    //si plus d'indice retire le bouton hint
-    if (hint_count <= 0){
-        document.getElementById("hint").remove();
-    }
+        // crée l'indice
+        let hint = document.createElement("p");
+        hint.textContent = data.message;
+
+        // couleur
+        if (data.message.startsWith("more")) {
+            hint.style.color = "red";
+        }
+        else if (data.message.startsWith("less")) {
+            hint.style.color = "blue";
+        }
+        else {
+            hint.style.color = "green";
+        }
+
+        document.querySelector(".hint1").appendChild(hint);
+
+        // décremente le nombre d'indices
+        hint_count -= 1;
+        localStorage.setItem("hint_count", hint_count);
+
+        // supprime le bouton si plus d'indice
+        if (hint_count <= 0) {
+            document.getElementById("hint").remove();
+        }
+        else {
+            document.getElementById("hint").textContent =
+                "More or Less : " + hint_count;
+        }
+    });
 }
 
 //quand temperature est cliqué
-function temperature(){
+function temperature() {
 
-    //vide les indices affichés à l'écran
-    document.querySelector(".hint2").innerHTML = "";
-
-    //compare la réponse du joueur
+    // récupère la réponse du joueur
     let reponse_joueur = Number(document.getElementById("reponse").value);
 
-    //affiche more, less ou that is it selon la comparaison
-    let temp = document.createElement("p");
-    if ( Math.abs(reponse_joueur - produit.prix)  < 1) {
-    temp.textContent = "very hot at " + reponse_joueur;
-    temp.style.color = "red";
-    } else if (Math.abs(reponse_joueur - produit.prix)  < 4) { 
-    temp.textContent = "hot at " + reponse_joueur;
-    temp.style.color = "orange";
-    } else if (Math.abs(reponse_joueur - produit.prix)  < 8) { 
-    temp.textContent = "cold at " + reponse_joueur;
-    temp.style.color = "blue";
-    } else  { 
-    temp.textContent = "very cold at " + reponse_joueur;
-    temp.style.color = "darkblue";}
-    document.querySelector(".hint2").appendChild(temp);
+    fetch("/api/temperature", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            id: produit.id,
+            reponse: reponse_joueur
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
 
-    //décremente le nombre d'indice
-    temp_count -= 1;
-    localStorage.setItem("temp_count", temp_count);
-    document.getElementById("temperature").textContent = "Temperature : " + temp_count;
+        // vide l'ancien indice
+        document.querySelector(".hint2").innerHTML = "";
 
-    //si plus d'indice retire le bouton hint
-    if (temp_count <= 0){
-        document.getElementById("temperature").remove();
-    }
+        // crée l'indice
+        let temp = document.createElement("p");
+
+        temp.textContent = data.message;
+        temp.style.color = data.couleur;
+
+        document.querySelector(".hint2").appendChild(temp);
+
+        // décremente le nombre d'indices
+        temp_count -= 1;
+        localStorage.setItem("temp_count", temp_count);
+
+        // supprime le bouton si plus d'indice
+        if (temp_count <= 0) {
+            document.getElementById("temperature").remove();
+        }
+        else {
+            document.getElementById("temperature").textContent =
+                "Temperature : " + temp_count;
+        }
+    });
 }
 
 //bouton qui recharge la page si le jeu n'est pas terminé sinon va sur résultat
