@@ -51,3 +51,63 @@ VALUES
     28.90,
     '/images/Arabic_Set_Shawarma_Chicken.jpg'
 );
+
+INSERT INTO produit (nom, nom_restaurant, prix, image)
+VALUES
+(
+    'Chicken Special Set',
+    'AllAce - Sungai Besi',
+    21.90,
+    '/images/Chicken_Special_Set.jpg'
+),
+(
+    'Purple Sweet Potato Finger (3Pcs)',
+    'AllAce - Sungai Besi',
+    5.90,
+    '/images/Purple_Sweet_Potato_Finger.jpg'
+),
+(
+    '1/4 Chicken with 2SD + Nata',
+    'Nando''s - Pavilion Bukit Jalil',
+    39.53,
+    '/images/Quarter_Chicken_2SD_Nata.jpg'
+),
+(
+    'Kim Bap',
+    'Pung Kyung - Calvary Convention Centre [Non-Halal]',
+    25.90,
+    '/images/Kim_Bap.jpg'
+);
+
+INSERT INTO produit (nom, nom_restaurant, prix, image)
+VALUES
+(
+    'Chicken Sandwich',
+    'Damascus - Bukit Bintang',
+    14.90,
+    '/images/Chicken_Sandwich_damascus.jpg'
+),
+(
+    'Marmite''s Pork + Dry Noodles',
+    'The Braised Alley - Persiaran Taming Kiri 4 [Non-Halal]',
+    25.90,
+    '/images/Marmites_Pork_Dry_Noodles.jpg'
+),
+(
+    'Shawarma Chicken Fries (L) + 1 Barbican',
+    'Shawarma Time - Tun Hussein Onn',
+    26.90,
+    '/images/Shawarma_Chicken_Fries_Barbican.jpg'
+),
+(
+    'Salmon Truffle Mash',
+    'The Owls Cafe - Jalan Jalil Perkasa 1',
+    33.00,
+    '/images/Salmon_Truffle_Mash.jpg'
+),
+(
+    'THE CLASSIC',
+    'The Owls Cafe - Jalan Jalil Perkasa 1',
+    15.00,
+    '/images/The_Classic.jpg'
+);
