@@ -30,3 +30,24 @@ VALUES
     9.34,
     '/images/Tender_wrap.jpg'
 );
+
+INSERT INTO produit (nom, nom_restaurant, prix, image)
+VALUES
+(
+    'Chicken Hor Fun Soup',
+    'Xiao Lao Hu Kopitiam - Jalan PSK 4 [Non-Halal]',
+    16.90,
+    '/images/Chicken_Hor_Fun_Soup.jpg'
+),
+(
+    'Beef Croissandwich w Egg Meal',
+    'Burger King - Plaza Serdang Raya',
+    16.70,
+    '/images/Beef_Croissandwich_Egg_Meal.jpg'
+),
+(
+    'Arabic Set Shawarma Chicken',
+    'Shawarma Time - Tun Hussein Onn',
+    28.90,
+    '/images/Arabic_Set_Shawarma_Chicken.jpg'
+);
