@@ -111,3 +111,64 @@ VALUES
     15.00,
     '/images/The_Classic.jpg'
 );
+
+INSERT INTO produit (nom, nom_restaurant, prix, image)
+VALUES
+(
+    'Hummus Beef Shawarma',
+    'Damascus Restoran - Bukit Bintang',
+    19.90,
+    '/images/Hummus_Beef_Shawarma.jpg'
+),
+(
+    'Kunafa Chocolate',
+    'Saba Restaurant - Jalan Jelatek',
+    32.20,
+    '/images/Kunafa_Chocolate.jpg'
+),
+(
+    'Chicken Kebab Sandwich',
+    'Saba Restaurant - Jalan Jelatek',
+    15.78,
+    '/images/Chicken_Kebab_Sandwich.jpg'
+),
+(
+    'Sweet Pork Ribs Rice',
+    'Thai Ah Thae - Restoran Jiulixiang [Non-Halal]',
+    16.50,
+    '/images/Sweet_Pork_Ribs_Rice.jpg'
+),
+(
+    'Veggie Burger with 2 sides',
+    'Nando''s - AEON Taman Maluri',
+    36.70,
+    '/images/Veggie_Burger_2_Sides.jpg'
+);
+
+INSERT INTO produit (nom, nom_restaurant, prix, image)
+VALUES
+(
+    'Chocolat Xiao Long Bao (10pc)',
+    'Din By Din Tai Fung - KLCC',
+    32.55,
+    '/images/Chocolat_Xiao_Long_Bao.jpg'
+),
+(
+    'Chicken Xiao Long Bao (10pc)',
+    'Din By Din Tai Fung - KLCC',
+    34.18,
+    '/images/Chicken_Xiao_Long_Bao.jpg'
+),
+(
+    'Matcha Xiao Long Bao (6pc)',
+    'Din By Din Tai Fung - KLCC',
+    19.53,
+    '/images/Matcha_Xiao_Long_Bao.jpg'
+),
+(
+    'BBQ Chicken Bun (3pc)',
+    'Din By Din Tai Fung - KLCC',
+    17.35,
+    '/images/BBQ_Chicken_Bun.jpg'
+);
+
