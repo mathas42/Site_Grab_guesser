@@ -255,14 +255,13 @@ app.post("/api/verifier", (req, res) => {
 
             // Calcul des points
             let points = (
-                1 - Math.abs((reponse_joueur * 100 / prix) - 100) / 100
-            ) * 4;
+                4 - Math.abs((reponse_joueur - prix) / 2.5));
 
             points = Math.max(0, points);
 
             // Calcul de l'écart
             const ecart = Math.abs(
-                Math.round((reponse_joueur * 100 / prix) - 100)
+                Math.round((reponse_joueur - prix) * 100)/100
             );
 
             // Ajoute les points et passe à la manche suivante

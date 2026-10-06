@@ -172,3 +172,78 @@ VALUES
     '/images/BBQ_Chicken_Bun.jpg'
 );
 
+INSERT INTO produit (nom, nom_restaurant, prix, image)
+VALUES
+(
+    'Tamago Yaki with Mentaiko (1pc)',
+    'Momo Yakitori | Japanese Bento - The Exchange TRX',
+    7.50,
+    '/images/Tamago_Yaki_Mentaiko.jpg'
+),
+(
+    'Pasta Basil Pistachio Pesto',
+    'Trattoria Mialino - REXKL [Non-Halal]',
+    38.95,
+    '/images/Pasta_Basil_Pistachio_Pesto.jpg'
+),
+(
+    'Pork Bun (1pc)',
+    'Din Tai Fung - Pavilion [Non-Halal]',
+    5.97,
+    '/images/Pork_Bun.jpg'
+),
+(
+    'Chives and Pork Dumplings (10pc)',
+    'Restoran Fu Cheng - Jalan Pudu [Non-Halal]',
+    15.50,
+    '/images/Chives_Pork_Dumplings.jpg'
+),
+(
+    'TENDERLOIN KATDU DON',
+    'MAiSEN - Pavilion KL [Non-Halal]',
+    39.95,
+    '/images/Tenderloin_Katdu_Don.jpg'
+),
+(
+    'TENDERLON KATSU SANDWICH',
+    'MAiSEN - Pavilion KL [Non-Halal]',
+    19.25,
+    '/images/Tenderlon_Katsu_Sandwich.jpg'
+),
+(
+    'Spaghetti chicken bolognese',
+    'Pasta Roma - Jalan Ampang',
+    20.90,
+    '/images/Spaghetti_Chicken_Bolognese.jpg'
+),
+(
+    'Margherita',
+    'Pizza Roma - Jalan Ampang',
+    15.50,
+    '/images/Margherita.jpg'
+),
+(
+    'Wasabi',
+    'Makii Makii Japanese Sushi - TRX Mall',
+    0.28,
+    '/images/Wasabi.jpg'
+),
+(
+    'Shredded Chicken Noodles',
+    'Traditional Taiwanese Kitchen - Pandan Indah [Non-Halal]',
+    13.90,
+    '/images/Shredded_Chicken_Noodles_Taiwanese.jpg'
+),
+(
+    'Tempura Chicken Nugget',
+    'Traditional Taiwanese Kitchen - Pandan Indah [Non-Halal]',
+    10.00,
+    '/images/Tempura_Chicken_Nugget.jpg'
+),
+(
+    'Taiwanese Braised Pork Rice',
+    'Traditional Taiwanese Kitchen - Pandan Indah [Non-Halal]',
+    13.90,
+    '/images/Taiwanese_Braised_Pork_Rice.jpg'
+);
+

@@ -335,7 +335,7 @@ function valider() {
         // affiche l'écart entre la réponse et le vrai prix
         let annonce3 =document.createElement("p");
 
-        annonce3.textContent ="écart : " + ecart +"%";
+        annonce3.textContent ="écart : " + ecart +" RM";
 
         document.querySelector(".annonce3").appendChild(annonce3);
 
