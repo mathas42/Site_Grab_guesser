@@ -1,4 +1,4 @@
-INSERT INTO produit (nom, description, prix, image)
+INSERT INTO produit (nom, nom_restaurant, prix, image)
 VALUES
 (
     'Shawarma Al Sham - Bandar Tasik Selatan',
