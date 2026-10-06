@@ -23,10 +23,21 @@ app.get("/", (req, res) => {
 });
 
 
+// Page de learn
+app.get("/learn", (req, res) => {
+    res.render("learn");
+});
+
+// Page du log in
+app.get("/login", (req, res) => {
+    res.render("login");
+});
+
 // Page du jeu
 app.get("/jeu", (req, res) => {
     res.render("jeu");
 });
+
 
 
 // Page résultat
