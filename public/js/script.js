@@ -477,6 +477,18 @@ function temperature() {
     });
 }
 
+function modify(nombre) {
+    let barre = document.getElementById("reponse");
+
+    let valeur = Number(barre.value) + nombre;
+
+    valeur = Math.max(0, Math.min(40, valeur));
+
+    barre.value = valeur.toFixed(2);
+
+    document.getElementById("value").textContent = Number(valeur).toFixed(2) + " RM " +Number(valeur / 4.65).toFixed(2) +" Euro";
+}
+
 // bouton qui recharge la page si le jeu n'est pas terminé
 // sinon va sur la page résultat
 function next() {
