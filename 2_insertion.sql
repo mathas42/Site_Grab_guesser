@@ -247,3 +247,72 @@ VALUES
     '/images/Taiwanese_Braised_Pork_Rice.jpg'
 );
 
+INSERT INTO produit (nom, nom_restaurant, prix, image)
+VALUES
+(
+    'Brownie',
+    'Arabia - Cheras',
+    8.00,
+    '/images/Brownie.jpg'
+),
+(
+    'Garlic Sauce',
+    'Arabia - Cheras',
+    14.00,
+    '/images/Garlic_Sauce.jpg'
+),
+(
+    'Potato Seedlings with Belacan',
+    'Yan''s Oriental Kitchen - Sri Petaling [Non-Halal]',
+    21.80,
+    '/images/Potato_Seedlings_Belacan.jpg'
+),
+(
+    'Coconut Chicken Soup + Free White Rice',
+    'Coconut Chicken Soup/Herbal Soup - Restoran Yi Hao Cha Shi Taman Desa Petaling [Non-Halal]',
+    30.90,
+    '/images/Coconut_Chicken_Soup_White_Rice.jpg'
+),
+(
+    'White Rice',
+    'Coconut Chicken Soup/Herbal Soup - Restoran Yi Hao Cha Shi Taman Desa Petaling [Non-Halal]',
+    3.00,
+    '/images/White_Rice.jpg'
+),
+(
+    'Aesorted Pork Wontons (12pc)',
+    'Yuen Kee Dumpling - Sri Petaling [Non-Halal]',
+    24.90,
+    '/images/Aesorted_Pork_Wontons.jpg'
+),
+(
+    'Salted Egg Yolk & Pork Shumai',
+    'Yuen Kee Dumpling - Sri Petaling [Non-Halal]',
+    17.90,
+    '/images/Salted_Egg_Yolk_Pork_Shumai.jpg'
+),
+(
+    'Matcha Latte',
+    'HWC Coffee - Pavilion Bukit Jalil',
+    17.50,
+    '/images/Matcha_Latte.jpg'
+),
+(
+    'Har Gaw',
+    'Restaurant Jin Xuan Hong Kong - Kuchai Lama [Non-Halal]',
+    10.00,
+    '/images/Har_Gaw.jpg'
+),
+(
+    'Golden Bun',
+    'Restaurant Jin Xuan Hong Kong - Kuchai Lama [Non-Halal]',
+    10.00,
+    '/images/Golden_Bun.jpg'
+),
+(
+    'Bacon Roll Dumpling',
+    'Restaurant Jin Xuan Hong Kong - Kuchai Lama [Non-Halal]',
+    12.50,
+    '/images/Bacon_Roll_Dumpling.jpg'
+);
+

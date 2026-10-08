@@ -266,8 +266,10 @@ function valider() {
         // le score vient maintenant de la BDD
         document.getElementById("score").textContent =Math.round(Number(data.score) * 100) / 100;
 
+        if (data.round < 5){
+
         // le numéro de la manche vient de la BDD
-        document.getElementById("round").textContent =data.round + " / 5";
+        document.getElementById("round").textContent =data.round + " / 5";}
 
         // retire le bouton Valider
         document.getElementById("valider").remove();
