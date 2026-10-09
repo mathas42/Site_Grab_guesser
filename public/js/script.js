@@ -3,6 +3,18 @@ let produits = [];
 let produit;
 let barre;
 
+// formate un prix sur une largeur fixe : 8 -> "08.00", 12.5 -> "12.50"
+function formatPrix(valeur) {
+    return Number(valeur).toFixed(2).padStart(5, "0");
+}
+
+// met à jour le texte affiché sous la barre de réponse
+function afficherValeur(valeur) {
+    document.getElementById("value").textContent =
+        formatPrix(valeur) + " RM " +
+        (Number(valeur) / 4.65).toFixed(2) + " Euro";
+}
+
 
 // récupère le JSON qui contient les produits et leurs informations
 fetch("/api/produits")
@@ -43,9 +55,7 @@ function new_() {
     .then(response => {
 
         if (!response.ok) {
-            throw new Error(
-                "Erreur /api/new-game : " + response.status
-            );
+            throw new Error("Erreur /api/new-game : " + response.status);
         }
 
         return response.json();
@@ -58,10 +68,7 @@ function new_() {
         localStorage.setItem("partieId", data.partieId);
 
         // recommence la liste des produits utilisés
-        localStorage.setItem(
-            "produitsUtilises",
-            JSON.stringify([])
-        );
+        localStorage.setItem("produitsUtilises", JSON.stringify([]));
 
         // indique que l'arrivée sur /jeu vient du bouton suivant/Play
         sessionStorage.setItem("next", "true");
@@ -75,11 +82,17 @@ function new_() {
 }
 
 
+// fonction qui s'effectue lorsque le joueur clique sur Learn
+function new_learn_() {
+    window.location.href = "/learn";
+}
+
+
 // fonction qui s'effectue au début de chaque page du jeu
 function begin() {
 
     // vérifie si on arrive sur cette page depuis le bouton "Suivant"
-    let navigationDepuisNext =sessionStorage.getItem("next");
+    let navigationDepuisNext = sessionStorage.getItem("next");
 
     if (navigationDepuisNext === "true") {
         // supprime l'indication pour éviter
@@ -98,7 +111,7 @@ function begin() {
 
 
     // récupère l'identifiant de la partie
-    const partieId =localStorage.getItem("partieId");
+    const partieId = localStorage.getItem("partieId");
 
     if (!partieId) {
         // aucune partie trouvée
@@ -113,7 +126,7 @@ function begin() {
 
             if (!response.ok) {
                 throw new Error(
-                    "Erreur /api/partie/" +partieId +" : " +response.status
+                    "Erreur /api/partie/" + partieId + " : " + response.status
                 );
             }
 
@@ -122,42 +135,37 @@ function begin() {
         .then(data => {
 
             // affiche le score venant de la BDD
-            document.getElementById("score").textContent =Math.round(Number(data.score) * 100) / 100;
+            document.getElementById("score").textContent =
+                Math.round(Number(data.score) * 100) / 100;
 
 
             // affiche le numéro de la manche
-            document.getElementById("round").textContent =data.round + " / 5";
+            document.getElementById("round").textContent = data.round + " / 5";
 
 
             // affiche le nombre d'indices More or Less
             if (data.hint_count <= 0) {
-                let boutonHint =
-                    document.getElementById("hint");
+                let boutonHint = document.getElementById("hint");
                 if (boutonHint) {
                     boutonHint.remove();
                 }
-
             }
             else {
                 document.getElementById("hint").textContent =
-                    "More or Less : " +
-                    data.hint_count;
+                    "More or Less : " + data.hint_count;
             }
 
 
             // affiche le nombre d'indices Temperature
             if (data.temp_count <= 0) {
-
-                let boutonTemperature =document.getElementById("temperature");
-
+                let boutonTemperature = document.getElementById("temperature");
                 if (boutonTemperature) {
                     boutonTemperature.remove();
                 }
-
             }
             else {
-
-                document.getElementById("temperature").textContent ="Temperature : " +data.temp_count;
+                document.getElementById("temperature").textContent =
+                    "Temperature : " + data.temp_count;
             }
 
 
@@ -170,20 +178,17 @@ function begin() {
             // qui n'a pas encore été utilisé
             let indexProduit;
             do {
-
-                indexProduit =
-                    Math.floor(Math.random() * produits.length);
-
+                indexProduit = Math.floor(Math.random() * produits.length);
             }
-            while (
-                produitsUtilises.includes(indexProduit)
-            );
+            while (produitsUtilises.includes(indexProduit));
 
 
             // ajoute le produit à la liste des produits utilisés
             produitsUtilises.push(indexProduit);
 
-            localStorage.setItem("produitsUtilises",JSON.stringify(produitsUtilises)
+            localStorage.setItem(
+                "produitsUtilises",
+                JSON.stringify(produitsUtilises)
             );
 
 
@@ -201,22 +206,17 @@ function begin() {
 
                 </div>
             `;
+
             // récupère la barre de réponse
-            barre =
-                document.getElementById("reponse");
+            barre = document.getElementById("reponse");
 
-            // récupère le texte qui affiche la valeur
-            let value =document.getElementById("value");
+            // affiche la valeur de la barre lorsque le joueur la déplace
+            barre.addEventListener("input", function() {
+                afficherValeur(barre.value);
+            });
 
-            // affiche la valeur de la barre
-            // lorsque le joueur la déplace
-            barre.addEventListener(
-                "input",
-                function() {
-
-                    value.textContent =Number(barre.value).toFixed(2) + " RM " +Number(barre.value / 4.65).toFixed(2) +" Euro";
-                }
-            );
+            // affiche aussi la valeur de départ
+            afficherValeur(barre.value);
         })
         .catch(error => {
             console.error(error);
@@ -228,12 +228,11 @@ function begin() {
 function valider() {
 
     // récupère l'identifiant de la partie
-    let partieId =localStorage.getItem("partieId");
+    let partieId = localStorage.getItem("partieId");
 
 
     // récupère la réponse du joueur
-    let reponse_joueur =
-        Number(document.getElementById("reponse").value);
+    let reponse_joueur = Number(document.getElementById("reponse").value);
 
     // envoie la réponse au serveur
     fetch("/api/verifier", {
@@ -242,16 +241,14 @@ function valider() {
             "Content-Type": "application/json"
         },
         body: JSON.stringify({
-
             partieId: partieId,
-
             id: produit.id,
-
             reponse: reponse_joueur
         })
     })
     .then(response => response.json())
     .then(data => {
+
         // vérifie si le serveur a renvoyé une erreur
         if (data.erreur) {
             console.error(data.erreur);
@@ -264,25 +261,28 @@ function valider() {
         let ecart = data.ecart;
 
         // le score vient maintenant de la BDD
-        document.getElementById("score").textContent =Math.round(Number(data.score) * 100) / 100;
-
-        if (data.round < 5){
+        document.getElementById("score").textContent =
+            Math.round(Number(data.score) * 100) / 100;
 
         // le numéro de la manche vient de la BDD
-        document.getElementById("round").textContent =data.round + " / 5";}
+        if (data.round < 5) {
+            document.getElementById("round").textContent = data.round + " / 5";
+        }
 
         // retire le bouton Valider
         document.getElementById("valider").remove();
 
         // retire le bouton More or Less
-        let boutonHint =document.getElementById("hint");
+        let boutonHint = document.getElementById("hint");
         if (boutonHint) {
-            boutonHint.remove();}
+            boutonHint.remove();
+        }
 
         // retire le bouton Temperature
-        let boutonTemperature =document.getElementById("temperature");
-
-        if (boutonTemperature) {boutonTemperature.remove();}
+        let boutonTemperature = document.getElementById("temperature");
+        if (boutonTemperature) {
+            boutonTemperature.remove();
+        }
 
         // retire les anciens indices
         document.querySelector(".hint1").innerHTML = "";
@@ -292,7 +292,7 @@ function valider() {
         barre.disabled = true;
 
         // crée le bouton Suivant
-        let bouton =document.createElement("button");
+        let bouton = document.createElement("button");
         bouton.textContent = "Suivant";
         bouton.onclick = function() {
             next();
@@ -302,50 +302,43 @@ function valider() {
         document.querySelector(".suivant").appendChild(bouton);
 
         // affiche "La bonne réponse"
-        let annonce22 =document.createElement("p");
-
-        annonce22.textContent ="La bonne réponse :";
-
+        let annonce22 = document.createElement("p");
+        annonce22.textContent = "La bonne réponse :";
         document.querySelector(".annonce22").appendChild(annonce22);
 
         // crée une deuxième barre
         // qui affiche la bonne réponse
-        let barre2 =document.createElement("input");
-
+        let barre2 = document.createElement("input");
         barre2.id = "barre";
         barre2.type = "range";
         barre2.min = 0;
         barre2.max = 40;
         barre2.value = prix;
         barre2.disabled = true;
-
         document.querySelector(".annonce2").appendChild(barre2);
 
-        //réduire l'espace
+        // réduire l'espace
         let div = document.getElementById("secret");
         div.style.height = "5px";
         let div2 = document.getElementById("secret2");
         div2.style.height = "5px";
 
         // affiche le prix
-        let annonce2 =document.createElement("p");
-
-        annonce2.textContent =prix +" RM " +Number(prix / 4.65).toFixed(2) +" Euro";
-
+        let annonce2 = document.createElement("p");
+        annonce2.textContent =
+            formatPrix(prix) + " RM " +
+            (Number(prix) / 4.65).toFixed(2) + " Euro";
         document.querySelector(".annonce2").appendChild(annonce2);
 
         // affiche l'écart entre la réponse et le vrai prix
-        let annonce3 =document.createElement("p");
-
-        annonce3.textContent ="écart : " + ecart +" RM";
-
+        let annonce3 = document.createElement("p");
+        annonce3.textContent = "écart : " + ecart + " RM";
         document.querySelector(".annonce3").appendChild(annonce3);
 
         // affiche les points gagnés
-        let annonce4 =document.createElement("p");
-
-        annonce4.textContent =Math.round(points * 100) / 100 +" points gagné sur 4";
-
+        let annonce4 = document.createElement("p");
+        annonce4.textContent =
+            Math.round(points * 100) / 100 + " points gagné sur 4";
         document.querySelector(".annonce4").appendChild(annonce4);
     });
 }
@@ -355,18 +348,16 @@ function valider() {
 function hint() {
 
     // récupère l'identifiant de la partie
-    let partieId =localStorage.getItem("partieId");
-
+    let partieId = localStorage.getItem("partieId");
 
     // récupère la réponse actuelle du joueur
-    let reponse_joueur =Number(document.getElementById("reponse").value);
-
+    let reponse_joueur = Number(document.getElementById("reponse").value);
 
     // envoie la demande au serveur
     fetch("/api/hint", {
         method: "POST",
         headers: {
-        "Content-Type": "application/json"
+            "Content-Type": "application/json"
         },
         body: JSON.stringify({
             partieId: partieId,
@@ -386,28 +377,33 @@ function hint() {
         document.querySelector(".hint1").innerHTML = "";
 
         // crée le texte de l'indice
-        let hint =document.createElement("p");
-
-        hint.textContent =data.message;
+        let hint = document.createElement("p");
+        hint.textContent = data.message;
 
         // change la couleur selon la réponse
-        if (data.message.startsWith("more")) {hint.style.color = "red";}
-        else if (data.message.startsWith("less")) {hint.style.color = "blue";}
-        else {hint.style.color = "green";}
+        if (data.message.startsWith("more")) {
+            hint.style.color = "red";
+        }
+        else if (data.message.startsWith("less")) {
+            hint.style.color = "blue";
+        }
+        else {
+            hint.style.color = "green";
+        }
 
         // affiche l'indice
-        document.querySelector(".hint1")
-            .appendChild(hint);
+        document.querySelector(".hint1").appendChild(hint);
 
         // met à jour le nombre d'indices avec la valeur venant de la BDD
         if (data.hint_count <= 0) {
-
-            let boutonHint =document.getElementById("hint");
-
-            if (boutonHint) {boutonHint.remove();}
+            let boutonHint = document.getElementById("hint");
+            if (boutonHint) {
+                boutonHint.remove();
+            }
         }
         else {
-            document.getElementById("hint").textContent ="More or Less : " +data.hint_count;
+            document.getElementById("hint").textContent =
+                "More or Less : " + data.hint_count;
         }
         let div = document.getElementById("secret");
         div.style.height = "35px";
@@ -418,11 +414,10 @@ function hint() {
 function temperature() {
 
     // récupère l'identifiant de la partie
-    let partieId =localStorage.getItem("partieId");
+    let partieId = localStorage.getItem("partieId");
 
     // récupère la réponse actuelle du joueur
-    let reponse_joueur =
-        Number(document.getElementById("reponse").value);
+    let reponse_joueur = Number(document.getElementById("reponse").value);
 
     // envoie la demande au serveur
     fetch("/api/temperature", {
@@ -449,36 +444,31 @@ function temperature() {
         document.querySelector(".hint2").innerHTML = "";
 
         // crée le texte de l'indice
-        let temp =document.createElement("p");
-
+        let temp = document.createElement("p");
         temp.textContent = data.message;
 
         // applique la couleur envoyée par le serveur
-        temp.style.color =data.couleur;
+        temp.style.color = data.couleur;
 
         // affiche l'indice
         document.querySelector(".hint2").appendChild(temp);
 
-        // met à jour le nombre d'indices
-        // avec la valeur venant de la BDD
+        // met à jour le nombre d'indices avec la valeur venant de la BDD
         if (data.temp_count <= 0) {
-            let boutonTemperature =
-                document.getElementById(
-                    "temperature"
-                );
-
-            if (boutonTemperature) {boutonTemperature.remove();}
-
+            let boutonTemperature = document.getElementById("temperature");
+            if (boutonTemperature) {
+                boutonTemperature.remove();
+            }
         }
         else {
-            document.getElementById("temperature").textContent ="Temperature : " +data.temp_count;
-
+            document.getElementById("temperature").textContent =
+                "Temperature : " + data.temp_count;
         }
         let div2 = document.getElementById("secret2");
         div2.style.height = "35px";
     });
 }
-
+// boutons -- / - / + / ++ qui modifient la valeur de la barre
 function modify(nombre) {
     let barre = document.getElementById("reponse");
 
@@ -488,7 +478,7 @@ function modify(nombre) {
 
     barre.value = valeur.toFixed(2);
 
-    document.getElementById("value").textContent = Number(valeur).toFixed(2) + " RM " +Number(valeur / 4.65).toFixed(2) +" Euro";
+    afficherValeur(valeur);
 }
 
 // bouton qui recharge la page si le jeu n'est pas terminé
@@ -500,19 +490,32 @@ function next() {
     sessionStorage.setItem("next", "true");
 
     // récupère l'identifiant de la partie
-    let partieId =localStorage.getItem("partieId");
+    let partieId = localStorage.getItem("partieId");
 
     // récupère les informations de la partie
     fetch("/api/partie/" + partieId)
         .then(response => response.json())
         .then(data => {
+
             // si les 5 manches sont terminées
             // on va sur la page résultat
-            if (data.round > 5) {window.location.href ="/resultat";}
+            if (data.round > 5) {
+                window.location.href = "/resultat";
+            }
 
             // sinon on recommence une manche
             else {
-                window.location.href ="/jeu";
+                window.location.href = "/jeu";
             }
+        });
+}
+
+// retrieve information from the server
+function fetchURL(url) {
+    fetch(url)
+        .then(function(response) {
+            return response.json();
+        }).then(showTable).catch(function(error) {
+            console.error("Error fetching URL:", error);
         });
 }
