@@ -327,7 +327,9 @@ function valider() {
         barre2.max = 40;
         barre2.value = prix;
         barre2.style.pointerEvents = "none";
+        barre2.style.borderRadius = "6px";
         barre2.tabIndex = -1;
+        barre2.style.backgroundColor = "red";
         document.querySelector(".annonce2").appendChild(barre2);
 
 
@@ -353,7 +355,47 @@ function valider() {
             if (DivSec){
                 document.getElementById("sec")?.remove();
             }
+
     });
+}
+
+function color(prix, reponse_joueur) {
+    const barre2 = document.getElementById("barre");
+    const texte = document.getElementById("modal-text");
+
+    prix = Number(prix);
+    reponse_joueur = Number(reponse_joueur);
+
+    const diff = Math.round((reponse_joueur - prix) * 100) / 100;
+    const absDiff = Math.abs(diff);
+
+    if (absDiff === 6.7 || absDiff === 0.67) {
+        barre2.style.accentColor = "gold";
+        texte.textContent = "67 67";
+        mode_secret();
+        openModal();                       
+    }
+    else if (diff < 0) {
+        barre2.style.accentColor = "blue";
+    }
+    else if (diff > 0) {
+        barre2.style.accentColor = "red";
+    }
+    else {
+        barre2.style.accentColor = "green";
+        texte.textContent = "Congratulations, you have the right price !😎";
+        openModal(); 
+    }
+                 
+}
+
+
+function openModal() {
+    document.getElementById("modal").classList.add("open");
+}
+
+function closeModal() {
+    document.getElementById("modal").classList.remove("open");
 }
 
 
@@ -491,8 +533,52 @@ function modify(nombre) {
 
     barre.value = valeur.toFixed(2);
 
+
     afficherValeur(valeur);
 }
+
+
+
+const REPETITION_DELAY = 400;   // ms 
+const REPETITION_INTERVAL = 50;   
+const ACCELERATION = 1000; 
+
+let timerDelai = null;
+let timerBoucle = null;
+let debutAppui = 0;
+
+// démarre la modification : un pas immédiat, puis répétition en continu
+function startModify(nombre) {
+    stopModify();                        
+    debutAppui = performance.now();
+    modify(nombre);                      
+
+    timerDelai = setTimeout(function() {
+        timerBoucle = setInterval(function() {
+            let duree = performance.now() - debutAppui;
+            let facteur = 1 + Math.floor(duree / ACCELERATION);
+            modify(nombre * facteur);
+        }, REPETITION_INTERVAL);
+    }, REPETITION_DELAY);
+}
+
+// arrête la modification et renvoie la durée de l'appui (en secondes)
+function stopModify() {
+    clearTimeout(timerDelai);
+    clearInterval(timerBoucle);
+    timerDelai = null;
+    timerBoucle = null;
+
+    if (!debutAppui) {
+        return 0;                      
+    }
+
+    let duree = (performance.now() - debutAppui) / 1000;
+    debutAppui = 0;
+    return duree;
+}
+
+
 
 // bouton qui recharge la page si le jeu n'est pas terminé
 // sinon va sur la page résultat
@@ -531,4 +617,42 @@ function fetchURL(url) {
         }).then(showTable).catch(function(error) {
             console.error("Error fetching URL:", error);
         });
+}
+
+// place les icônes de la page d'accueil à des positions aléatoires
+function randomImgPosition(){
+    const images = document.querySelectorAll(".icon");
+    for(let i=0;i<images.length;i++){
+        const leftMaximal = window.innerWidth - images[i].offsetWidth;
+        const topMaximal = window.innerHeight - images[i].offsetHeight;
+
+        const randomLeft = Math.floor(Math.random()*leftMaximal);
+        const randomTop = Math.floor(Math.random()*topMaximal);
+        images[i].style.animation="iconAnimation "+ getRandomFloat(3,5)+"s ease-in-out infinite";
+
+        images[i].style.left = randomLeft + 'px';
+        images[i].style.top = randomTop + 'px';
+    }
+}
+
+function getRandomFloat(min, max) {
+    return Math.random() * (max - min) + min;
+  }   
+
+if (window.location.pathname === "/") {
+    document.addEventListener("DOMContentLoaded", randomImgPosition);
+}
+
+
+
+
+function mode_secret() {
+    const body = document.body;
+    body.classList.remove("mode_secret");
+    void body.offsetWidth;            // force le redémarrage de l'animation
+    body.classList.add("mode_secret");
+
+    body.addEventListener("animationend", function() {
+        body.classList.remove("mode_secret");
+    }, { once: true });
 }

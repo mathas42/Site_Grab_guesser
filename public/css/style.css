@@ -1,3 +1,15 @@
+html, main{
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+body{
+    background-color: rgb(246, 255, 246);
+}
+
+button{
+    border: none;
+}
+
 .produit img {
     width: auto;
     height: 370px;
@@ -27,22 +39,31 @@
 }
 
 #title{
-    color:rgb(0, 151, 13);
+    background-color:rgb(0, 151, 13);
+    color: #FFF;
+    border-radius: 20px;
     align-items: center;
     font-family: fantasy;
     font-size: 100px;
+    padding: 10px;
 }
 
-#index{
-    background-color: rgb(246, 255, 246);
-}
 
 #new {
     width: 300px;
+    border: none;
+    border-radius: 15px;
     background-color: greenyellow;
     height: 70px;
     font-size: 50px;
-    font-family: serif;
+    
+    transition: box-shadow 0.5s ease;
+    transition: transform 0.2s ease;
+}
+
+#new:hover{
+    box-shadow: rgb(0, 151, 13) 0px 0px 10px;
+    transform: rotate3d(-0.5,1,0.05,20deg) scale(1.05);
 }
 
 #new:hover{
@@ -81,6 +102,7 @@
     display: flex;
     justify-content: center; 
     align-items: center;   
+    margin: 20px;
 }
 
 #rep{
@@ -192,7 +214,7 @@
     background-color: rgb(220, 34, 253);
     height: 30px;
     font-size: 20px;
-    font-family: serif;
+
 }
 
 #infomore {
@@ -224,7 +246,7 @@
     background-color: rgb(47, 255, 57);
     height: 30px;
     font-size: 20px;
-    font-family:Verdana, Geneva, Tahoma, sans-serif;
+    
     margin: 10px;
 }
 
@@ -235,12 +257,10 @@
 
 .hint1 p {
     font-size: 20px;
-    font-family:Verdana, Geneva, Tahoma, sans-serif;
 }
 
 .hint2 p {
     font-size: 20px;
-    font-family:Verdana, Geneva, Tahoma, sans-serif;
 }
 
 #temperature {
@@ -248,7 +268,6 @@
     background-color: rgb(253, 129, 34);
     height: 30px;
     font-size: 20px;
-    font-family: serif;
 }
 #temperature:hover{
 
@@ -309,4 +328,100 @@
 #moinsmoins:hover{
 
     background-color: rgb(47, 255, 255);
+}
+
+.icon{
+    position: absolute;
+    width: 80px;
+    height: 80px;
+    z-index: -10;
+}
+
+@keyframes iconAnimation{
+    0%{transform: translate(0px, 0px);}
+    50%{transform: translate(0px, 50px);}
+}
+
+
+/* Modal styles */
+.modal {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    opacity: 0;
+    pointer-events: none;
+    transition: all 0.3s ease;
+    z-index: -1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal.open {
+    opacity: 1;
+    pointer-events: auto;
+    z-index: 9999;
+}
+
+
+.modal-content {
+    background-color: rgb(0, 128, 85);
+    color: white;
+    border-radius: 5px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    padding: 15px 25px;
+    text-align: center;
+    width: 400px;
+}
+
+.modal-content h2 {
+    margin: 0;
+}
+
+.modal-content p {
+    line-height: 24px;
+    margin: 15px 0;
+}
+
+#close-modal {
+    background-color: rgb(0, 151, 13);
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin-top: 10px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+#close-modal:hover {
+    background-color: rgb(36, 128, 0);
+}
+
+
+
+@keyframes tilt_easter_egg {
+    0%   { transform: rotate(0deg); }
+    15%  { transform: rotate(-4deg); }
+    35%  { transform: rotate(4deg); }
+    55%  { transform: rotate(-3deg); }
+    75%  { transform: rotate(2deg); }
+    90%  { transform: rotate(-1deg); }
+    100% { transform: rotate(0deg); }
+}
+
+html {
+    overflow-x: hidden;
+}
+
+body.mode_secret {
+    transform-origin: 50% 0; 
+    animation: tilt_easter_egg 1.2s ease-in-out;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    body.mode_secret { animation: none; }
 }
