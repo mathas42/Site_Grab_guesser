@@ -30,13 +30,17 @@ html(lang="fr")
         div#reveal
             p.annonce22
             div.annonce2
-        div#secret
-            button#hint(onclick="hint()") More or Less : 2
-            p.hint1
+        fieldset#sec
+            legend Hint
+            div
+                div#secret
+                    button#hint(onclick="hint()" title ="") More or Less : 2
+                    span#infomore Informe you if the price is more or less of your guess
+                    p.hint1
 
-        div#secret2
-            button#temperature(onclick="temperature()") Temperature : 2
-            p.hint2
+                div#secret2
+                    button#temperature(onclick="temperature()") Temperature : 2
+                    p.hint2
 
         div#valid
             button#valider(onclick="valider()") Validate

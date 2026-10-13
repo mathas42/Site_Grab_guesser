@@ -164,12 +164,54 @@
     align-items: center;   
 }
 
+#sec {
+    margin: 20px auto;
+    width: 400px;
+    box-sizing: border-box;
+
+    background-color: rgb(211, 255, 135);
+    border: 2px solid black;
+    border-radius: 5px;
+    padding: 20px;
+}
+
+#sec legend {
+    font-size: 20px;
+    font-weight: bold;
+    color: rgb(0, 0, 0);
+    padding: 0 10px;
+}
+
+#sec > div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
 #hint {
     width: 150px;
     background-color: rgb(220, 34, 253);
     height: 30px;
     font-size: 20px;
     font-family: serif;
+}
+
+#infomore {
+        visibility: hidden;
+    position: absolute;
+    bottom: 120%;
+    left: 50%;
+    transform: translateX(-50%);
+
+    background-color: black;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 5px;
+    white-space: nowrap;
+    z-index: 10;
+}
+
+#hint:hover + #infomore {
+    visibility: visible;
 }
 
 #hint:hover{
@@ -208,7 +250,6 @@
     font-size: 20px;
     font-family: serif;
 }
-
 #temperature:hover{
 
     background-color: rgb(255, 209, 42);
