@@ -293,7 +293,8 @@ function valider() {
         document.querySelector(".hint2").innerHTML = "";
 
         // désactive la barre de réponse
-        barre.disabled = true;
+        barre.style.pointerEvents = "none";
+        barre.tabIndex = -1;
 
         // crée le bouton Suivant
         let bouton = document.createElement("button");
@@ -318,7 +319,8 @@ function valider() {
         barre2.min = 0;
         barre2.max = 40;
         barre2.value = prix;
-        barre2.disabled = true;
+        barre2.style.pointerEvents = "none";
+        barre2.tabIndex = -1;
         document.querySelector(".annonce2").appendChild(barre2);
 
         // réduire l'espace
