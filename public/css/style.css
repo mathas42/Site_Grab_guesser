@@ -1,3 +1,15 @@
+html, main{
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+body{
+    background-color: rgb(246, 255, 246);
+}
+
+button{
+    border: none;
+}
+
 .produit img {
     width: auto;
     height: 370px;
@@ -27,22 +39,31 @@
 }
 
 #title{
-    color:rgb(0, 151, 13);
+    background-color:rgb(0, 151, 13);
+    color: #FFF;
+    border-radius: 20px;
     align-items: center;
     font-family: fantasy;
     font-size: 100px;
+    padding: 10px;
 }
 
-#index{
-    background-color: rgb(246, 255, 246);
-}
 
 #new {
     width: 300px;
+    border: none;
+    border-radius: 15px;
     background-color: greenyellow;
     height: 70px;
     font-size: 50px;
-    font-family: serif;
+    
+    transition: box-shadow 0.5s ease;
+    transition: transform 0.2s ease;
+}
+
+#new:hover{
+    box-shadow: rgb(0, 151, 13) 0px 0px 10px;
+    transform: rotate3d(-0.5,1,0.05,20deg) scale(1.05);
 }
 
 #new:hover{
@@ -142,7 +163,7 @@
     background-color: rgb(220, 34, 253);
     height: 30px;
     font-size: 20px;
-    font-family: serif;
+
 }
 
 #hint:hover{
@@ -155,7 +176,7 @@
     background-color: rgb(47, 255, 57);
     height: 30px;
     font-size: 20px;
-    font-family:Verdana, Geneva, Tahoma, sans-serif;
+    
     margin: 10px;
 }
 
@@ -166,12 +187,10 @@
 
 .hint1 p {
     font-size: 20px;
-    font-family:Verdana, Geneva, Tahoma, sans-serif;
 }
 
 .hint2 p {
     font-size: 20px;
-    font-family:Verdana, Geneva, Tahoma, sans-serif;
 }
 
 #temperature {
@@ -179,7 +198,6 @@
     background-color: rgb(253, 129, 34);
     height: 30px;
     font-size: 20px;
-    font-family: serif;
 }
 
 #temperature:hover{
@@ -237,4 +255,16 @@
 #moinsmoins:hover{
 
     background-color: rgb(47, 255, 255);
+}
+
+.icon{
+    position: absolute;
+    width: 80px;
+    height: 80px;
+    z-index: -10;
+}
+
+@keyframes iconAnimation{
+    0%{transform: translate(0px, 0px);}
+    50%{transform: translate(0px, 50px);}
 }

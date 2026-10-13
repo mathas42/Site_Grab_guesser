@@ -514,3 +514,27 @@ function next() {
             }
         });
 }
+
+// place les icônes de la page d'accueil à des positions aléatoires
+function randomImgPosition(){
+    const images = document.querySelectorAll(".icon");
+    for(let i=0;i<images.length;i++){
+        const leftMaximal = window.innerWidth - images[i].offsetWidth;
+        const topMaximal = window.innerHeight - images[i].offsetHeight;
+
+        const randomLeft = Math.floor(Math.random()*leftMaximal);
+        const randomTop = Math.floor(Math.random()*topMaximal);
+        images[i].style.animation="iconAnimation "+ getRandomFloat(3,5)+"s ease-in-out infinite";
+
+        images[i].style.left = randomLeft + 'px';
+        images[i].style.top = randomTop + 'px';
+    }
+}
+
+function getRandomFloat(min, max) {
+    return Math.random() * (max - min) + min;
+  }   
+
+if (window.location.pathname === "/") {
+    document.addEventListener("DOMContentLoaded", randomImgPosition);
+}
