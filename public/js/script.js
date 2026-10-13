@@ -320,6 +320,7 @@ function valider() {
         barre2.max = 40;
         barre2.value = prix;
         barre2.style.pointerEvents = "none";
+        barre2.style.borderRadius = "6px";
         barre2.tabIndex = -1;
         document.querySelector(".annonce2").appendChild(barre2);
 
@@ -484,7 +485,30 @@ function modify(nombre) {
 
     barre.value = valeur.toFixed(2);
 
+
     afficherValeur(valeur);
+}
+
+
+let delai = null;
+let boucle = null;
+
+// démarre la modification : 1 fois tout de suite, puis en continu
+function startModify(nombre) {
+    stopModify();              
+    modify(nombre);      
+
+    delai = setTimeout(function() {
+        boucle = setInterval(function() {
+            modify(nombre);
+        }, 50);                 // vitesse de répétition (ms)
+    }, 400);                    // attente avant que ça se répète (ms)
+}
+
+// arrête la modification
+function stopModify() {
+    clearTimeout(delai);
+    clearInterval(boucle);
 }
 
 // bouton qui recharge la page si le jeu n'est pas terminé
