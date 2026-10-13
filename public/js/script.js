@@ -355,20 +355,33 @@ function valider() {
 
 function color(prix, reponse_joueur) {
     const barre2 = document.getElementById("barre");
+    const texte = document.getElementById("modal-text");
+
     prix = Number(prix);
     reponse_joueur = Number(reponse_joueur);
-    if (reponse_joueur < prix) {
+
+    const diff = Math.round((reponse_joueur - prix) * 100) / 100;
+    const absDiff = Math.abs(diff);
+
+    if (absDiff === 6.7 || absDiff === 0.67) {
+        barre2.style.accentColor = "gold";
+        texte.textContent = "67 67";
+        mode_secret();
+        openModal();                       
+    }
+    else if (diff < 0) {
         barre2.style.accentColor = "blue";
     }
-    else if (reponse_joueur > prix) {
-        barre.style.accentColor = "red";
+    else if (diff > 0) {
+        barre2.style.accentColor = "red";
     }
     else {
-        barre.style.accentColor = "green";7
-        openModal();
+        barre2.style.accentColor = "green";
+        texte.textContent = "Congratulations, you have the right price !😎";
+        openModal(); 
     }
-    
-} 
+                 
+}
 
 
 function openModal() {
@@ -622,4 +635,18 @@ function getRandomFloat(min, max) {
 
 if (window.location.pathname === "/") {
     document.addEventListener("DOMContentLoaded", randomImgPosition);
+}
+
+
+
+
+function mode_secret() {
+    const body = document.body;
+    body.classList.remove("mode_secret");
+    void body.offsetWidth;            // force le redémarrage de l'animation
+    body.classList.add("mode_secret");
+
+    body.addEventListener("animationend", function() {
+        body.classList.remove("mode_secret");
+    }, { once: true });
 }
