@@ -96,6 +96,27 @@
     align-items: center;   
 }
 
+#val{
+    display: flex;
+    justify-content: center; 
+    align-items: center; 
+    height :25px;  
+    font-size: 20px;
+    font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
+}
+
+#annonce222{
+    display: flex;
+    justify-content: center; 
+    align-items: center; 
+    height :25px;  
+}
+
+#annonce222 p{
+    font-size: 20px;
+    font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
+}
+
 #secret{
     display: flex;
     justify-content: center; 
@@ -115,6 +136,13 @@
     justify-content: center; 
     align-items: center; 
     height :25px;  
+}
+
+#reveal2{
+    display: flex;
+    justify-content: center; 
+    align-items: center;
+    height: 10px;
 }
 
 #reveal3{
@@ -193,6 +221,7 @@
     font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
     width: 30px;
     height: 25px;
+    align-items: center;
 }
 
 #plus:hover{
@@ -206,6 +235,7 @@
     font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
     width: 45px;
     height: 25px;
+    align-items: center;
 }
 
 #plusplus:hover{
@@ -219,6 +249,7 @@
     font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
     width: 30px;
     height: 25px;
+    align-items: center;
 }
 
 #moins:hover{
@@ -232,6 +263,7 @@
     font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
     width: 45px;
     height: 25px;
+    align-items: center;
 }
 
 #moinsmoins:hover{

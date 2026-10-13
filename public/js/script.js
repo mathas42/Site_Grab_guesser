@@ -271,6 +271,10 @@ function valider() {
 
         // retire le bouton Valider
         document.getElementById("valider").remove();
+        document.getElementById("plus").remove();
+        document.getElementById("plusplus").remove();
+        document.getElementById("moins").remove();
+        document.getElementById("moinsmoins").remove();
 
         // retire le bouton More or Less
         let boutonHint = document.getElementById("hint");
@@ -328,7 +332,7 @@ function valider() {
         annonce2.textContent =
             formatPrix(prix) + " RM " +
             (Number(prix) / 4.65).toFixed(2) + " Euro";
-        document.querySelector(".annonce2").appendChild(annonce2);
+        document.querySelector(".annonce222").appendChild(annonce2);
 
         // affiche l'écart entre la réponse et le vrai prix
         let annonce3 = document.createElement("p");
