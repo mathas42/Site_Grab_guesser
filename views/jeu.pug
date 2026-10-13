@@ -41,6 +41,11 @@ html(lang="fr")
         div#valid
             button#valider(onclick="valider()") Validate
 
+        div.modal#modal
+                div.modal-content
+                    p#modal-text Congratulations! You have completed the game. Your final score is:
+                    button#close-modal(onclick="closeModal()") Close    
+
         script(src="/js/script.js")
         
         div#reveal3

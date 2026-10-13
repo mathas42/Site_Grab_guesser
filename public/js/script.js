@@ -322,6 +322,7 @@ function valider() {
         barre2.style.pointerEvents = "none";
         barre2.style.borderRadius = "6px";
         barre2.tabIndex = -1;
+        barre2.style.backgroundColor = "red";
         document.querySelector(".annonce2").appendChild(barre2);
 
         // réduire l'espace
@@ -347,7 +348,35 @@ function valider() {
         annonce4.textContent =
             Math.round(points * 100) / 100 + " points gagné sur 4";
         document.querySelector(".annonce4").appendChild(annonce4);
+
+        color(prix,reponse_joueur);
     });
+}
+
+function color(prix, reponse_joueur) {
+    const barre2 = document.getElementById("barre");
+    prix = Number(prix);
+    reponse_joueur = Number(reponse_joueur);
+    if (reponse_joueur < prix) {
+        barre2.style.accentColor = "blue";
+    }
+    else if (reponse_joueur > prix) {
+        barre.style.accentColor = "red";
+    }
+    else {
+        barre.style.accentColor = "green";7
+        openModal();
+    }
+    
+} 
+
+
+function openModal() {
+    document.getElementById("modal").classList.add("open");
+}
+
+function closeModal() {
+    document.getElementById("modal").classList.remove("open");
 }
 
 
@@ -490,26 +519,47 @@ function modify(nombre) {
 }
 
 
-let delai = null;
-let boucle = null;
 
-// démarre la modification : 1 fois tout de suite, puis en continu
+const REPETITION_DELAY = 400;   // ms 
+const REPETITION_INTERVAL = 50;   
+const ACCELERATION = 1000; 
+
+let timerDelai = null;
+let timerBoucle = null;
+let debutAppui = 0;
+
+// démarre la modification : un pas immédiat, puis répétition en continu
 function startModify(nombre) {
-    stopModify();              
-    modify(nombre);      
+    stopModify();                        
+    debutAppui = performance.now();
+    modify(nombre);                      
 
-    delai = setTimeout(function() {
-        boucle = setInterval(function() {
-            modify(nombre);
-        }, 50);                 // vitesse de répétition (ms)
-    }, 400);                    // attente avant que ça se répète (ms)
+    timerDelai = setTimeout(function() {
+        timerBoucle = setInterval(function() {
+            let duree = performance.now() - debutAppui;
+            let facteur = 1 + Math.floor(duree / ACCELERATION);
+            modify(nombre * facteur);
+        }, REPETITION_INTERVAL);
+    }, REPETITION_DELAY);
 }
 
-// arrête la modification
+// arrête la modification et renvoie la durée de l'appui (en secondes)
 function stopModify() {
-    clearTimeout(delai);
-    clearInterval(boucle);
+    clearTimeout(timerDelai);
+    clearInterval(timerBoucle);
+    timerDelai = null;
+    timerBoucle = null;
+
+    if (!debutAppui) {
+        return 0;                      
+    }
+
+    let duree = (performance.now() - debutAppui) / 1000;
+    debutAppui = 0;
+    return duree;
 }
+
+
 
 // bouton qui recharge la page si le jeu n'est pas terminé
 // sinon va sur la page résultat
