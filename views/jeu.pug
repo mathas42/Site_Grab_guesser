@@ -14,20 +14,22 @@ html(lang="fr")
 
         div#liste
             #liste-produits
+        
+        div#val
+            span#value 20.00 RM 4.30 Euro
 
         div#rep
             div.annonce Votre réponse :
-            button#moinsmoins(onclick="modify(-0.1)") - -
-            button#moins(onclick="modify(-0.01)") -
-            input#reponse(type="range" min="0" max="40" value="20" step="0.01") 
-            button#plus(onclick="modify(0.01)") +
-            button#plusplus(onclick="modify(0.1)") + +
-            span#value 20.00 RM 4.30 Euro
+            button#moinsmoins(onpointerdown="startModify(-0.1)" onpointerup="stopModify()" onpointerleave="stopModify()" onpointercancel="stopModify()") - -
+            button#moins(onpointerdown="startModify(-0.01)" onpointerup="stopModify()" onpointerleave="stopModify()" onpointercancel="stopModify()") -
+            input#reponse(type="range" min="0" max="40" value="20" step="0.01")
+            button#plus(onpointerdown="startModify(0.01)" onpointerup="stopModify()" onpointerleave="stopModify()" onpointercancel="stopModify()") +
+            button#plusplus(onpointerdown="startModify(0.1)" onpointerup="stopModify()" onpointerleave="stopModify()" onpointercancel="stopModify()") + +
+        div#reveal2
+            div.annonce222
         div#reveal
             p.annonce22
             div.annonce2
-        div#valid
-            button#valider(onclick="valider()") Validate
         div#secret
             button#hint(onclick="hint()") More or Less : 2
             p.hint1
@@ -35,6 +37,14 @@ html(lang="fr")
         div#secret2
             button#temperature(onclick="temperature()") Temperature : 2
             p.hint2
+
+        div#valid
+            button#valider(onclick="valider()") Validate
+
+        div.modal#modal
+                div.modal-content
+                    p#modal-text Congratulations! You have completed the game. Your final score is:
+                    button#close-modal(onclick="closeModal()") Close    
 
         script(src="/js/script.js")
         
