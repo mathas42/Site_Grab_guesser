@@ -210,7 +210,7 @@ button{
     align-items: center;
 }
 #hint {
-    width: 150px;
+    width: 180px;
     background-color: rgb(220, 34, 253);
     height: 30px;
     font-size: 20px;
@@ -264,7 +264,7 @@ button{
 }
 
 #temperature {
-    width: 150px;
+    width: 180px;
     background-color: rgb(253, 129, 34);
     height: 30px;
     font-size: 20px;
