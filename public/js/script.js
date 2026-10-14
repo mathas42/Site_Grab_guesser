@@ -643,7 +643,7 @@ if (window.location.pathname === "/") {
 function mode_secret() {
     const body = document.body;
     body.classList.remove("mode_secret");
-    void body.offsetWidth;            // force le redémarrage de l'animation
+    void body.offsetWidth;            
     body.classList.add("mode_secret");
 
     body.addEventListener("animationend", function() {
