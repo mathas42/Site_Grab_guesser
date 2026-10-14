@@ -168,6 +168,10 @@ function begin() {
                     "Temperature : " + data.temp_count;
             }
 
+            if (data.temp_count <= 0 && data.hint_count <= 0){
+                document.getElementById("sec")?.remove();
+            }
+
 
             // récupère les produits déjà utilisés
             let produitsUtilises =
@@ -276,6 +280,9 @@ function valider() {
         document.getElementById("moins").remove();
         document.getElementById("moinsmoins").remove();
 
+        let DivSec = document.getElementById("sec");
+        if (DivSec) {
+
         // retire le bouton More or Less
         let boutonHint = document.getElementById("hint");
         if (boutonHint) {
@@ -290,7 +297,7 @@ function valider() {
 
         // retire les anciens indices
         document.querySelector(".hint1").innerHTML = "";
-        document.querySelector(".hint2").innerHTML = "";
+        document.querySelector(".hint2").innerHTML = "";}
 
         // désactive la barre de réponse
         barre.style.pointerEvents = "none";
@@ -325,11 +332,6 @@ function valider() {
         barre2.style.backgroundColor = "red";
         document.querySelector(".annonce2").appendChild(barre2);
 
-        // réduire l'espace
-        let div = document.getElementById("secret");
-        div.style.height = "5px";
-        let div2 = document.getElementById("secret2");
-        div2.style.height = "5px";
 
         // affiche le prix
         let annonce2 = document.createElement("p");
@@ -349,7 +351,11 @@ function valider() {
             Math.round(points * 100) / 100 + " points gagné sur 4";
         document.querySelector(".annonce4").appendChild(annonce4);
 
-        color(prix,reponse_joueur);
+
+            if (DivSec){
+                document.getElementById("sec")?.remove();
+            }
+
     });
 }
 
