@@ -2,6 +2,8 @@
 let produits = [];
 let produit;
 let barre;
+let son = new Audio("/sound/faaah.mp3");
+
 
 // formate un prix sur une largeur fixe : 8 -> "08.00", 12.5 -> "12.50"
 function formatPrix(valeur) {
@@ -263,6 +265,10 @@ function valider() {
         let points = data.points;
         let prix = data.prix;
         let ecart = data.ecart;
+
+        if (points==0){
+            son.play();
+        }
 
         // le score vient maintenant de la BDD
         document.getElementById("score").textContent =
