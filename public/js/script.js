@@ -279,6 +279,8 @@ function valider() {
         document.getElementById("plusplus").remove();
         document.getElementById("moins").remove();
         document.getElementById("moinsmoins").remove();
+        document.getElementById("moinsmoinsmoins").remove();
+        document.getElementById("plusplusplus").remove();
 
         let DivSec = document.getElementById("sec");
         if (DivSec) {
