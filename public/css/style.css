@@ -216,6 +216,8 @@ button{
     background-color: rgb(220, 34, 253);
     height: 30px;
     font-size: 20px;
+    border: 2 solid black ;
+    border-radius: 5px;
 
 }
 
@@ -252,6 +254,8 @@ button{
     background-color: rgb(47, 255, 57);
     height: 30px;
     font-size: 20px;
+    border: 2 solid black ;
+    border-radius: 5px;
     
     margin: 10px;
 }
@@ -274,6 +278,8 @@ button{
     background-color: rgb(253, 129, 34);
     height: 30px;
     font-size: 20px;
+    border: 2 solid black ;
+    border-radius: 5px;
     position:relative;
 }
 

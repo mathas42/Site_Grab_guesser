@@ -305,7 +305,18 @@ function valider() {
 
         // crée le bouton Suivant
         let bouton = document.createElement("button");
-        bouton.textContent = "Suivant";
+        bouton.textContent = "Next";
+        bouton.style.width = "90px";
+        bouton.style.height = "30px";
+        bouton.style.backgroundColor = "greenyellow";
+        bouton.addEventListener("mouseenter", () => {
+        bouton.style.backgroundColor = "yellow";
+        });
+        bouton.addEventListener("mouseleave", () => {
+        bouton.style.backgroundColor = "greenyellow";
+        });
+        bouton.style.border = "1px solid black";
+        bouton.style.borderRadius = "5px";
         bouton.onclick = function() {
             next();
         };
