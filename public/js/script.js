@@ -388,7 +388,6 @@ function color(prix, reponse_joueur) {
         openModal(); 
     }
 
-    openModal();
                  
 }
 
