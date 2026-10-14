@@ -381,7 +381,7 @@ function color(prix, reponse_joueur) {
         texte.textContent = "Congratulations, you have the right price !😎";
         openModal(); 
     }
-                 
+            
 }
 
 
