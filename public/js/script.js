@@ -370,13 +370,7 @@ function color(prix, reponse_joueur) {
     const diff = Math.round((reponse_joueur - prix) * 100) / 100;
     const absDiff = Math.abs(diff);
 
-    if (absDiff === 6.7 || absDiff === 0.67) {
-        barre2.style.accentColor = "gold";
-        texte.textContent = "67 67";
-        mode_secret();
-        openModal();                       
-    }
-    else if (diff < 0) {
+ if (diff < 0) {
         barre2.style.accentColor = "blue";
     }
     else if (diff > 0) {
@@ -387,8 +381,6 @@ function color(prix, reponse_joueur) {
         texte.textContent = "Congratulations, you have the right price !😎";
         openModal(); 
     }
-
-    openModal();
                  
 }
 
