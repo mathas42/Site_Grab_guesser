@@ -372,9 +372,8 @@ function color(prix, reponse_joueur) {
 
     if (absDiff === 6.7 || absDiff === 0.67) {
         barre2.style.accentColor = "gold";
-        texte.textContent = "67 67";
         mode_secret();
-        openModal();                       
+                          
     }
     else if (diff < 0) {
         barre2.style.accentColor = "blue";
