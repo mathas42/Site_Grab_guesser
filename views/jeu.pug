@@ -20,11 +20,13 @@ html(lang="fr")
 
         div#rep
             div.annonce Votre réponse :
-            button#moinsmoins(onpointerdown="startModify(-0.1)" onpointerup="stopModify()" onpointerleave="stopModify()" onpointercancel="stopModify()") - -
-            button#moins(onpointerdown="startModify(-0.01)" onpointerup="stopModify()" onpointerleave="stopModify()" onpointercancel="stopModify()") -
+            button#moinsmoinsmoins(onpointerdown="startModify(-1)" onpointerup="stopModify()" onpointerleave="stopModify()" onpointercancel="stopModify()") -1
+            button#moinsmoins(onpointerdown="startModify(-0.1)" onpointerup="stopModify()" onpointerleave="stopModify()" onpointercancel="stopModify()") -0.1
+            button#moins(onpointerdown="startModify(-0.01)" onpointerup="stopModify()" onpointerleave="stopModify()" onpointercancel="stopModify()") -0.01
             input#reponse(type="range" min="0" max="40" value="20" step="0.01")
-            button#plus(onpointerdown="startModify(0.01)" onpointerup="stopModify()" onpointerleave="stopModify()" onpointercancel="stopModify()") +
-            button#plusplus(onpointerdown="startModify(0.1)" onpointerup="stopModify()" onpointerleave="stopModify()" onpointercancel="stopModify()") + +
+            button#plus(onpointerdown="startModify(0.01)" onpointerup="stopModify()" onpointerleave="stopModify()" onpointercancel="stopModify()") +0.01
+            button#plusplus(onpointerdown="startModify(0.1)" onpointerup="stopModify()" onpointerleave="stopModify()" onpointercancel="stopModify()") +0.1
+            button#plusplusplus(onpointerdown="startModify(1)" onpointerup="stopModify()" onpointerleave="stopModify()" onpointercancel="stopModify()") +1
         div#reveal2
             div.annonce222
         div#reveal
