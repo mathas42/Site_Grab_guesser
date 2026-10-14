@@ -355,7 +355,8 @@ function valider() {
             if (DivSec){
                 document.getElementById("sec")?.remove();
             }
-
+        color(prix, reponse_joueur);
+            
     });
 }
 
@@ -386,6 +387,8 @@ function color(prix, reponse_joueur) {
         texte.textContent = "Congratulations, you have the right price !😎";
         openModal(); 
     }
+
+    openModal();
                  
 }
 
