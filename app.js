@@ -47,7 +47,7 @@ app.get("/resultat", (req, res) => {
 
 app.get("/api/produits", (req, res) => {
     db.query(
-        "SELECT id, nom, nom_restaurant, image FROM produit",
+        "SELECT id, nom, nom_restaurant, image, description FROM produit",
         (err, results) => {
             if (err) {
                 console.error("Erreur BDD :", err);
@@ -378,6 +378,40 @@ app.post("/api/new-game", (req, res) => {
         }
     );
 });
+
+
+app.post("/api/learn", (req, res) => {
+    const { partieId, id, reponse } = req.body;
+
+    db.query(
+        "SELECT nom, nom_restaurant, description FROM produit WHERE id = ?",
+        [id],
+        (err, results) => {
+            if (err) {
+                console.error(err);
+                return res.status(500).json({
+                    erreur: "Erreur BDD"
+                });
+            }
+
+            if (results.length === 0) {
+                return res.status(404).json({
+                    erreur: "Produit introuvable"
+                });
+            }
+
+            const produit = results[0];
+
+            res.json({
+                nom: produit.nom,
+                restaurant: produit.nom_restaurant,
+                description: produit.description
+            });
+        }
+    );
+});
+
+
 
 app.listen(PORT, () => {
     console.log(`Serveur lancé sur http://localhost:${PORT}`);
