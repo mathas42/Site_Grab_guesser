@@ -316,3 +316,78 @@ VALUES
     '/images/Bacon_Roll_Dumpling.jpg'
 );
 
+INSERT INTO produit (nom, nom_restaurant, prix, image)
+VALUES
+(
+    'Spicy Peanut Braised Chicken Feet',
+    'Tong Roast Kopitiam (Bukit Bintang) - Jalan Imbi',
+    15.00,
+    '/images/Spicy_Peanut_Braised_Chicken_Feet.jpg'
+),
+(
+    'Spicy Chicken Mandy',
+    'Hadramawt - Sungai Besi',
+    28.40,
+    '/images/Spicy_Chicken_Mandy.jpg'
+),
+(
+    'Lamb Samousa',
+    'Hadramawt - Sungai Besi',
+    16.80,
+    '/images/Lamb_Samousa.jpg'
+),
+(
+    'Roast Chicken + Roast Pork + Char Siu Rice',
+    'SK900 HongKee Chicken Rice - 1 Jalan Pbs14/15 Taman Perindustrian Bukit Serd [Non-Halal]',
+    20.80,
+    '/images/Roast_Chicken_Roast_Pork_Char_Siu_Rice.jpg'
+),
+(
+    'Tawa',
+    'Snap Restaurant - Street Mall One South',
+    4.05,
+    '/images/Tawa.jpg'
+),
+(
+    'Tabbouleh',
+    'Snap Restaurant - Street Mall One South',
+    14.00,
+    '/images/Tabbouleh.jpg'
+),
+(
+    'Set Sotong Gepuk',
+    'Nasi Tomato Periuk Penang - MCH Bistro Foodcourt',
+    22.90,
+    '/images/Set_Sotong_Gepuk.jpg'
+),
+(
+    '( Nasi Minyak ) Set Ayam Bawang + Daging Hitam',
+    'Nasi Tomato Periuk Penang - MCH Bistro Foodcourt',
+    26.90,
+    '/images/Nasi_Minyak_Set_Ayam_Bawang_Daging_Hitam.jpg'
+),
+(
+    'Signature Braised Pork QQ Noodle',
+    'Taiwanese House - Bandar Mahkota Cheras [Non-Halal]',
+    22.15,
+    '/images/Signature_Braised_Pork_QQ_Noodle.jpg'
+),
+(
+    'Pan Mee BYOB',
+    'GO Noodle House - The Mines [Non-Halal]',
+    15.90,
+    '/images/Pan_Mee_BYOB.jpg'
+),
+(
+    '[Bundle] 2× Japanese Curry Fish Katsu Don',
+    'Uni Ramen And Donburi - Aeon Maluri',
+    39.80,
+    '/images/Bundle_Japanese_Curry_Fish_Katsu_Don.jpg'
+),
+(
+    'Japonese Katsu Curry Chicken Chop Rice Set',
+    'Manjoe Taiwanese Dumpling - Aeon Taman Maluri',
+    30.90,
+    '/images/Japonese_Katsu_Curry_Chicken_Chop_Rice_Set.jpg'
+);
+
