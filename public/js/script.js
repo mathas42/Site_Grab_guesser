@@ -556,8 +556,6 @@ function modify(nombre) {
     afficherValeur(valeur);
 }
 
-
-
 const REPETITION_DELAY = 400;   // ms 
 const REPETITION_INTERVAL = 50;   
 const ACCELERATION = 1000; 
@@ -596,8 +594,6 @@ function stopModify() {
     debutAppui = 0;
     return duree;
 }
-
-
 
 // bouton qui recharge la page si le jeu n'est pas terminé
 // sinon va sur la page résultat
@@ -662,9 +658,6 @@ if (window.location.pathname === "/") {
     document.addEventListener("DOMContentLoaded", randomImgPosition);
 }
 
-
-
-
 function mode_secret() {
     const body = document.body;
     body.classList.remove("mode_secret");
@@ -674,4 +667,15 @@ function mode_secret() {
     body.addEventListener("animationend", function() {
         body.classList.remove("mode_secret");
     }, { once: true });
+}
+
+
+if (window.location.pathname === "/resultat") {
+
+    // Empêche de revenir sur la page Jeu
+    history.pushState(null, "", "/resultat");
+
+    window.addEventListener("popstate", function () {
+        window.location.replace("/");
+    });
 }
