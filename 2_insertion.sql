@@ -1,14 +1,14 @@
 INSERT INTO produit (nom, nom_restaurant, prix, image)
 VALUES
 (
-    'Shawarma Al Sham - Bandar Tasik Selatan',
     'Shawarma Beef Medium',
+    'Shawarma Al Sham - Bandar Tasik Selatan',
     17.90,
     '/images/Shawarma_beef.jpg'
 ),
 (
-    '7StarThaiBasilRice - Taman Oversea Union [Non-Halal]',
     'Thai Basil Minced Pork Rice',
+    '7StarThaiBasilRice - Taman Oversea Union [Non-Halal]',
     22.90,
     '/images/Thai_basil_minced_pork_rice.jpg'
 ),
