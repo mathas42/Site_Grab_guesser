@@ -584,3 +584,12 @@ body.mode_secret {
   border-radius: 8px;
   text-align: center;
 }
+
+/*footer styles */
+footer {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    text-align: center;
+    padding: 10px 0;
+}
