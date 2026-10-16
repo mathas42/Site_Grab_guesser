@@ -695,13 +695,3 @@ function mode_secret() {
     }, { once: true });
 }
 
-
-if (window.location.pathname === "/resultat") {
-
-    // Empêche de revenir sur la page Jeu
-    history.pushState(null, "", "/resultat");
-
-    window.addEventListener("popstate", function () {
-        window.location.replace("/");
-    });
-}
