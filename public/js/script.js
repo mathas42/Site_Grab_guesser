@@ -69,8 +69,14 @@ function new_() {
         // sauvegarde l'identifiant de la partie
         localStorage.setItem("partieId", data.partieId);
 
+        // Réinitialise l'état de la partie précédente
+        sessionStorage.removeItem("terminee");
+
         // recommence la liste des produits utilisés
         localStorage.setItem("produitsUtilises", JSON.stringify([]));
+
+        //nettoie l'historique
+        localStorage.removeItem("historique");
 
         // indique que l'arrivée sur /jeu vient du bouton suivant/Play
         sessionStorage.setItem("next", "true");
@@ -93,31 +99,27 @@ function new_learn_() {
 // fonction qui s'effectue au début de chaque page du jeu
 function begin() {
 
-    // vérifie si on arrive sur cette page depuis le bouton "Suivant"
-    let navigationDepuisNext = sessionStorage.getItem("next");
-
-    if (navigationDepuisNext === "true") {
-        // supprime l'indication pour éviter
-        // qu'un simple rechargement soit considéré comme "Suivant"
-        sessionStorage.removeItem("next");
-    }
-    else {
-
-        // si le joueur recharge directement la page,
-        // on considère que la partie doit être abandonnée
+    // Vérifie si la partie est terminée
+    if (sessionStorage.getItem("terminee") === "true") {
         localStorage.clear();
-        window.location.href = "/";
-
+        window.location.replace("/");
         return;
     }
 
+    let navigationDepuisNext = sessionStorage.getItem("next");
 
-    // récupère l'identifiant de la partie
+    if (navigationDepuisNext === "true") {
+        sessionStorage.removeItem("next");
+    } else {
+        localStorage.clear();
+        window.location.replace("/");
+        return;
+    }
+
     const partieId = localStorage.getItem("partieId");
 
     if (!partieId) {
-        // aucune partie trouvée
-        window.location.href = "/";
+        window.location.replace("/");
         return;
     }
 
@@ -265,6 +267,16 @@ function valider() {
         let points = data.points;
         let prix = data.prix;
         let ecart = data.ecart;
+
+        let historique = JSON.parse(localStorage.getItem("historique")) || [];
+
+            historique.push({
+                nom: produit.nom,
+                image: produit.image,
+                points:  Math.round(Number(points) * 100) / 100
+                });
+
+            localStorage.setItem("historique", JSON.stringify(historique));
 
         if (points==0){
             son.play();
@@ -597,32 +609,34 @@ function stopModify() {
 
 // bouton qui recharge la page si le jeu n'est pas terminé
 // sinon va sur la page résultat
+
 function next() {
 
-    // indique que le changement de page
-    // vient du bouton Suivant
-    sessionStorage.setItem("next", "true");
-
-    // récupère l'identifiant de la partie
+    // Récupère l'identifiant de la partie
     let partieId = localStorage.getItem("partieId");
 
-    // récupère les informations de la partie
     fetch("/api/partie/" + partieId)
         .then(response => response.json())
         .then(data => {
 
-            // si les 5 manches sont terminées
-            // on va sur la page résultat
+            // Si les 5 manches sont terminées
             if (data.round > 5) {
-                window.location.href = "/resultat";
+                sessionStorage.setItem("terminee", "true");
+                sessionStorage.removeItem("next");
+
+                window.location.replace("/resultat");
             }
 
-            // sinon on recommence une manche
+            // Sinon, on autorise le passage à la manche suivante
             else {
+                sessionStorage.setItem("next", "true");
+
                 window.location.href = "/jeu";
             }
-        });
+        })
+        .catch(err => console.error(err));
 }
+
 
 // retrieve information from the server
 function fetchURL(url) {

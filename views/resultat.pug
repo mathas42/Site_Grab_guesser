@@ -2,6 +2,7 @@ doctype html
 html(lang="fr")
     head
         meta(charset="UTF-8")
+        link(rel="stylesheet", href="/css/style_resultat.css")
         link(rel="stylesheet", href="/css/style.css")
         title Jeu
 
@@ -12,4 +13,8 @@ html(lang="fr")
             span#score 0
             |  sur 20
 
+        h2 Historique de la partie
+        div#historique
+
         script(src="/js/script.js")
+        script(src="/js/resultat_script.js")
