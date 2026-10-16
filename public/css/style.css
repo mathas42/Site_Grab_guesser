@@ -10,6 +10,13 @@ button{
     border: none;
 }
 
+.produit {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
 .produit img {
     width: auto;
     height: 370px;
