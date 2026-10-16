@@ -384,7 +384,7 @@ app.post("/api/learn", (req, res) => {
     const { partieId, id, reponse } = req.body;
 
     db.query(
-        "SELECT nom, nom_restaurant, description FROM produit WHERE id = ?",
+        "SELECT nom, nom_restaurant, image, description FROM produit WHERE id = ?",
         [id],
         (err, results) => {
             if (err) {
@@ -405,6 +405,7 @@ app.post("/api/learn", (req, res) => {
             res.json({
                 nom: produit.nom,
                 restaurant: produit.nom_restaurant,
+                image: produit.image,
                 description: produit.description
             });
         }
