@@ -658,6 +658,18 @@ if (window.location.pathname === "/") {
     document.addEventListener("DOMContentLoaded", randomImgPosition);
 }
 
+function iconClickAnimation(event){
+    const icon = event.target.closest(".icon");
+    icon.animate(
+        [{ scale: 1 }, { scale: 0.9, offset: 0.1 }, { scale: 1 }],
+        { duration: 200, easing: "ease-in" }
+    );
+}
+document.addEventListener("click", iconClickAnimation);
+
+
+
+
 function mode_secret() {
     const body = document.body;
     body.classList.remove("mode_secret");

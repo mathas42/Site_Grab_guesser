@@ -4,35 +4,35 @@ fetch("/api/produits")
     .then(data => {
         produits = data;
 
+        const recherche = document.getElementById("recherche");
+
+        recherche.addEventListener("input", () => {
+        const texte = recherche.value.toLowerCase();
+
+        document.querySelectorAll(".plat").forEach(plat => {
+        const nom = plat.dataset.nom.toLowerCase();
+        const nom_restaurant = plat.dataset.nom_restaurant.toLowerCase();
+        if (nom.includes(texte) || nom_restaurant.includes(texte)) {
+            plat.style.display = "flex";
+        } else {
+            plat.style.display = "none";
+        }    });
+        });
+
+
         const catalogue = document.getElementById("catalogue");
         catalogue.innerHTML = "";
 
         data.forEach(produit => {
             const plat = document.createElement("div");
             plat.style.display = "flex";
-            plat.style.alignItems= "center";
-            plat.style.justifyContent= "center";
-            plat.style.width = "1000px";
-            plat.style.padding = "10px";
-            plat.style.border = "2px solid black";
-            plat.style.borderRadius = "5px";
-            plat.style.margin = "15px";
-            plat.style.flexDirection = "column";
-
-            plat.style.transition = "width 0.8s ease";
+            plat.classList.add("plat");
+            plat.dataset.nom = produit.nom;
+            plat.dataset.nom_restaurant = produit.nom_restaurant;
 
 
-            plat.addEventListener("mouseenter", () => {
-            plat.style.width = "1300px";
-            });
-            plat.addEventListener("mouseleave", () => {
-            plat.style.width = "1000px";
-            });
-   
             const image = document.createElement("img");
             image.src = produit.image;
-            image.style.height = "350px";
-            image.style.witdh = "auto";
 
             const nom = document.createElement("h3");
             nom.textContent = produit.nom;
@@ -42,7 +42,6 @@ fetch("/api/produits")
 
             const description = document.createElement("p");
             description.textContent = produit.description || "Aucune description disponible.";
-            description.style.width = "1000px"
 
             plat.append(nom, image, restaurant, description);
             catalogue.appendChild(plat);

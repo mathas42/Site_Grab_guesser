@@ -4,9 +4,17 @@ html(lang="en")
         meta(charset="UTF-8")
         meta(name="viewport", content="width=device-width, initial-scale=1.0")
         title Learn malaysian Food
-    body (onload="fetchURL('/learn')")
-        div.container_table
+        link(rel="stylesheet", href="/css/style_learn.css")
+        
+    body 
+        header#header_learn
             h1 Grab Food Guesser ! Learn malaysian Food
-            table#grab_products
+            input#recherche(type="text" placeholder="Search a dish...")
+            
+        // pour qu'on voit le premier produit
+        br
+        br
+        br
+        br
         div#catalogue
         script(src="/js/learn_script.js")
