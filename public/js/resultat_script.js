@@ -11,7 +11,7 @@ historique.forEach((manche, index) => {
 
     const image = document.createElement("img");
     image.src = manche.image;
-    image.style.height = "200px";
+    image.style.height = "170px";
 
     const nom = document.createElement("p");
     nom.textContent = manche.nom;
