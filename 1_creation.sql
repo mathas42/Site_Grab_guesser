@@ -1,6 +1,6 @@
 USE projet_site;
 
-CREATE TABLE produit (
+CREATE TABLE IF NOT EXISTS produit (
     id INT AUTO_INCREMENT PRIMARY KEY,
     nom VARCHAR(255) NOT NULL,
     nom_restaurant VARCHAR(255) NOT NULL,
@@ -8,7 +8,7 @@ CREATE TABLE produit (
     image VARCHAR(255)
 );
 
-CREATE TABLE partie (
+CREATE TABLE IF NOT EXISTS partie (
     id INT AUTO_INCREMENT PRIMARY KEY,
     score DECIMAL(10,2) DEFAULT 0,
     round INT DEFAULT 1,
@@ -16,4 +16,11 @@ CREATE TABLE partie (
     temp_count INT DEFAULT 2,
     produit_actuel INT,
     FOREIGN KEY (produit_actuel) REFERENCES produit(id)
+);
+
+CREATE TABLE IF NOT EXISTS users (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    email VARCHAR(255) NOT NULL UNIQUE,
+    password VARCHAR(255) NOT NULL
 );

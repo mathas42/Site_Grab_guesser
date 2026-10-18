@@ -379,6 +379,10 @@ app.post("/api/new-game", (req, res) => {
     );
 });
 
+app.get('/register', (req,res)=>{
+    res.render('register');
+})
+
 
 app.post("/api/learn", (req, res) => {
     const { partieId, id, reponse } = req.body;
