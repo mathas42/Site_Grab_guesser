@@ -1,5 +1,3 @@
-// ===== Page Learn : catalogue, recherche et compteur max =====
-
 const PAR_PAGE = 12;   // nombre max de plats affichés à la fois
 let limite = PAR_PAGE;
 
