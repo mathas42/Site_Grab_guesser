@@ -12,12 +12,11 @@ html(lang="en")
         header#header_learn
             h1 Learn Malaysian Food
             input#recherche(type="search", placeholder="Search a dish...", aria-label="Search a dish")
-            button#new(type="button", onclick="goHome()") Home
+            button#new(type="button",onclick="window.location.href='/'") Home
 
         main
             p#compteur
             div#catalogue
             button#voir-plus(type="button" hidden) More
-        button#new(type="button", onclick="goBack()") Back    
 
         script(src="/js/learn_script.js")
