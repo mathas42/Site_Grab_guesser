@@ -98,6 +98,18 @@ fetch("/api/produits")
     .then(produits => {
         catalogue.innerHTML = "";
 
+            // Trie les plats par ordre alphabétique
+        produits.sort((a, b) => {
+        const lettreA = a.nom.match(/\p{L}/u)?.[0] || "";
+        const lettreB = b.nom.match(/\p{L}/u)?.[0] || "";
+
+        return lettreA.localeCompare(lettreB, "fr", {
+            sensitivity: "base"
+        }) || a.nom.localeCompare(b.nom, "fr", {
+            sensitivity: "base"
+        });
+});
+
         produits.forEach(produit => {
             catalogue.appendChild(creerPlat(produit));
         });
