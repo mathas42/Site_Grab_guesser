@@ -391,3 +391,73 @@ VALUES
     '/images/Japonese_Katsu_Curry_Chicken_Chop_Rice_Set.jpg'
 );
 
+INSERT INTO produit (nom, nom_restaurant, prix, image)
+VALUES
+(
+    'Boneless Chicken Bibibap',
+    'KyoChon Korean Fried Chicken - MyTown',
+    29.00,
+    '/images/Boneless_Chicken_Bibibap.jpg'
+),
+(
+    'Soy Garlic Series (8pc)',
+    'KyoChon Korean Fried Chicken - MyTown',
+    30.00,
+    '/images/Soy_Garlic_Series.jpg'
+),
+(
+    'Lamb Rice Balls',
+    'Damascus - Bukit Bintang',
+    23.90,
+    '/images/Lamb_Rice_Balls.jpg'
+),
+(
+    'Satay Daging ( 10 pc ) + Nasi Impit Mini',
+    'Port''s Sate - Medan Selera Ar-Rahimah',
+    26.50,
+    '/images/Satay_Daging_Nasi_Impit_Mini.jpg'
+),
+(
+    'Nasi Impit mini',
+    'Port''s Sate - Medan Selera Ar-Rahimah',
+    1.60,
+    '/images/Nasi_Impit_Mini.jpg'
+),
+(
+    'Satay Ayam (10pc) + Nasi Impit Mini',
+    'Port''s Sate - Medan Selera Ar-Rahimah',
+    19.00,
+    '/images/Satay_Ayam_Nasi_Impit_Mini.jpg'
+),
+(
+    'Roti Canai Special',
+    'Restoran Al Amal Maju - Taman Jaya',
+    7.50,
+    '/images/Roti_Canai_Special.jpg'
+),
+(
+    'Roti Canai',
+    'Restoran Al Amal Maju - Taman Jaya',
+    2.60,
+    '/images/Roti_Canai.jpg'
+),
+(
+    'Chicken Dum Biryani',
+    'Hyderabad Dum Biryani - KL Trillion',
+    31.50,
+    '/images/Chicken_Dum_Biryani.jpg'
+),
+(
+    'Golden Pineapple fried rice with prawn',
+    'Taan Thai - Sunway Velocity [Non-Halal]',
+    26.90,
+    '/images/Golden_Pineapple_Fried_Rice_Prawn.jpg'
+),
+(
+    'Cutie Panda Chocolate Bun (4pc)',
+    'Din Tai Fung - Sunway Velocity [Non-Halal]',
+    25.29,
+    '/images/Cutie_Panda_Chocolate_Bun.jpg'
+);
+
+
