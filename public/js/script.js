@@ -373,13 +373,13 @@ function valider() {
 
         // affiche l'écart entre la réponse et le vrai prix
         let annonce3 = document.createElement("p");
-        annonce3.textContent = "écart : " + ecart + " RM";
+        annonce3.textContent = "gap : " + ecart + " RM";
         document.querySelector(".annonce3").appendChild(annonce3);
 
         // affiche les points gagnés
         let annonce4 = document.createElement("p");
         annonce4.textContent =
-            Math.round(points * 100) / 100 + " points gagné sur 4";
+            Math.round(points * 100) / 100 + " points earned out of 4";
         document.querySelector(".annonce4").appendChild(annonce4);
 
 

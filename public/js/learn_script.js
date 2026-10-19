@@ -48,7 +48,7 @@ function creerPlat(produit) {
 // message affiché quand la recherche ne donne rien
 const vide = document.createElement("p");
 vide.id = "aucun-resultat";
-vide.textContent = "Aucun plat trouvé 😕";
+vide.textContent = "No dishes found 😕";
 vide.hidden = true;
 
 // filtre selon la recherche, puis n'affiche que les `limite` premiers
@@ -70,7 +70,7 @@ function mettreAJour() {
         }
     });
 
-    compteur.textContent = affiches + " / " + trouves + " plats affichés";
+    compteur.textContent = affiches + " / " + trouves + " dishes displayed";
     voirPlus.hidden = trouves <= limite;
     vide.hidden = trouves > 0;
 }
@@ -119,6 +119,6 @@ fetch("/api/produits")
     })
     .catch(err => {
         console.error("Erreur :", err);
-        catalogue.textContent = "Impossible de charger les plats. Réessaie plus tard.";
+        catalogue.textContent = "Unable to load the dishes";
         compteur.textContent = "";
     });
