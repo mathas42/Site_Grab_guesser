@@ -31,7 +31,7 @@ fetch("/api/produits")
         }
 
         // page finale
-        if (window.location.pathname === "/resultat") {
+        if (window.location.pathname === "/result") {
 
             let partieId = localStorage.getItem("partieId");
 
@@ -40,53 +40,50 @@ fetch("/api/produits")
                 .then(data => {
 
                     // affiche le score final venant de la BDD
+                    if(data.hard ==1){
+                        document.getElementById("score").textContent =
+                        Math.round(Number(data.score/1.4) * 100) / 100;
+                    } else {
                     document.getElementById("score").textContent =
-                        Math.round(Number(data.score) * 100) / 100;
+                        Math.round(Number(data.score) * 100) / 100;}
                 });
         }
     });
 
+function new_hard() {
+    new_(1);
+}
 
-// fonction qui s'effectue lorsque le joueur clique sur Play
-// elle crée une nouvelle partie dans la BDD
-function new_() {
+function new_play() {
+    new_(0);
+}
 
+function new_(hard) {
     fetch("/api/new-game", {
-        method: "POST"
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            hard: hard
+        })
     })
     .then(response => {
-
         if (!response.ok) {
             throw new Error("Erreur /api/new-game : " + response.status);
         }
-
         return response.json();
     })
     .then(data => {
-
-        console.log("Nouvelle partie :", data);
-
-        // sauvegarde l'identifiant de la partie
         localStorage.setItem("partieId", data.partieId);
-
-        // Réinitialise l'état de la partie précédente
         sessionStorage.removeItem("terminee");
-
-        // recommence la liste des produits utilisés
         localStorage.setItem("produitsUtilises", JSON.stringify([]));
-
-        //nettoie l'historique
         localStorage.removeItem("historique");
-
-        // indique que l'arrivée sur /jeu vient du bouton suivant/Play
         sessionStorage.setItem("next", "true");
 
-        // va sur la page du jeu
         window.location.href = "/jeu";
     })
-    .catch(error => {
-        console.error(error);
-    });
+    .catch(error => console.error(error));
 }
 
 
@@ -142,9 +139,16 @@ function begin() {
             document.getElementById("score").textContent =
                 Math.round(Number(data.score) * 100) / 100;
 
+            if (data.hard == 1){
+                let haut = document.getElementById("info");
+                haut.style.backgroundColor = "purple";
+            }
 
             // affiche le numéro de la manche
-            document.getElementById("round").textContent = data.round + " / 5";
+            if(data.hard == 1){
+            document.getElementById("round").textContent = data.round + " / 7";
+            } else {
+            document.getElementById("round").textContent = data.round + " / 5";}
 
 
             // affiche le nombre d'indices More or Less
@@ -278,7 +282,7 @@ function valider() {
 
             localStorage.setItem("historique", JSON.stringify(historique));
 
-        if (points==0){
+        if (points<=0){
             son.play();
         }
 
@@ -287,9 +291,13 @@ function valider() {
             Math.round(Number(data.score) * 100) / 100;
 
         // le numéro de la manche vient de la BDD
+        if(data.hard == 1){
+            if (data.round < 7) {
+            document.getElementById("round").textContent = data.round + " / 5";
+        }} else {
         if (data.round < 5) {
             document.getElementById("round").textContent = data.round + " / 5";
-        }
+        }}
 
         // retire le bouton Valider
         document.getElementById("valider").remove();
@@ -620,19 +628,30 @@ function next() {
         .then(data => {
 
             // Si les 5 manches sont terminées
-            if (data.round > 5) {
+            if(data.hard == 1){
+                if (data.round > 7) {
                 sessionStorage.setItem("terminee", "true");
                 sessionStorage.removeItem("next");
-
-                window.location.replace("/resultat");
+                window.location.replace("/result");
             }
 
             // Sinon, on autorise le passage à la manche suivante
             else {
                 sessionStorage.setItem("next", "true");
-
                 window.location.href = "/jeu";
+
+            }} else {
+            if (data.round > 5) {
+                sessionStorage.setItem("terminee", "true");
+                sessionStorage.removeItem("next");
+                window.location.replace("/result");
             }
+
+            // Sinon, on autorise le passage à la manche suivante
+            else {
+                sessionStorage.setItem("next", "true");
+                window.location.href = "/jeu";
+            }}
         })
         .catch(err => console.error(err));
 }

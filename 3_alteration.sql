@@ -242,3 +242,5 @@ WHERE nom IN (
     'Cutie Panda Chocolate Bun (4pc)'
 );
 
+ALTER TABLE partie
+ADD COLUMN hard BOOLEAN DEFAULT FALSE;

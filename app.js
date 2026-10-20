@@ -41,8 +41,8 @@ app.get("/jeu", (req, res) => {
 
 
 // Page résultat
-app.get("/resultat", (req, res) => {
-    res.render("resultat");
+app.get("/result", (req, res) => {
+    res.render("result");
 });
 
 app.get("/api/produits", (req, res) => {
@@ -238,6 +238,7 @@ app.post("/api/temperature", (req, res) => {
     );
 });
 
+
 app.post("/api/verifier", (req, res) => {
 
     const { partieId, id, reponse } = req.body;
@@ -264,25 +265,23 @@ app.post("/api/verifier", (req, res) => {
             const prix = Number(results[0].prix);
             const reponse_joueur = Number(reponse);
 
-            // Calcul des points
-            let points = (
-                4 - Math.abs((reponse_joueur - prix) / 2.5));
+            // Calcul des points de base
+            let points = 4 - Math.abs(
+                (reponse_joueur - prix) / 2.5
+            );
 
             points = Math.max(0, points);
 
             // Calcul de l'écart
             const ecart = Math.abs(
-                Math.round((reponse_joueur - prix) * 100)/100
+                Math.round((reponse_joueur - prix) * 100) / 100
             );
 
-            // Ajoute les points et passe à la manche suivante
+            // Récupère le mode de la partie
             db.query(
-                `UPDATE partie
-                 SET score = score + ?,
-                     round = round + 1
-                 WHERE id = ?`,
-                [points, partieId],
-                (err, result) => {
+                "SELECT hard FROM partie WHERE id = ?",
+                [partieId],
+                (err, parties) => {
 
                     if (err) {
                         console.error(err);
@@ -291,19 +290,29 @@ app.post("/api/verifier", (req, res) => {
                         });
                     }
 
-                    if (result.affectedRows === 0) {
+                    if (parties.length === 0) {
                         return res.status(404).json({
                             erreur: "Partie introuvable"
                         });
                     }
 
-                    // Récupère le nouveau score et la nouvelle manche
+                    // Applique le Hard Mode
+                    if (Number(parties[0].hard) === 1) {
+                        points = 4 - Math.abs((reponse_joueur - prix) / 0.5);
+                        if (points<0){
+                            points = points/10;
+                            points = Math.max(-5, points);
+                    }
+                    }
+
+                    // Ajoute les points et passe à la manche suivante
                     db.query(
-                        `SELECT score, round
-                         FROM partie
+                        `UPDATE partie
+                         SET score = score + ?,
+                             round = round + 1
                          WHERE id = ?`,
-                        [partieId],
-                        (err, results) => {
+                        [points, partieId],
+                        (err, result) => {
 
                             if (err) {
                                 console.error(err);
@@ -312,13 +321,36 @@ app.post("/api/verifier", (req, res) => {
                                 });
                             }
 
-                            res.json({
-                                points: points,
-                                prix: prix,
-                                ecart: ecart,
-                                score: Number(results[0].score),
-                                round: results[0].round
-                            });
+                            if (result.affectedRows === 0) {
+                                return res.status(404).json({
+                                    erreur: "Partie introuvable"
+                                });
+                            }
+
+                            // Récupère le nouveau score et la nouvelle manche
+                            db.query(
+                                `SELECT score, round
+                                 FROM partie
+                                 WHERE id = ?`,
+                                [partieId],
+                                (err, results) => {
+
+                                    if (err) {
+                                        console.error(err);
+                                        return res.status(500).json({
+                                            erreur: "Erreur BDD"
+                                        });
+                                    }
+
+                                    res.json({
+                                        points: points,
+                                        prix: prix,
+                                        ecart: ecart,
+                                        score: Number(results[0].score),
+                                        round: results[0].round
+                                    });
+                                }
+                            );
                         }
                     );
                 }
@@ -327,12 +359,13 @@ app.post("/api/verifier", (req, res) => {
     );
 });
 
+
 app.get("/api/partie/:id", (req, res) => {
 
     const partieId = req.params.id;
 
     db.query(
-        `SELECT score, round, hint_count, temp_count
+        `SELECT score, round, hint_count, temp_count, hard
          FROM partie
          WHERE id = ?`,
         [partieId],
@@ -356,12 +389,21 @@ app.get("/api/partie/:id", (req, res) => {
     );
 });
 
+
 app.post("/api/new-game", (req, res) => {
+
+    // Récupère le mode choisi : 1 = Hard, 0 = Normal
+    const hard = Number(req.body.hard) === 1 ? 1 : 0;
+
+    // Valeurs de départ selon le mode
+    const hintCount = hard ? 1 : 2;
+    const tempCount = hard ? 1 : 2;
 
     db.query(
         `INSERT INTO partie
-        (score, round, hint_count, temp_count)
-        VALUES (0, 1, 2, 2)`,
+        (score, round, hint_count, temp_count, hard)
+        VALUES (0, 1, ?, ?, ?)`,
+        [hintCount, tempCount, hard],
         (err, result) => {
 
             if (err) {
@@ -378,8 +420,6 @@ app.post("/api/new-game", (req, res) => {
         }
     );
 });
-
-
 app.post("/api/learn", (req, res) => {
     const { partieId, id, reponse } = req.body;
 
