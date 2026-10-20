@@ -1,13 +1,13 @@
 const historique = JSON.parse(localStorage.getItem("historique")) || [];
-const conteneur = document.getElementById("historique");
+const conteneur = document.getElementById("historical");
 
 
 historique.forEach((manche, index) => {
-    const bloc = document.createElement("div");
-    bloc.classList.add("manche");
+    const round = document.createElement("div");
+    round.classList.add("round");
 
     const titre = document.createElement("h3");
-    titre.textContent = `Manche ${index + 1}`;
+    titre.textContent = `Round ${index + 1}`;
 
     const image = document.createElement("img");
     image.src = manche.image;
@@ -19,6 +19,6 @@ historique.forEach((manche, index) => {
     const points = document.createElement("p");
     points.textContent = `Points gagnés : ${manche.points}`;
 
-    bloc.append(titre, image, nom, points);
-    conteneur.appendChild(bloc);
+    round.append(titre, image, nom, points);
+    conteneur.appendChild(round);
 });
