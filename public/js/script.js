@@ -51,10 +51,15 @@ fetch("/api/produits")
     });
 
 
-// fonction qui s'effectue lorsque le joueur clique sur Play
-// elle crée une nouvelle partie dans la BDD
-function new_() {
+function new_hard() {
+    new_(1);
+}
 
+function new_play() {
+    new_(0);
+}
+
+function new_(hard) {
     fetch("/api/new-game", {
         method: "POST",
         headers: {
@@ -627,12 +632,24 @@ function next() {
         .then(data => {
 
             // Si les 5 manches sont terminées
-            if (data.round > 5) {
+                        if(data.hard == 1){
+                if (data.round > 7) {
                 sessionStorage.setItem("terminee", "true");
                 sessionStorage.removeItem("next");
                 window.location.replace("/result");
             }
 
+            // Sinon, on autorise le passage à la manche suivante
+            else {
+                sessionStorage.setItem("next", "true");
+                window.location.href = "/jeu";
+
+            }} else {
+            if (data.round > 5) {
+                sessionStorage.setItem("terminee", "true");
+                sessionStorage.removeItem("next");
+                window.location.replace("/result");
+            }
             // else, continue to the next round
             else {
                 sessionStorage.setItem("next", "true");
