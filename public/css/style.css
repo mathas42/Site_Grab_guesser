@@ -517,13 +517,13 @@ html {
     overflow-x: hidden;
 }
 
-body.mode_secret {
+body.secret_mode {
     transform-origin: 50% 0; 
     animation: tilt_easter_egg 1.2s ease-in-out;
 }
 
 @media (prefers-reduced-motion: reduce) {
-    body.mode_secret { animation: none; }
+    body.secret_mode { animation: none; }
 }
 
 .wrapper {
@@ -534,7 +534,7 @@ body.mode_secret {
   overflow: hidden;
 }
 
-.bulle {
+.bubble {
   height: 60px;
   width: 60px;
   border: 2px solid rgba(255, 255, 255, 0.7);
@@ -545,7 +545,7 @@ body.mode_secret {
   animation: animate 4s linear infinite;
 }
 
-.bulle .dot {
+.bubble .dot {
   height: 5px;
   width: 5px;
   border-radius: 50px;
@@ -555,15 +555,15 @@ body.mode_secret {
   right: 20%;
 }
 
-.bulle:nth-child(2)  { top: 20%; left: 20%; animation: animate 8s linear infinite; }
-.bulle:nth-child(3)  { top: 60%; left: 80%; animation: animate 10s linear infinite; }
-.bulle:nth-child(4)  { top: 40%; left: 40%; animation: animate 3s linear infinite; }
-.bulle:nth-child(5)  { top: 66%; left: 30%; animation: animate 7s linear infinite; }
-.bulle:nth-child(6)  { top: 90%; left: 10%; animation: animate 9s linear infinite; }
-.bulle:nth-child(7)  { top: 30%; left: 60%; animation: animate 5s linear infinite; }
-.bulle:nth-child(8)  { top: 70%; left: 20%; animation: animate 8s linear infinite; }
-.bulle:nth-child(9)  { top: 75%; left: 60%; animation: animate 10s linear infinite; }
-.bulle:nth-child(10) { top: 50%; left: 50%; animation: animate 6s linear infinite; }
+.bubble:nth-child(2)  { top: 20%; left: 20%; animation: animate 8s linear infinite; }
+.bubble:nth-child(3)  { top: 60%; left: 80%; animation: animate 10s linear infinite; }
+.bubble:nth-child(4)  { top: 40%; left: 40%; animation: animate 3s linear infinite; }
+.bubble:nth-child(5)  { top: 66%; left: 30%; animation: animate 7s linear infinite; }
+.bubble:nth-child(6)  { top: 90%; left: 10%; animation: animate 9s linear infinite; }
+.bubble:nth-child(7)  { top: 30%; left: 60%; animation: animate 5s linear infinite; }
+.bubble:nth-child(8)  { top: 70%; left: 20%; animation: animate 8s linear infinite; }
+.bubble:nth-child(9)  { top: 75%; left: 60%; animation: animate 10s linear infinite; }
+.bubble:nth-child(10) { top: 50%; left: 50%; animation: animate 6s linear infinite; }
 
 @keyframes animate {
   0% {
