@@ -612,7 +612,7 @@ function stopModify() {
 
 function next() {
 
-    // take the partieId from localStorage
+    // Récupère l'identifiant de la partie
     let partieId = localStorage.getItem("partieId");
 
     fetch("/api/partie/" + partieId)
