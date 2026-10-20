@@ -4,7 +4,7 @@ const app = require('./app');
 
 app.use(bodyParser.urlencoded({extended:true}));
 app.use(bodyParser.json());
-app.set('viex engine', 'ejs');
+app.set('view engine', 'ejs');
 
 const pool = mysql.createPool({
     host:'localhost',

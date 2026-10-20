@@ -383,6 +383,34 @@ app.get('/register', (req,res)=>{
     res.render('register');
 })
 
+app.post('/register', (req, res) => {
+    const { name, email, password } = req.body;
+
+    db.query('SELECT * FROM users WHERE email = ?', [email], (err, results) => {
+        if (err) {
+            console.error(err);
+            return res.status(500).json({ message: 'An error occurred' });
+        }
+
+        if (results.length > 0) {
+            return res.status(400).json({ message: 'Email already taken' });
+        }
+
+        db.query(
+            'INSERT INTO users (name, email, password) VALUES (?, ?, ?)',
+            [name, email, password],
+            (err) => {
+                if (err) {
+                    console.error(err);
+                    return res.status(500).json({ message: 'An error occurred' });
+                }
+
+                res.status(200).json({ message: 'User registered successfully' });
+            }
+        );
+    });
+});
+
 
 app.post("/api/learn", (req, res) => {
     const { partieId, id, reponse } = req.body;
