@@ -1,4 +1,4 @@
-.manche {
+.round {
     display: flex;
     align-items: center;
     flex-direction: column;
@@ -14,12 +14,12 @@
     transition: width 0.2s ease;
 }
 
-.manche:hover {
+.round:hover {
     transform:scale(1.05);
 
 }
 
-#historique {
+#historical {
     display: flex;
     align-items: center;
     justify-content: center;

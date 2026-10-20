@@ -1,24 +1,24 @@
-const PAR_PAGE = 12;   // nombre max de plats affichés à la fois
-let limite = PAR_PAGE;
+const BY_PAGE = 12;   // maximum number of dishes displayed at once
+let limit = BY_PAGE;
 
 const catalogue = document.getElementById("catalogue");
-const recherche = document.getElementById("recherche");
-const compteur = document.getElementById("compteur");
-const voirPlus = document.getElementById("voir-plus");
+const research = document.getElementById("research");
+const counter = document.getElementById("counter");
+const seeMore = document.getElementById("see-more");
 
-// enlève accents et majuscules : "Crème" -> "creme"
-function normaliser(texte) {
+// removes accents and uppercase letters : "Crème" -> "creme"
+function normalize(texte) {
     return texte
         .normalize("NFD")
         .replace(/[\u0300-\u036f]/g, "")
         .toLowerCase();
 }
 
-// crée la carte d'un plat
+// creates a dish element from the product data
 function creerPlat(produit) {
     const plat = document.createElement("article");
     plat.classList.add("plat");
-    plat.dataset.recherche = normaliser(produit.nom + " " + produit.nom_restaurant);
+    plat.dataset.research = normalize(produit.nom + " " + produit.nom_restaurant);
 
     const image = document.createElement("img");
     image.src = produit.image;
@@ -45,60 +45,60 @@ function creerPlat(produit) {
     return plat;
 }
 
-// message affiché quand la recherche ne donne rien
-const vide = document.createElement("p");
-vide.id = "aucun-resultat";
-vide.textContent = "No dishes found 😕";
-vide.hidden = true;
+// message displayed when no dishes match the search
+const empty = document.createElement("p");
+empty.id = "aucun-resultat";
+empty.textContent = "No dishes found ";
+empty.hidden = true;
 
-// filtre selon la recherche, puis n'affiche que les `limite` premiers
-function mettreAJour() {
-    const texte = normaliser(recherche.value.trim());
-    let trouves = 0;
-    let affiches = 0;
+// function that updates the display of dishes based on the search input and limit
+function update() {
+    const text = normalize(research.value.trim());
+    let found = 0;
+    let displayed = 0;
 
     document.querySelectorAll(".plat").forEach(plat => {
-        const correspond = plat.dataset.recherche.includes(texte);
+        const correspond = plat.dataset.research.includes(text);
         if (correspond) {
-            trouves++;
+            found++;
         }
 
-        const visible = correspond && trouves <= limite;
+        const visible = correspond && found <= limit;
         plat.hidden = !visible;
         if (visible) {
-            affiches++;
+            displayed++;
         }
     });
 
-    compteur.textContent = affiches + " / " + trouves + " dishes displayed";
-    voirPlus.hidden = trouves <= limite;
-    vide.hidden = trouves > 0;
+    counter.textContent = displayed + " / " + found + " dishes displayed";
+    seeMore.hidden = found <= limit;
+    empty.hidden = found > 0;
 }
 
-// une nouvelle recherche repart de la limite de départ
-recherche.addEventListener("input", () => {
-    limite = PAR_PAGE;
-    mettreAJour();
+// a new search resets the limit and updates the display
+research.addEventListener("input", () => {
+    limit = BY_PAGE;
+    update();
 });
 
-// "Voir plus" augmente la limite
-voirPlus.addEventListener("click", () => {
-    limite += PAR_PAGE;
-    mettreAJour();
+// more dishes are displayed when the "See more" button is clicked
+seeMore.addEventListener("click", () => {
+    limit += BY_PAGE;
+    update();
 });
 
-// récupère les plats depuis le serveur
+// retrieve the products from the server and display them
 fetch("/api/produits")
     .then(response => {
         if (!response.ok) {
-            throw new Error("Erreur " + response.status);
+            throw new Error("Error " + response.status);
         }
         return response.json();
     })
     .then(produits => {
         catalogue.innerHTML = "";
 
-            // Trie les plats par ordre alphabétique
+        // sort the products by the first letter of their name, ignoring accents and case  
         produits.sort((a, b) => {
         const lettreA = a.nom.match(/\p{L}/u)?.[0] || "";
         const lettreB = b.nom.match(/\p{L}/u)?.[0] || "";
@@ -114,11 +114,11 @@ fetch("/api/produits")
             catalogue.appendChild(creerPlat(produit));
         });
 
-        catalogue.appendChild(vide);
-        mettreAJour();   // affichage initial
+        catalogue.appendChild(empty);
+        update();   // initial display 
     })
     .catch(err => {
-        console.error("Erreur :", err);
+        console.error("Error :", err);
         catalogue.textContent = "Unable to load the dishes";
-        compteur.textContent = "";
+        counter.textContent = "";
     });
