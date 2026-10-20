@@ -25,7 +25,7 @@ fetch("/api/produits")
 
         produits = data;
 
-        // page du jeu
+        // game page
         if (window.location.pathname === "/jeu") {
             begin();
         }
@@ -50,15 +50,11 @@ fetch("/api/produits")
         }
     });
 
-function new_hard() {
-    new_(1);
-}
 
-function new_play() {
-    new_(0);
-}
+// fonction qui s'effectue lorsque le joueur clique sur Play
+// elle crée une nouvelle partie dans la BDD
+function new_() {
 
-function new_(hard) {
     fetch("/api/new-game", {
         method: "POST",
         headers: {
@@ -78,9 +74,12 @@ function new_(hard) {
         localStorage.setItem("partieId", data.partieId);
         sessionStorage.removeItem("terminee");
         localStorage.setItem("produitsUtilises", JSON.stringify([]));
+
+        //nettoie l'historique
         localStorage.removeItem("historique");
         sessionStorage.setItem("next", "true");
 
+        // va sur la page du jeu
         window.location.href = "/jeu";
     })
     .catch(error => console.error(error));
@@ -299,7 +298,7 @@ function valider() {
             document.getElementById("round").textContent = data.round + " / 5";
         }}
 
-        // retire le bouton Valider
+        // remove the Validate button
         document.getElementById("valider").remove();
         document.getElementById("plus").remove();
         document.getElementById("plusplus").remove();
@@ -311,19 +310,19 @@ function valider() {
         let DivSec = document.getElementById("sec");
         if (DivSec) {
 
-        // retire le bouton More or Less
+        // remove the button More or Less
         let boutonHint = document.getElementById("hint");
         if (boutonHint) {
             boutonHint.remove();
         }
 
-        // retire le bouton Temperature
+        // remove the button Temperature
         let boutonTemperature = document.getElementById("temperature");
         if (boutonTemperature) {
             boutonTemperature.remove();
         }
 
-        // retire les anciens indices
+        // remove the old hints
         document.querySelector(".hint1").innerHTML = "";
         document.querySelector(".hint2").innerHTML = "";}
 
@@ -331,7 +330,7 @@ function valider() {
         barre.style.pointerEvents = "none";
         barre.tabIndex = -1;
 
-        // crée le bouton Suivant
+        // create a button to go to the next round
         let bouton = document.createElement("button");
         bouton.textContent = "Next";
         bouton.style.width = "90px";
@@ -350,7 +349,7 @@ function valider() {
         };
 
         // ajoute le bouton à la page
-        document.querySelector(".suivant").appendChild(bouton);
+        document.querySelector(".following").appendChild(bouton);
 
         // affiche "La bonne réponse"
         let annonce22 = document.createElement("p");
@@ -372,7 +371,7 @@ function valider() {
         document.querySelector(".annonce2").appendChild(barre2);
 
 
-        // affiche le prix
+        // display the correct price in RM and Euro
         let annonce2 = document.createElement("p");
         annonce2.textContent =
             formatPrix(prix) + " RM " +
@@ -384,7 +383,7 @@ function valider() {
         annonce3.textContent = "gap : " + ecart + " RM";
         document.querySelector(".annonce3").appendChild(annonce3);
 
-        // affiche les points gagnés
+        // display the points earned in this round
         let annonce4 = document.createElement("p");
         annonce4.textContent =
             Math.round(points * 100) / 100 + " points earned out of 4";
@@ -412,7 +411,7 @@ function color(prix, reponse_joueur) {
 
     if (absDiff === 6.7 || absDiff === 0.67) {
         barre2.style.accentColor = "gold";
-        mode_secret();       
+        secret_mode();       
     }
     else if (diff < 0) {
         barre2.style.accentColor = "blue";
@@ -628,26 +627,13 @@ function next() {
         .then(data => {
 
             // Si les 5 manches sont terminées
-            if(data.hard == 1){
-                if (data.round > 7) {
-                sessionStorage.setItem("terminee", "true");
-                sessionStorage.removeItem("next");
-                window.location.replace("/result");
-            }
-
-            // Sinon, on autorise le passage à la manche suivante
-            else {
-                sessionStorage.setItem("next", "true");
-                window.location.href = "/jeu";
-
-            }} else {
             if (data.round > 5) {
                 sessionStorage.setItem("terminee", "true");
                 sessionStorage.removeItem("next");
                 window.location.replace("/result");
             }
 
-            // Sinon, on autorise le passage à la manche suivante
+            // else, continue to the next round
             else {
                 sessionStorage.setItem("next", "true");
                 window.location.href = "/jeu";
@@ -703,14 +689,14 @@ document.addEventListener("click", iconClickAnimation);
 
 
 
-function mode_secret() {
+function secret_mode() {
     const body = document.body;
-    body.classList.remove("mode_secret");
+    body.classList.remove("secret_mode");
     void body.offsetWidth;            
-    body.classList.add("mode_secret");
+    body.classList.add("secret_mode");
 
     body.addEventListener("animationend", function() {
-        body.classList.remove("mode_secret");
+        body.classList.remove("secret_mode");
     }, { once: true });
 }
 
