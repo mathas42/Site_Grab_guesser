@@ -8,17 +8,17 @@ html(lang="fr")
         title Game Result
 
     body
-        h1 Your score :
-        h2
-            | Score : 
-            span#score 0
-            |  out of 20
+        div#result
+            h1 Your score : 
+                span#score 0
+                |  out of 20
 
         h2 Game history
 
         div#historical
         br
-        button#new(type="button",onclick="window.location.href='/'") Home
+        div#home
+            button#new(type="button",onclick="window.location.href='/'") Home
 
 
         script(src="/js/script.js")
