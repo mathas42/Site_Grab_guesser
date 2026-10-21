@@ -305,12 +305,12 @@ function valider() {
 
         // remove the Validate button
         document.getElementById("valider").remove();
-        document.getElementById("plus").remove();
-        document.getElementById("plusplus").remove();
-        document.getElementById("moins").remove();
-        document.getElementById("moinsmoins").remove();
-        document.getElementById("moinsmoinsmoins").remove();
-        document.getElementById("plusplusplus").remove();
+        document.getElementById("more").remove();
+        document.getElementById("moremore").remove();
+        document.getElementById("moremoremore").remove();
+        document.getElementById("less").remove();
+        document.getElementById("lessless").remove();
+        document.getElementById("lesslessless").remove();
 
         let DivSec = document.getElementById("sec");
         if (DivSec) {

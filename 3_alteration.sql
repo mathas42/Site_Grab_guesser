@@ -1,4 +1,4 @@
-+ALTER TABLE produit
+ALTER TABLE produit
 ADD COLUMN description TEXT;
 SET SQL_SAFE_UPDATES = 0;
 UPDATE produit

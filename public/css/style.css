@@ -368,7 +368,7 @@ button{
     opacity: 1;
 }
 
-#plus {
+#more {
     background-color: rgb(246, 19, 19);
     font-size: 20px;
     font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
@@ -377,12 +377,12 @@ button{
     align-items: center;
 }
 
-#plus:hover{
+#more:hover{
 
     background-color: rgb(255, 213, 47);
 }
 
-#plusplus {
+#moremore {
     background-color: rgb(246, 19, 19);
     font-size: 20px;
     font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
@@ -391,12 +391,12 @@ button{
     align-items: center;
 }
 
-#plusplus:hover{
+#moremore:hover{
 
     background-color: rgb(255, 213, 47);
 }
 
-#plusplusplus {
+#moremoremore {
     background-color: rgb(246, 19, 19);
     font-size: 20px;
     font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
@@ -405,12 +405,12 @@ button{
     align-items: center;
 }
 
-#plusplusplus:hover{
+#moremoremore:hover{
 
     background-color: rgb(255, 213, 47);
 }
 
-#moins {
+#less {
     background-color: rgb(77, 142, 255);
     font-size: 20px;
     font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
@@ -419,12 +419,12 @@ button{
     align-items: center;
 }
 
-#moins:hover{
+#less:hover{
 
     background-color: rgb(47, 255, 255);
 }
 
-#moinsmoins {
+#lessless {
     background-color: rgb(77, 142, 255);
     font-size: 20px;
     font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
@@ -433,12 +433,12 @@ button{
     align-items: center;
 }
 
-#moinsmoins:hover{
+#lessless:hover{
 
     background-color: rgb(47, 255, 255);
 }
 
-#moinsmoinsmoins {
+#lesslessless {
     background-color: rgb(77, 142, 255);
     font-size: 20px;
     font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
@@ -447,7 +447,7 @@ button{
     align-items: center;
 }
 
-#moinsmoinsmoins:hover{
+#lesslessless:hover{
 
     background-color: rgb(47, 255, 255);
 }
