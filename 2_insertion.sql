@@ -460,4 +460,79 @@ VALUES
     '/images/Cutie_Panda_Chocolate_Bun.jpg'
 );
 
+INSERT INTO produit (nom, nom_restaurant, prix, image)
+VALUES
+(
+    'Peri-honey Yuzu Wings',
+    'Nando''s - AEON Taman Maluri',
+    18.77,
+    '/images/Peri_Honey_Yuzu_Wings.jpg'
+),
+(
+    'Set Nasi Kebabu ( daging rendang )',
+    'Nasi Lemak Maklong - De Centrum Mall',
+    18.89,
+    '/images/Set_Nasi_Kebabu_Daging_Rendang.jpg'
+),
+(
+    'Lontong Sayur Lodeh (Biasa)',
+    'Nasi Lemak Maklong - De Centrum Mall',
+    11.17,
+    '/images/Lontong_Sayur_Lodeh.jpg'
+),
+(
+    'Oriental White Coffee (Roasted)',
+    'Oriental Kopi - Pavilion Bukit Jalil',
+    7.08,
+    '/images/Oriental_White_Coffee_Roasted.jpg'
+),
+(
+    'Oriental Polo Bun',
+    'Oriental Kopi - Pavilion Bukit Jalil',
+    10.28,
+    '/images/Oriental_Polo_Bun.jpg'
+),
+(
+    'Rendang Chicken Nasi Lemak',
+    'Oriental Kopi - Pavilion Bukit Jalil',
+    25.85,
+    '/images/Rendang_Chicken_Nasi_Lemak.jpg'
+),
+(
+    'Kuro Chicken Chop',
+    'Chic Chick Cafe - Kuchai Entrepreneur''s Park [Non-Halal]',
+    24.50,
+    '/images/Kuro_Chicken_Chop.jpg'
+),
+(
+    'Chicken Chop',
+    'Chic Chick Cafe - Kuchai Entrepreneur''s Park [Non-Halal]',
+    11.00,
+    '/images/Chicken_Chop.jpg'
+),
+(
+    'Lamb Sukiya Bowl 200 gram',
+    'NiKuYa (Alam Damai) - Taman Len Seng',
+    33.90,
+    '/images/Lamb_Sukiya_Bowl_200_gram.jpg'
+),
+(
+    'Ramen Bowl',
+    'NiKuYa (Alam Damai) - Taman Len Seng',
+    7.00,
+    '/images/Ramen_Bowl.jpg'
+),
+(
+    'Hakka Pork Nasi Lemak',
+    'Yun Kopi - Bandar Damai Perdana [Non-Halal]',
+    21.90,
+    '/images/Hakka_Pork_Nasi_Lemak.jpg'
+),
+(
+    'Oriental Egg Tart (6pc)',
+    'Oriental Kopi - KLCC',
+    37.36,
+    '/images/Oriental_Egg_Tart_6pc.jpg'
+);
+
 

@@ -244,3 +244,61 @@ WHERE nom IN (
 
 ALTER TABLE partie
 ADD COLUMN hard BOOLEAN DEFAULT FALSE;
+
+SET SQL_SAFE_UPDATES = 0;
+
+UPDATE produit
+SET description = CASE
+
+    WHEN nom = 'Peri-honey Yuzu Wings'
+    THEN 'These chicken wings combine the spicy flavors of peri-peri seasoning with the sweet and citrusy notes of yuzu honey. The dish blends Nando''s signature spicy style with a Japanese-inspired citrus flavor.'
+
+    WHEN nom = 'Set Nasi Kebabu ( daging rendang )'
+    THEN 'This Malaysian rice set features daging rendang, beef slowly cooked with coconut milk, lemongrass and aromatic spices. Rendang is especially associated with Indonesian and Malay cuisine and is often served during celebrations.'
+
+    WHEN nom = 'Lontong Sayur Lodeh (Biasa)'
+    THEN 'Lontong sayur lodeh is a traditional Southeast Asian dish featuring compressed rice cakes served with vegetables in a coconut milk-based broth. Turmeric and other spices give the gravy its distinctive aroma and flavor.'
+
+    WHEN nom = 'Oriental White Coffee (Roasted)'
+    THEN 'White coffee is a popular Malaysian beverage, especially associated with Ipoh. The beans are roasted using a traditional method and brewed to create a smooth, aromatic coffee, commonly served with condensed or evaporated milk.'
+
+    WHEN nom = 'Oriental Polo Bun'
+    THEN 'The polo bun is a Hong Kong-style sweet bun topped with a crumbly, cookie-like crust. Despite its name, it contains no pineapple by default; the pattern on its golden topping simply resembles pineapple skin.'
+
+    WHEN nom = 'Rendang Chicken Nasi Lemak'
+    THEN 'Nasi lemak is a Malaysian national favorite traditionally made with coconut milk rice, sambal, anchovies, peanuts and cucumber. This version is served with chicken rendang, a rich dish simmered with coconut milk and fragrant spices.'
+
+    WHEN nom = 'Kuro Chicken Chop'
+    THEN 'Chicken chop is a Western-influenced dish popular in Malaysian cafes, usually consisting of a cooked chicken fillet served with sauce and side dishes. The name Kuro suggests a distinctive dark-style preparation, though the exact sauce depends on the restaurant.'
+
+    WHEN nom = 'Chicken Chop'
+    THEN 'Chicken chop is a popular Malaysian cafe meal inspired by Western cuisine. It typically consists of a seasoned chicken fillet served with gravy or sauce and sides such as fries, vegetables or salad.'
+
+    WHEN nom = 'Lamb Sukiya Bowl 200 gram'
+    THEN 'This bowl features 200 grams of lamb, inspired by Japanese-style rice bowls and sukiyaki flavors. Sukiyaki traditionally combines thinly sliced meat with a sweet-savory sauce made from soy sauce, sugar and other seasonings.'
+
+    WHEN nom = 'Ramen Bowl'
+    THEN 'Ramen is a Japanese noodle dish served in a flavorful broth, often accompanied by toppings such as meat, eggs, seaweed and vegetables. Its style varies widely, with broths ranging from light and clear to rich and creamy.'
+
+    WHEN nom = 'Hakka Pork Nasi Lemak'
+    THEN 'This variation combines nasi lemak, Malaysia''s coconut rice dish, with pork prepared in a Hakka-inspired style. Hakka cuisine is known for hearty dishes and savory preparations, while nasi lemak is traditionally served with sambal and classic side dishes.'
+
+    WHEN nom = 'Oriental Egg Tart (6pc)'
+    THEN 'Egg tarts are popular pastries in Hong Kong and Macau, influenced by both Chinese and Portuguese baking traditions. They feature a crisp pastry shell filled with smooth egg custard, baked until the filling is set and lightly golden.'
+
+    ELSE description
+END
+WHERE nom IN (
+    'Peri-honey Yuzu Wings',
+    'Set Nasi Kebabu ( daging rendang )',
+    'Lontong Sayur Lodeh (Biasa)',
+    'Oriental White Coffee (Roasted)',
+    'Oriental Polo Bun',
+    'Rendang Chicken Nasi Lemak',
+    'Kuro Chicken Chop',
+    'Chicken Chop',
+    'Lamb Sukiya Bowl 200 gram',
+    'Ramen Bowl',
+    'Hakka Pork Nasi Lemak',
+    'Oriental Egg Tart (6pc)'
+);
