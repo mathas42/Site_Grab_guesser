@@ -142,6 +142,65 @@ body {
     display: none;
 }
 
+
+.plat {
+    cursor: pointer;
+}
+
+.popup-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 2000;         
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    background-color: rgba(0, 0, 0, 0.6);
+}
+
+.popup {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 520px;
+    max-height: 90vh;
+    overflow-y: auto;
+    padding: 20px;
+    background: white;
+    border: 2px solid black;
+    border-radius: 10px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+}
+
+.popup img {
+    width: 100%;
+    max-height: 300px;
+    object-fit: cover;
+    border-radius: 6px;
+}
+
+.popup h2 {
+    margin: 14px 0 4px;
+}
+
+.popup-close {
+    align-self: center;
+    margin-top: 12px;
+    padding: 8px 24px;
+    border: none;
+    border-radius: 15px;
+    background-color: rgba(82, 255, 47, 0.8);
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.popup-close:hover {
+    background-color: rgb(238, 255, 47);
+}
+
+
+
+
 @media (max-width: 600px) {
     #header_learn {
         justify-content: center;

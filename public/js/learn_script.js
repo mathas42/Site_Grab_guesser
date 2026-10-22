@@ -35,12 +35,14 @@ function creerPlat(produit) {
     restaurant.classList.add("plat-resto");
     restaurant.textContent = produit.nom_restaurant;
 
-    const description = document.createElement("p");
-    description.classList.add("plat-desc");
-    description.textContent = produit.description || "Aucune description disponible.";
+   
 
-    corps.append(nom, restaurant, description);
+    corps.append(nom, restaurant);
     plat.append(image, corps);
+
+    plat.addEventListener("click", () => {
+        openPopup(produit);
+    });
 
     return plat;
 }
@@ -108,7 +110,7 @@ fetch("/api/produits")
         }) || a.nom.localeCompare(b.nom, "fr", {
             sensitivity: "base"
         });
-});
+        });
 
         produits.forEach(produit => {
             catalogue.appendChild(creerPlat(produit));
@@ -122,3 +124,51 @@ fetch("/api/produits")
         catalogue.textContent = "Unable to load the dishes";
         counter.textContent = "";
     });
+
+// opens a popup with the details of a dish
+function openPopup(produit) {
+    const overlay = document.createElement("div");
+    const popup = document.createElement("div");
+    const image = document.createElement("img");
+    const title = document.createElement("h2");
+    const restaurant = document.createElement("p");
+    const description = document.createElement("p");
+    const closeButton = document.createElement("button");
+
+    image.src = produit.image;
+    image.alt = produit.nom;
+    title.textContent = produit.nom;
+    restaurant.textContent = produit.nom_restaurant;
+    description.textContent = produit.description || "No description available.";
+    closeButton.textContent = "Close";
+
+    closeButton.classList.add("popup-close");
+    overlay.classList.add("popup-overlay");
+    popup.classList.add("popup");
+    restaurant.classList.add("plat-resto");
+
+    popup.append(image, title, restaurant, description, closeButton);
+    overlay.appendChild(popup);
+    document.body.appendChild(overlay);
+
+    function close() {
+        overlay.remove();
+        document.removeEventListener("keydown", onKey);
+    }
+
+    function onKey(e) {
+        if (e.key === "Escape") {
+            close();
+        }
+    }
+    closeButton.addEventListener("click", close);
+
+    // clicking outside the popup closes it
+    overlay.addEventListener("click", (e) => {
+        if (e.target === overlay) {
+            close();
+        }
+    });
+
+    document.addEventListener("keydown", onKey);
+}
