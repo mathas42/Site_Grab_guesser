@@ -670,31 +670,48 @@ function fetchURL(url) {
         });
 }
 
+// put a icon in a random place
+function placeIcon(image) {
+    const maxLeft = Math.max(0, document.documentElement.clientWidth - image.offsetWidth);
+    const maxTop = Math.max(0, window.innerHeight - image.offsetHeight);
+
+    image.style.left = Math.floor(Math.random() * maxLeft) + "px";
+    image.style.top = Math.floor(Math.random() * maxTop) + "px";
+}
+
 // place les icônes de la page d'accueil à des positions aléatoires
-function randomImgPosition(){
+function randomImgPosition() {
     const images = document.querySelectorAll(".icon");
-    for(let i=0;i<images.length;i++){
-        const leftMaximal = window.innerWidth - images[i].offsetWidth;
-        const topMaximal = window.innerHeight - images[i].offsetHeight;
 
-        const randomLeft = Math.floor(Math.random()*leftMaximal);
-        const randomTop = Math.floor(Math.random()*topMaximal);
-        images[i].style.animation="iconAnimation "+ getRandomFloat(3,5)+"s ease-in-out infinite";
+    images.forEach(image => {
+        placeIcon(image);
 
-        images[i].style.left = randomLeft + 'px';
-        images[i].style.top = randomTop + 'px';
-    }
+        image.style.animation = "iconAnimation " + getRandomFloat(3, 5) + "s ease-in-out infinite";
+        image.style.animationDelay = "-" + getRandomFloat(0, 3) + "s";
+
+        image.addEventListener("click", () => {
+            image.style.visibility = "hidden";
+            image.style.pointerEvents = "none";
+
+            setTimeout(() => {
+                placeIcon(image);
+                image.style.visibility = "visible";
+                image.style.pointerEvents = "auto";
+            }, 2000);
+        });
+    });
 }
 
 function getRandomFloat(min, max) {
     return Math.random() * (max - min) + min;
-  }   
-
-if (window.location.pathname === "/") {
-    document.addEventListener("DOMContentLoaded", randomImgPosition);
 }
 
-function iconClickAnimation(event){
+if (window.location.pathname === "/") {
+    window.addEventListener("load", randomImgPosition);
+}
+
+
+function iconClickAnimation(event){ 
     const icon = event.target.closest(".icon");
     icon.animate(
         [{ scale: 1 }, { scale: 0.9, offset: 0.1 }, { scale: 1 }],
