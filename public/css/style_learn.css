@@ -1,12 +1,12 @@
 :root {
-    --vert: rgb(0, 151, 13);
-    --vert-clair: greenyellow;
-    --fond: rgb(222, 254, 222);
+    --green: rgb(0, 151, 13);
+    --light-green: greenyellow;
+    --background: rgb(222, 254, 222);
 }
 
 body {
     margin: 0;
-    background-color: var(--fond);
+    background-color: var(--background);
 }
 
 #header_learn {
@@ -19,7 +19,7 @@ body {
     justify-content: space-between;
     gap: 12px;
     padding: 12px 24px;
-    background-color: var(--vert-clair);
+    background-color: var(--light-green);
     border-bottom: 2px solid black;
 }
 
@@ -50,7 +50,7 @@ body {
 
 #new:hover {
     background-color: rgb(238, 255, 47);
-    box-shadow: var(--vert) 0 0 10px;
+    box-shadow: var(--green) 0 0 10px;
     transform: scale(1.05);
 }
 
@@ -94,7 +94,7 @@ body {
 
 .plat-resto {
     margin: 0 0 10px;
-    color: var(--vert);
+    color: var(--green);
     font-weight: bold;
     font-size: 14px;
 }

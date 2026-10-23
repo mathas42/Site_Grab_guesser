@@ -135,7 +135,7 @@ button{
     color:aliceblue;
 }
 
-#liste{
+#list{
     display: flex;
     justify-content: center; 
     align-items: center;   

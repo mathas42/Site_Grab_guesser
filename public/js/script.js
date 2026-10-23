@@ -213,7 +213,7 @@ function begin() {
 
 
             // affiche le produit à l'écran
-            document.getElementById("liste-produits").innerHTML = `
+            document.getElementById("products-list").innerHTML = `
 
                 <div class="produit">
                     <img src="${produit.image}">
