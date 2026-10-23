@@ -20,7 +20,9 @@ CREATE TABLE IF NOT EXISTS partie (
 
 CREATE TABLE IF NOT EXISTS users (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    name VARCHAR(255) NOT NULL,
+    nickname VARCHAR(255) NOT NULL UNIQUE,
     email VARCHAR(255) NOT NULL UNIQUE,
-    password VARCHAR(255) NOT NULL
+    hash_password VARCHAR(255) NOT NULL,
+    creation_date datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    user_role ENUM('Admin', 'Player' ) DEFAULT 'Player' NOT NULL
 );

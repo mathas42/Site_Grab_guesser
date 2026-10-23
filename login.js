@@ -2,29 +2,40 @@ const express = require('express');
 
 const router = express.Router();
 const db = require("./database");
+const bcrypt = require("bcrypt");
 
 
 router.post('/register', (req,res)=>{
     const {name, email, password} = req.body;
 
-    db.query('SELECT * FROM users WHERE email = ?', [email], (error, results)=>{
+    db.query('SELECT email, nickname FROM users WHERE email = ? OR nickname = ?', [email, name], (error, results)=>{
         if(error){
             console.error(error);
             res.status(500).json({message : 'An error occurred'});
         }
-        else if(results.length > 0){
+        else if(results.some(user => user.email === email)){
             res.status(400).json({message : 'Email already taken'});
         }
+        else if(results.length > 0){
+            res.status(400).json({message : 'Nickname already taken'});
+        }
         else{
-            db.query('INSERT INTO users (name,email,password) VALUES (?,?,?)', [name, email, password],
-            (error)=>{
-                if(error){
-                    console.error(error);
-                    res.status(500).json({message : 'An error occurred'});
-                }
-                else{
-                    res.status(200).json({message : 'User registereed successfully'});
-                }
+            bcrypt.hash(password, 10)
+            .then(hash =>{
+                db.query('INSERT INTO users (nickname,email,hash_password) VALUES (?,?,?)', [name, email, hash],
+                (error)=>{
+                    if(error){
+                        console.error(error);
+                        res.status(500).json({message : 'An error occurred'});
+                    }
+                    else{
+                        res.status(200).json({message : 'User registered successfully'});
+                    }
+                });
+            })
+            .catch(err =>{
+                console.error(err);
+                res.status(500).json({message : 'An error occurred'});
             });
         }
     });
@@ -32,7 +43,7 @@ router.post('/register', (req,res)=>{
 
 router.post('/login', (req, res)=>{
     const {email, password} = req.body;
-    db.query('SELECT * FROM USERS WHERE email = ? AND password = ?', [email, password], (error, results)=>{
+    db.query('SELECT * FROM USERS WHERE email = ? AND hash_password = ?', [email, password], (error, results)=>{
         if(error){
             console.error(error);
             res.status(400).json({message:'An error occured'});
