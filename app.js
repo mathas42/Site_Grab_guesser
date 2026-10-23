@@ -23,24 +23,24 @@ app.get("/", (req, res) => {
 });
 
 
-// Page de learn
+// learn page
 app.get("/learn", (req, res) => {
     res.render("learn");
 });
 
-// Page du log in
+// Login page
 app.get("/login", (req, res) => {
     res.render("login");
 });
 
-// Page du jeu
+// Game page
 app.get("/jeu", (req, res) => {
     res.render("jeu");
 });
 
 
 
-// Page résultat
+// Result page
 app.get("/result", (req, res) => {
     res.render("result");
 });
