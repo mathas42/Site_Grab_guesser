@@ -223,6 +223,8 @@ function begin() {
                 </div>
             `;
 
+            document.querySelector(".produit img").addEventListener("click", () => {openPopup(produit);});
+
             // récupère la barre de réponse
             barre = document.getElementById("reponse");
 
@@ -709,6 +711,59 @@ function getRandomFloat(min, max) {
 if (window.location.pathname === "/") {
     window.addEventListener("load", randomImgPosition);
 }
+
+
+function openPopup(produit) {
+
+    // Création des éléments HTML
+    const overlay = document.createElement("div");
+    const popup = document.createElement("div");
+    const image = document.createElement("img");
+    const closeButton = document.createElement("button");
+
+    // Informations du produit
+    image.src = produit.image;
+    image.alt = produit.nom;
+
+    closeButton.textContent = "Close";
+
+    // Classes CSS
+    overlay.classList.add("popup-overlay");
+    popup.classList.add("popup");
+    closeButton.classList.add("popup-close");
+
+    // Ajoute les éléments dans la popup
+    popup.append(image, closeButton);
+    overlay.appendChild(popup);
+
+    // Ajoute la popup à la page
+    document.body.appendChild(overlay);
+
+    // Fonction pour fermer la popup
+    function close() {
+        overlay.remove();
+        document.removeEventListener("keydown", onKey);
+    }
+
+    // Fermeture avec Escape
+    function onKey(e) {
+        if (e.key === "Escape") {
+            close();
+        }
+    }
+
+    closeButton.addEventListener("click", close);
+
+    // Fermeture en cliquant à l'extérieur
+    overlay.addEventListener("click", (e) => {
+        if (e.target === overlay) {
+            close();
+        }
+    });
+
+    document.addEventListener("keydown", onKey);
+}
+
 
 
 function iconClickAnimation(event){ 
