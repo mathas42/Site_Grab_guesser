@@ -17,7 +17,7 @@ historique.forEach((manche, index) => {
     nom.textContent = manche.nom;
 
     const points = document.createElement("p");
-    points.textContent = `Points gagnés : ${manche.points}`;
+    points.textContent = `win points : ${manche.points}`;
 
     round.append(titre, image, nom, points);
     conteneur.appendChild(round);

@@ -1,24 +1,23 @@
-// variables utilisées
+// variables used
 let produits = [];
 let produit;
 let barre;
 let son = new Audio("/sound/faaah.mp3");
 
 
-// formate un prix sur une largeur fixe : 8 -> "08.00", 12.5 -> "12.50"
+// formats a price to a fixed width: 8 -> "08.00", 12.5 -> "12.50"
 function formatPrix(valeur) {
     return Number(valeur).toFixed(2).padStart(5, "0");
 }
 
-// met à jour le texte affiché sous la barre de réponse
+// updates the text displayed under the reply bar
 function afficherValeur(valeur) {
     document.getElementById("value").textContent =
         formatPrix(valeur) + " RM " +
         (Number(valeur) / 4.65).toFixed(2) + " Euro";
 }
 
-
-// récupère le JSON qui contient les produits et leurs informations
+//collect the JSON that contain products and their informations
 fetch("/api/produits")
     .then(response => response.json())
     .then(data => {
@@ -30,7 +29,7 @@ fetch("/api/produits")
             begin();
         }
 
-        // page finale
+        // final page
         if (window.location.pathname === "/result") {
 
             let partieId = localStorage.getItem("partieId");
@@ -39,7 +38,7 @@ fetch("/api/produits")
                 .then(response => response.json())
                 .then(data => {
 
-                    // affiche le score final venant de la BDD
+                    // display the final score from the DB
                     if(data.hard ==1){
                         document.getElementById("score").textContent =
                         Math.round(Number(data.score/1.4) * 100) / 100;
@@ -80,11 +79,11 @@ function new_(hard) {
         sessionStorage.removeItem("terminee");
         localStorage.setItem("produitsUtilises", JSON.stringify([]));
 
-        //nettoie l'historique
+        //clean the history
         localStorage.removeItem("historique");
         sessionStorage.setItem("next", "true");
 
-        // va sur la page du jeu
+        // going to the game page
         window.location.href = "/jeu";
     })
     .catch(error => console.error(error));
@@ -125,7 +124,7 @@ function begin() {
     }
 
 
-    // récupère les informations de la partie depuis la BDD
+    //collect informations from the game from the DB
     fetch("/api/partie/" + partieId)
         .then(response => {
 
@@ -355,16 +354,16 @@ function valider() {
             next();
         };
 
-        // ajoute le bouton à la page
+        //add the boutton to the page
         document.querySelector(".following").appendChild(bouton);
 
-        // affiche "La bonne réponse"
+        // display the "good answer"
         let annonce22 = document.createElement("p");
-        annonce22.textContent = "La bonne réponse :";
+        annonce22.textContent = "The good answer :";
         document.querySelector(".annonce22").appendChild(annonce22);
 
-        // crée une deuxième barre
-        // qui affiche la bonne réponse
+        // create the second bar
+        // that displays the good answer
         let barre2 = document.createElement("input");
         barre2.id = "barre";
         barre2.type = "range";
@@ -385,7 +384,7 @@ function valider() {
             (Number(prix) / 4.65).toFixed(2) + " Euro";
         document.querySelector(".annonce222").appendChild(annonce2);
 
-        // affiche l'écart entre la réponse et le vrai prix
+        // display the gap bewteen the answer and the good
         let annonce3 = document.createElement("p");
         annonce3.textContent = "gap : " + ecart + " RM";
         document.querySelector(".annonce3").appendChild(annonce3);
@@ -444,7 +443,7 @@ function closeModal() {
 }
 
 
-// quand le bouton More or Less est cliqué
+// when the boutton "More" or "Less" is clicked
 function hint() {
 
     // récupère l'identifiant de la partie
@@ -467,7 +466,8 @@ function hint() {
     })
     .then(response => response.json())
     .then(data => {
-        // affiche une erreur si le serveur en renvoie une
+
+        //shows an error if the server sends one back
         if (data.erreur) {
             console.error(data.erreur);
             return;
@@ -476,7 +476,7 @@ function hint() {
         // vide l'ancien indice
         document.querySelector(".hint1").innerHTML = "";
 
-        // crée le texte de l'indice
+        //create the text from the hint
         let hint = document.createElement("p");
         hint.textContent = data.message;
 
@@ -491,7 +491,7 @@ function hint() {
             hint.style.color = "green";
         }
 
-        // affiche l'indice
+        // show the hint
         document.querySelector(".hint1").appendChild(hint);
 
         // met à jour le nombre d'indices avec la valeur venant de la BDD
@@ -550,7 +550,7 @@ function temperature() {
         // applique la couleur envoyée par le serveur
         temp.style.color = data.couleur;
 
-        // affiche l'indice
+        // show the hint
         document.querySelector(".hint2").appendChild(temp);
 
         // met à jour le nombre d'indices avec la valeur venant de la BDD
@@ -568,7 +568,8 @@ function temperature() {
         div2.style.height = "35px";
     });
 }
-// boutons -- / - / + / ++ qui modifient la valeur de la barre
+
+// bouttons -- / - / + / ++ that modify the value of the bar
 function modify(nombre) {
     let barre = document.getElementById("reponse");
 
@@ -590,7 +591,7 @@ let timerDelai = null;
 let timerBoucle = null;
 let debutAppui = 0;
 
-// démarre la modification : un pas immédiat, puis répétition en continu
+// start the adjustment: one immediate step, then continuous repetition
 function startModify(nombre) {
     stopModify();                        
     debutAppui = performance.now();
@@ -605,7 +606,7 @@ function startModify(nombre) {
     }, REPETITION_DELAY);
 }
 
-// arrête la modification et renvoie la durée de l'appui (en secondes)
+// stop the modification and return the press duration (in seconds)
 function stopModify() {
     clearTimeout(timerDelai);
     clearInterval(timerBoucle);
@@ -621,19 +622,18 @@ function stopModify() {
     return duree;
 }
 
-// bouton qui recharge la page si le jeu n'est pas terminé
-// sinon va sur la page résultat
-
+//button that recharge the page is the game is not finished
+// else going to the result page
 function next() {
-
-    // Récupère l'identifiant de la partie
+    
+    //collect the id of the game
     let partieId = localStorage.getItem("partieId");
 
     fetch("/api/partie/" + partieId)
         .then(response => response.json())
         .then(data => {
 
-            // Si les 5 manches sont terminées
+            // if 5 rounds are finished
                         if(data.hard == 1){
                 if (data.round > 7) {
                 sessionStorage.setItem("terminee", "true");
@@ -641,7 +641,7 @@ function next() {
                 window.location.replace("/result");
             }
 
-            // Sinon, on autorise le passage à la manche suivante
+            // else, we autorize to pass to the next round
             else {
                 sessionStorage.setItem("next", "true");
                 window.location.href = "/jeu";
@@ -681,7 +681,7 @@ function placeIcon(image) {
     image.style.top = Math.floor(Math.random() * maxTop) + "px";
 }
 
-// place les icônes de la page d'accueil à des positions aléatoires
+// put icons on the homepage in randoms positions
 function randomImgPosition() {
     const images = document.querySelectorAll(".icon");
 
