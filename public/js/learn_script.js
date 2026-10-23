@@ -124,6 +124,7 @@ fetch("/api/produits")
         catalogue.textContent = "Unable to load the dishes";
         counter.textContent = "";
     });
+ 
 
 // opens a popup with the details of a dish
 function openPopup(produit) {
