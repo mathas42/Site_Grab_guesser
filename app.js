@@ -1,4 +1,5 @@
 const express = require("express");
+const expressSession = require("express-session");
 
 const app = express();
 
@@ -16,9 +17,34 @@ app.use(express.static("public"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+app.use(expressSession({
+    secret : "userInfo",
+    resave : false,
+    saveUninitialized : false,
+    cookie : {
+        httpOnly : true
+    }
+}))
+
+app.use((req, res, next) => {
+    if (req.session.userId) {
+        res.locals.user = {
+            id: req.session.userId,
+            nickname: req.session.nickname
+        };
+    } else {
+        res.locals.user = null;
+    }
+    next();
+});
+
 
 // Page d'accueil
 app.get("/", (req, res) => {
+    res.render("pre_index");
+});
+
+app.get("/index", (req, res) => {
     res.render("index");
 });
 
@@ -38,6 +64,7 @@ app.get("/jeu", (req, res) => {
     res.render("jeu");
 });
 
+app.use("/", require("./routes/login"));
 
 
 // Result page
@@ -420,6 +447,12 @@ app.post("/api/new-game", (req, res) => {
         }
     );
 });
+
+app.get('/register', (req,res)=>{
+    res.render('register');
+})
+
+
 app.post("/api/learn", (req, res) => {
     const { partieId, id, reponse } = req.body;
 
