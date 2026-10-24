@@ -19,6 +19,10 @@ app.use(express.urlencoded({ extended: true }));
 
 // Page d'accueil
 app.get("/", (req, res) => {
+    res.render("pre_index");
+});
+
+app.get("/index", (req, res) => {
     res.render("index");
 });
 
@@ -38,7 +42,7 @@ app.get("/jeu", (req, res) => {
     res.render("jeu");
 });
 
-app.use("/", require("./login"));
+app.use("/", require("./public/js/login"));
 
 
 // Result page

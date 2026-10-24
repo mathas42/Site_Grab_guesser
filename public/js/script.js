@@ -102,7 +102,7 @@ function begin() {
     // Vérifie si la partie est terminée
     if (sessionStorage.getItem("terminee") === "true") {
         localStorage.clear();
-        window.location.replace("/");
+        window.location.replace("/index");
         return;
     }
 
@@ -112,14 +112,14 @@ function begin() {
         sessionStorage.removeItem("next");
     } else {
         localStorage.clear();
-        window.location.replace("/");
+        window.location.replace("/index");
         return;
     }
 
     const partieId = localStorage.getItem("partieId");
 
     if (!partieId) {
-        window.location.replace("/");
+        window.location.replace("/index");
         return;
     }
 
@@ -709,6 +709,10 @@ function getRandomFloat(min, max) {
 }
 
 if (window.location.pathname === "/") {
+    window.addEventListener("load", randomImgPosition);
+}
+
+if (window.location.pathname === "/index") {
     window.addEventListener("load", randomImgPosition);
 }
 

@@ -1,7 +1,7 @@
 const express = require('express');
 
 const router = express.Router();
-const db = require("./database");
+const db = require("../../database");
 const bcrypt = require("bcrypt");
 
 
@@ -29,7 +29,7 @@ router.post('/register', (req,res)=>{
                         res.status(500).json({message : 'An error occurred'});
                     }
                     else{
-                        res.status(201).json({message : 'User registered successfully'});
+                        return res.redirect("/login");
                     }
                 });
             })
@@ -55,16 +55,16 @@ router.post('/login', (req, res)=>{
             const user = results[0];
             const hash_password = user.hash_password;
             bcrypt.compare(password, hash_password, (err, response)=>{
-                if(err){
+                if (err) {
                     console.error(err);
-                    return res.status(500).json({message:"An error occurred"});
+                    return res.status(500).send('An error occurred');
                 }
-                if(response){
-                    res.status(200).json({message:"Logged in as " + user.nickname});
+
+                if (!response) {
+                    return res.status(401).send('Email or password incorrect');
                 }
-                else{
-                    res.status(401).json({message:"Email or password incorrect"});
-                }
+
+                return res.redirect('/index');
             });
         }
     });
