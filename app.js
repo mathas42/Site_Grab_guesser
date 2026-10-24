@@ -42,7 +42,7 @@ app.get("/jeu", (req, res) => {
     res.render("jeu");
 });
 
-app.use("/", require("./public/js/login"));
+app.use("/", require("./routes/login"));
 
 
 // Result page
