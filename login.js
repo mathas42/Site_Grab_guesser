@@ -14,10 +14,10 @@ router.post('/register', (req,res)=>{
             res.status(500).json({message : 'An error occurred'});
         }
         else if(results.some(user => user.email === email)){
-            res.status(400).json({message : 'Email already taken'});
+            res.status(409).json({message : 'Email already taken'});
         }
         else if(results.length > 0){
-            res.status(400).json({message : 'Nickname already taken'});
+            res.status(409).json({message : 'Nickname already taken'});
         }
         else{
             bcrypt.hash(password, 10)
@@ -29,7 +29,7 @@ router.post('/register', (req,res)=>{
                         res.status(500).json({message : 'An error occurred'});
                     }
                     else{
-                        res.status(200).json({message : 'User registered successfully'});
+                        res.status(201).json({message : 'User registered successfully'});
                     }
                 });
             })
@@ -43,28 +43,33 @@ router.post('/register', (req,res)=>{
 
 router.post('/login', (req, res)=>{
     const {email, password} = req.body;
-    db.query('SELECT * FROM USERS WHERE email = ? AND hash_password = ?', [email, password], (error, results)=>{
+    db.query('SELECT * FROM users WHERE email = ?', [email], (error, results)=>{
         if(error){
             console.error(error);
-            res.status(400).json({message:'An error occured'});
+            res.status(500).json({message:'An error occurred'});
         }
         else if(results.length === 0){
-            res.status(400).json({message:'e-mail' + email + 'does not exist'});
-        }
-        else if(results.length > 1){
-            res.status(400).json({message:'Several users own this e-mail. How is this possible!!??'});
+            res.status(401).json({message:'Email or password incorrect'});
         }
         else{
             const user = results[0];
-            const user_password = user.password;
-            if(user_password === password){
-                res.status(200).json({message:'Log-in successful'});
-            }
-            else{
-                res.status(400).json({message:'Password is incorrect'});
-            }
+            const hash_password = user.hash_password;
+            bcrypt.compare(password, hash_password, (err, response)=>{
+                if(err){
+                    console.error(err);
+                    return res.status(500).json({message:"An error occurred"});
+                }
+                if(response){
+                    res.status(200).json({message:"Logged in as " + user.nickname});
+                }
+                else{
+                    res.status(401).json({message:"Email or password incorrect"});
+                }
+            });
         }
     });
 });
+
+
 
 module.exports = router;
