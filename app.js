@@ -1,4 +1,5 @@
 const express = require("express");
+const expressSession = require("express-session");
 
 const app = express();
 
@@ -15,6 +16,27 @@ app.use(express.static("public"));
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+app.use(expressSession({
+    secret : "userInfo",
+    resave : false,
+    saveUninitialized : false,
+    cookie : {
+        httpOnly : true
+    }
+}))
+
+app.use((req, res, next) => {
+    if (req.session.userId) {
+        res.locals.user = {
+            id: req.session.userId,
+            nickname: req.session.nickname
+        };
+    } else {
+        res.locals.user = null;
+    }
+    next();
+});
 
 
 // Page d'accueil

@@ -11,6 +11,9 @@ html(lang="en")
     body#index
         div#title_div
             h1#title Grab Food Guesser !
+        if user
+            h2#welcome Welcome #{user.nickname} ! 
+        
         div#screen
             button#new(onclick="new_play()") Play
             button#new(onclick="new_learn_()") Learn

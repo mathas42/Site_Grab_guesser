@@ -63,7 +63,8 @@ router.post('/login', (req, res)=>{
                 if (!response) {
                     return res.status(401).send('Email or password incorrect');
                 }
-
+                req.session.userId = user.id;
+                req.session.nickname = user.nickname;
                 return res.redirect('/index');
             });
         }
