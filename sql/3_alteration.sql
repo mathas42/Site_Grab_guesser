@@ -302,3 +302,8 @@ WHERE nom IN (
     'Hakka Pork Nasi Lemak',
     'Oriental Egg Tart (6pc)'
 );
+
+ALTER TABLE users
+ADD COLUMN best_score DECIMAL(10,2) NOT NULL DEFAULT 0;
+ALTER TABLE users
+ADD COLUMN best_hard_score DECIMAL(10,2) NOT NULL DEFAULT 0;

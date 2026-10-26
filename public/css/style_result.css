@@ -48,3 +48,63 @@
     justify-content: center;
     margin: 20px 0;
 }
+
+.scoreboard {
+    width: 100%;
+    max-width: 700px;
+    margin: 25px auto;
+    border-collapse: collapse;
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.scoreboard th,
+.scoreboard td {
+    padding: 14px;
+    text-align: center;
+    border-bottom: 1px solid #ddd;
+}
+
+.scoreboard th {
+    background: #36ed67;
+    color: white;
+}
+
+.scoreboard tbody tr:nth-child(even) {
+    background: #f3e8ff;
+}
+
+.scoreboard tbody tr:hover {
+    background: #e9d5ff;
+}
+
+.scoreboard2 {
+    width: 100%;
+    max-width: 700px;
+    margin: 25px auto;
+    border-collapse: collapse;
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.scoreboard2 th,
+.scoreboard2 td {
+    padding: 14px;
+    text-align: center;
+    border-bottom: 1px solid #ddd;
+}
+
+.scoreboard2 th {
+    background: #ce2ef1;
+    color: white;
+}
+
+.scoreboard2 tbody tr:nth-child(even) {
+    background: #f3e8ff;
+}
+
+.scoreboard2 tbody tr:hover {
+    background: #e9d5ff;
+}

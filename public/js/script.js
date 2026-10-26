@@ -569,6 +569,26 @@ function temperature() {
     });
 }
 
+function sauvegarderScore(score, hard) {
+    const url = hard
+        ? "/api/fin-partie-hard"
+        : "/api/fin-partie";
+
+    return fetch(url, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ score: Number(score) })
+    }).then(response => {
+        if (!response.ok) {
+            throw new Error("Erreur lors de la sauvegarde du score");
+        }
+
+        return response.json();
+    });
+}
+
 // bouttons -- / - / + / ++ that modify the value of the bar
 function modify(nombre) {
     let barre = document.getElementById("reponse");
@@ -638,7 +658,10 @@ function next() {
                 if (data.round > 7) {
                 sessionStorage.setItem("terminee", "true");
                 sessionStorage.removeItem("next");
-                window.location.replace("/result");
+                sauvegarderScore(Number(data.score)/1.4, data.hard == 1).then(() => {
+                window.location.href = "/result";
+                })
+                .catch(err => console.error(err));
             }
 
             // else, we autorize to pass to the next round
@@ -650,7 +673,10 @@ function next() {
             if (data.round > 5) {
                 sessionStorage.setItem("terminee", "true");
                 sessionStorage.removeItem("next");
-                window.location.replace("/result");
+                sauvegarderScore(Number(data.score), data.hard == 1).then(() => {
+                window.location.href = "/result";
+                })
+                .catch(err => console.error(err));
             }
             // else, continue to the next round
             else {

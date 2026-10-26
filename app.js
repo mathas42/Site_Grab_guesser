@@ -45,12 +45,25 @@ app.get("/", (req, res) => {
 });
 
 app.get("/index", (req, res) => {
+
+    // Vérifie que le joueur est connecté
+    if (!req.session.userId) {
+        return res.redirect("/login");
+    }
+
     res.render("index");
 });
 
 
 // learn page
 app.get("/learn", (req, res) => {
+
+    // Vérifie que le joueur est connecté
+    if (!req.session.userId) {
+        return res.redirect("/login");
+    }
+
+
     res.render("learn");
 });
 
@@ -61,6 +74,12 @@ app.get("/login", (req, res) => {
 
 // Game page
 app.get("/jeu", (req, res) => {
+
+        // Vérifie que le joueur est connecté
+    if (!req.session.userId) {
+        return res.redirect("/login");
+    }
+
     res.render("jeu");
 });
 
@@ -69,8 +88,38 @@ app.use("/", require("./routes/login"));
 
 // Result page
 app.get("/result", (req, res) => {
-    res.render("result");
+
+    // Vérifie que le joueur est connecté
+    if (!req.session.userId) {
+        return res.redirect("/login");
+    }
+
+    db.query(
+        `SELECT nickname, best_score, best_hard_score
+         FROM users`,
+        (error, results) => {
+            if (error) {
+                console.error(error);
+                return res.status(500).send("Database error");
+            }
+
+            const classement = [...results].sort(
+                (a, b) => b.best_score - a.best_score
+            );
+
+            const classementHard = [...results].sort(
+                (a, b) => b.best_hard_score - a.best_hard_score
+            );
+
+            res.render("result", {
+                scoreboard: classement,
+                scoreboard2: classementHard,
+                nickname: req.session.nickname
+            });
+        }
+    );
 });
+
 
 app.get("/api/produits", (req, res) => {
     db.query(
@@ -485,6 +534,87 @@ app.post("/api/learn", (req, res) => {
     );
 });
 
+app.post("/api/fin-partie", (req, res) => {
+
+    // Vérifie que le joueur est connecté
+    if (!req.session.userId) {
+        return res.status(401).json({
+            message: "You must be logged in"
+        });
+    }
+
+    const userId = req.session.userId;
+    const { score } = req.body;
+
+    // Vérifie que le score est valide
+    if (typeof score !== "number" || !Number.isFinite(score)) {
+        return res.status(400).json({
+            message: "Invalid score"
+        });
+    }
+
+    // Enregistre uniquement le meilleur score
+        db.query(
+        `UPDATE users
+         SET best_score = GREATEST(best_score, ?)
+         WHERE id = ?`,
+        [score, userId],
+        (error) => {
+
+            if (error) {
+                console.error(error);
+
+                return res.status(500).json({
+                    message: "Database error"
+                });
+            }
+
+            return res.json({
+                message: "Score saved"
+            });
+        });
+});
+
+app.post("/api/fin-partie-hard", (req, res) => {
+
+    // Vérifie que le joueur est connecté
+    if (!req.session.userId) {
+        return res.status(401).json({
+            message: "You must be logged in"
+        });
+    }
+
+    const userId = req.session.userId;
+    const { score } = req.body;
+
+    // Vérifie que le score est valide
+    if (typeof score !== "number" || !Number.isFinite(score)) {
+        return res.status(400).json({
+            message: "Invalid score"
+        });
+    }
+
+    // Enregistre uniquement le meilleur score
+        db.query(
+    `UPDATE users
+     SET best_hard_score = CASE
+         WHEN best_hard_score IS NULL THEN ?
+         ELSE GREATEST(best_hard_score, ?)
+     END
+     WHERE id = ?`,
+    [score, score, userId],
+    (error) => {
+        if (error) {
+            console.error(error);
+            return res.status(500).json({
+                message: "Database error"
+            });
+        }
+
+        res.json({ message: "Score saved" });
+    }
+);
+});
 
 
 app.listen(PORT, () => {
