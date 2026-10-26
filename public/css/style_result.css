@@ -1,3 +1,18 @@
+:root {
+    --green: #00a651;
+    --dark-green: #007a3d;
+    --yellow: #d0cb47;
+    --accent: #ffb703;
+    --background: #f7faf4;
+    --card: #ffffff;
+    --text: #1f2a24;
+    --soft-text: #5b6b62;
+    --less: #3b82f6;
+    --more: #e5484d;
+    --radius: 16px;
+    --shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+}
+
 .round {
     display: flex;
     align-items: center;
@@ -49,6 +64,8 @@
     margin: 20px 0;
 }
 
+/*Scorrboard*/
+
 .scoreboard {
     width: 100%;
     max-width: 700px;
@@ -67,9 +84,13 @@
 }
 
 .scoreboard th {
-    background: #36ed67;
+    background: var(--dark-green);
     color: white;
 }
+.scoreboard thead:hover {
+    background: var(--green);;
+}
+
 
 .scoreboard tbody tr:nth-child(even) {
     background: #f3e8ff;
@@ -107,4 +128,30 @@
 
 .scoreboard2 tbody tr:hover {
     background: #e9d5ff;
+}
+
+#game_user{
+    font-size: 25px;
+    font-weight: bold;
+    color: green ;
+    text-align: center;
+}
+
+#display_score {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;             
+    justify-content: center;     
+    align-items: flex-start;
+    gap: 30px;
+    padding: 0 20px;
+}
+
+.title_score {
+    display: flex;
+    flex-direction: column;
+    flex: 1 1 340px;            
+    max-width: 600px;
+    margin: 20px 0;
+    text-align: center;
 }
