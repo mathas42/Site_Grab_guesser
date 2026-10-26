@@ -18,50 +18,7 @@ html(lang="fr")
         div#historical
         br
         div#home
-            button#new(type="button",onclick="window.location.href='/index'") Home
+            button#new(type="button",onclick="window.location.href='/hall_of_fame'") Next
 
-
-        script(src="/js/script.js")
-        script(src="/js/result_script.js")
-
-        h1 Scoreboard
-
-        p Welcome  #{nickname} !
-
-        p Normal mode
-
-        table.scoreboard
-            thead
-                tr
-                    th Rank
-                    th Player
-                    th Best score
-            tbody
-                each player, index in scoreboard
-                    tr
-                        td= index + 1
-                        td= player.nickname
-                        td= Number(player.best_score).toFixed(2) + " points"
-
-                if scoreboard.length === 0
-                    tr
-                        td(colspan="3") No score in the scoreboard.
-
-        p Hard mode
-
-        table.scoreboard2
-            thead
-                tr
-                    th Rank
-                    th Player
-                    th Best Hard score
-            tbody
-                each player, index in scoreboard2
-                    tr
-                        td= index + 1
-                        td= player.nickname
-                        td= Number(player.best_hard_score).toFixed(2) + " points"
-
-                if scoreboard2.length === 0
-                    tr
-                        td(colspan="3") No score in the scoreboard.
+    script(src="/js/script.js")
+    script(src="/js/result_script.js")

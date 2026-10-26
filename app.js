@@ -616,6 +616,48 @@ app.post("/api/fin-partie-hard", (req, res) => {
 );
 });
 
+app.get("/hall_of_fame", (req, res) => {
+
+    // Vérifie que le joueur est connecté
+    if (!req.session.userId) {
+        return res.redirect("/login");
+    }
+
+    db.query(
+        `SELECT nickname, best_score
+         FROM users
+         WHERE best_score IS NOT NULL
+         ORDER BY best_score DESC
+         LIMIT 10`,
+        (err, scoreboard) => {
+            if (err) {
+                console.error(err);
+                return res.status(500).send("Database error");
+            }
+
+            db.query(
+                `SELECT nickname, best_hard_score
+                 FROM users
+                 WHERE best_hard_score IS NOT NULL
+                 ORDER BY best_hard_score DESC
+                 LIMIT 10`,
+                (err2, scoreboard2) => {
+                    if (err2) {
+                        console.error(err2);
+                        return res.status(500).send("Database error");
+                    }
+
+                    res.render("hall_of_fame", {
+                        nickname: req.session.nickname,
+                        scoreboard: scoreboard,
+                        scoreboard2: scoreboard2
+                    });
+                }
+            );
+        }
+    );
+});
+
 
 app.listen(PORT, () => {
     console.log(`Serveur lancé sur http://localhost:${PORT}`);
