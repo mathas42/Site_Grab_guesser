@@ -71,6 +71,21 @@ router.post('/login', (req, res)=>{
     });
 });
 
+router.post('/logout', (req, res) =>{
+    if(req.session){
+        req.session.destroy((err=>{
+            if(err){
+                return res.status(500).send("Log-off error")
+            }
+            res.clearCookie('connect.sid');
+            res.redirect('/');
+        }))
+    }
+    else{
+        res.redirect('/');
+    }
+})
+
 
 
 module.exports = router;

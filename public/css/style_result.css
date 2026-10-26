@@ -130,6 +130,13 @@
     background: #e9d5ff;
 }
 
+#Table{
+    display: flex;
+    text-align: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
 #game_user{
     font-size: 25px;
     font-weight: bold;

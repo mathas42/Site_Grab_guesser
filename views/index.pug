@@ -21,6 +21,8 @@ html(lang="en")
                 button#new(type="submit") Log-out
         div#screen 
             button#new2(onclick="new_hard()") Hard Mode
+            form(action="/logout", method="post", style="display:contents")
+                button#new3(type="submit") Log-out
 
         img(src="/images/icons/chinese-food-svgrepo-com.svg", alt="Chinese food").icon
         img(src="/images/icons/food-pack-box-with-handle-svgrepo-com.svg", alt="Food pack").icon
