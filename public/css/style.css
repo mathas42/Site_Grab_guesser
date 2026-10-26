@@ -75,7 +75,7 @@ button{
 }
 
 
-#new, #new2 {
+#new, #new2, #new3 {
     width: 300px;
     height: 70px;
     border-radius: 15px;
@@ -89,7 +89,11 @@ button{
     background-color: rgba(186, 47, 255, 0.8);
 }
 
-#new:hover, #new2:hover {
+#new3 {
+    background-color: rgba(52, 48, 54, 0.8);
+}
+
+#new:hover, #new2:hover, #new3:hover {
     box-shadow: rgb(0, 151, 13) 0px 0px 10px;
     transform: rotate3d(-0.5,1,0.05,20deg) scale(1.05);
     background-color: var(--dark-green);
@@ -97,6 +101,10 @@ button{
 
 #new2:hover {
     background-color: rgb(255, 47, 252);
+}
+
+#new3:hover {
+    background-color: rgb(101, 100, 101);
 }
 
 #screen{
