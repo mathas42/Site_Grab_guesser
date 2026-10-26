@@ -818,4 +818,3 @@ function secret_mode() {
         body.classList.remove("secret_mode");
     }, { once: true });
 }
-
