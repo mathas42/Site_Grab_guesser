@@ -108,3 +108,10 @@
 .scoreboard2 tbody tr:hover {
     background: #e9d5ff;
 }
+
+#Table{
+    display: flex;
+    text-align: center;
+    justify-content: center;
+    flex-direction: column;
+}
