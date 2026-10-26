@@ -46,14 +46,11 @@ button{
      transform: scale(1.05);
 }
 
-
 #reponse{
-    width: 500px;
-    height: 30px;
     accent-color: var(--green);
 }
 
-#barre{
+#barre, #reponse{
     width: 500px;
     height: 30px;
 }
@@ -100,27 +97,16 @@ button{
 }
 
 #screen{
-    display: flex;
-    justify-content: center; 
     align-items: center;   
     margin: 20px;
     gap:20px;
-}
-
-#title_div{
-    display: flex;
-    justify-content: center; 
-    align-items: center;     
 }
 
 #welcome{
     text-align: center;
 }
 
-#info{
-    display: flex;
-    justify-content: center; 
-    align-items: center;   
+#info{ 
     margin: 20px;
     background-color: var(--dark-green);
     gap:20px;
@@ -131,14 +117,11 @@ button{
     color:aliceblue;
 }
 
-#list{
-    display: flex;
-    justify-content: center; 
-    align-items: center;   
+#list{  
     margin: 20px;
 }
 
-#rep, #valid, #val, #annonce222, #secret, #secret2, #reveal, #reveal2, #reveal3, #reveal4, #reveal5{
+.flex-center, #annonce222{
     display: flex;
     justify-content: center; 
     align-items: center;   
@@ -525,7 +508,6 @@ body.secret_mode {
   text-align: center;
 }
 
-/*footer styles */
 footer {
     position: fixed;
     bottom: 0;
@@ -535,7 +517,6 @@ footer {
 }
 
 /*Responsive styles */
-/*Entry game*/
 @media (max-width: 768px) {
     #title{
         font-size: 60px;

@@ -9,9 +9,9 @@ html(lang="en")
         title Grab Food Guesser
 
     body#index
-        div#title_div
+        div#title_div.flex-center
             h1#title Grab Food Guesser !
-        div#screen
+        div#screen.flex-center
             button#new(type="button",onclick="window.location.href='/login'") Login
             button#new(type="button",onclick="window.location.href='/register'") Register
             form(action="/logout", method="post", style="display:contents")

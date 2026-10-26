@@ -9,17 +9,17 @@ html(lang="en")
         title Grab Food Guesser
 
     body#index
-        div#title_div
+        div#title_div.flex-center
             h1#title Grab Food Guesser !
         if user
             h2#welcome Welcome #{user.nickname} ! 
         
-        div#screen
+        div#screen.flex-center
             button#new(onclick="new_play()") Play
             button#new(onclick="new_learn_()") Learn
             form(action="/logout", method="post", style="display:contents")
                 button#new(type="submit") Log-out
-        div#screen 
+        div#screen.flex-center
             button#new2(onclick="new_hard()") Hard Mode
 
         img(src="/images/icons/chinese-food-svgrepo-com.svg", alt="Chinese food").icon

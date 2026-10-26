@@ -7,19 +7,19 @@ html(lang="fr")
         title Jeu
 
     body
-        div#info
+        div#info.flex-center
             h2 Score : 
                 span#score 0
             h2 Round : 
                 span#round 1/5
 
-        div#list
+        div#list.flex-center
             #products-list
         
-        div#val
+        div#val.flex-center
             span#value 20.00 RM 4.30 Euro
 
-        div#rep
+        div#rep.flex-center
             div.annonce Your guess :
             button#lesslessless(onpointerdown="startModify(-1)" onpointerup="stopModify()" onpointerleave="stopModify()" onpointercancel="stopModify()") -1
             button#lessless(onpointerdown="startModify(-0.1)" onpointerup="stopModify()" onpointerleave="stopModify()" onpointercancel="stopModify()") -0.1
@@ -28,23 +28,23 @@ html(lang="fr")
             button#more(onpointerdown="startModify(0.01)" onpointerup="stopModify()" onpointerleave="stopModify()" onpointercancel="stopModify()") +0.01
             button#moremore(onpointerdown="startModify(0.1)" onpointerup="stopModify()" onpointerleave="stopModify()" onpointercancel="stopModify()") +0.1
             button#moremoremore(onpointerdown="startModify(1)" onpointerup="stopModify()" onpointerleave="stopModify()" onpointercancel="stopModify()") +1
-        div#reveal2
+        div#reveal2.flex-center
             div.annonce222
-        div#reveal
+        div#reveal.flex-center
             p.annonce22
             div.annonce2
         fieldset#sec
             legend Hint
             div
-                div#secret
+                div#secret.flex-center
                     button#hint(onclick="hint()" data-info="Informe you if the price is more or less of your guess") More or Less : 2
                     p.hint1
 
-                div#secret2
+                div#secret2.flex-center
                     button#temperature(onclick="temperature()"  data-info="Informe you if your guess is near (hot) or far (cold) from the price") Temperature : 2
                     p.hint2
 
-        div#valid
+        div#valid.flex-center
             button#valider(onclick="valider()") Validate
 
         div.modal#modal
@@ -54,11 +54,11 @@ html(lang="fr")
 
         script(src="/js/script.js")
         
-        div#reveal3
+        div#reveal3.flex-center
             p.annonce3
 
-        div#reveal4
+        div#reveal4.flex-center
             p.annonce4
 
-        div#reveal5
+        div#reveal5.flex-center
             .following
