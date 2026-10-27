@@ -133,7 +133,7 @@ SET description = CASE
     WHEN nom = 'White Rice'
     THEN 'White rice is a staple food across much of Asia, including Malaysia, China, Japan and Southeast Asia. The grains are milled to remove the bran and germ, producing a softer texture and milder flavor. It is served alongside curries, grilled meats, soups and countless everyday dishes.'
 
-    WHEN nom = 'Aesorted Pork Wontons (12pc)'
+    WHEN nom = 'Assorted Pork Wontons (12pc)'
     THEN 'Wontons are traditional Chinese dumplings made with thin wrappers around a savory filling. Pork is a common ingredient, and wontons can be boiled, served in soup or prepared with sauces. Their many regional variations reflect the diversity of Chinese dumpling culture.'
 
     WHEN nom = 'Salted Egg Yolk & Pork Shumai'
