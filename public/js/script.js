@@ -335,6 +335,8 @@ function valider() {
         barre.style.pointerEvents = "none";
         barre.tabIndex = -1;
 
+        document.querySelector(".annonce").innerHTML="Your guess:"
+
         // create a button to go to the next round
         let bouton = document.createElement("button");
         bouton.textContent = "Next";

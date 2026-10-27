@@ -230,7 +230,6 @@ button {
     margin: 10px auto;
     padding: 20px;
     background-color: rgb(108, 244, 103);
-    border: 2px solid black;
     border-radius: 5px;
 }
 
@@ -240,7 +239,7 @@ button {
     text-align: center;
 }
 
-/* les deux blocs d'indices, centrés dans le cadre */
+
 #sec > div {
     display: flex;
     flex-direction: row;
@@ -250,7 +249,7 @@ button {
     gap: 60px;
 }
 
-/* chaque bloc : le bouton au-dessus, son indice en dessous */
+
 #secret, #secret2 {
     flex-direction: column;
     gap: 8px;
@@ -258,7 +257,7 @@ button {
 
 .hint1, .hint2 {
     margin: 0;
-    min-height: 1.5em;       /* réserve la place : plus de saut quand l'indice apparaît */
+    min-height: 1.5em;       
     text-align: center;
     font-weight: 600;
 }
@@ -268,7 +267,7 @@ button {
 }
 
 #hint, #temperature {
-    position: relative;      /* nécessaire pour l'info-bulle */
+    position: relative;      
     width: 180px;
     height: 30px;
     border-radius: 5px;
@@ -276,16 +275,23 @@ button {
 
 }
 
-#hint::after {
+
+#hint { 
+    background-color: rgb(220, 34, 253); 
 }
 
-#hint { background-color: rgb(220, 34, 253); }
-#hint:hover { background-color: rgb(255, 42, 230); }
+#hint:hover { 
+    background-color: rgb(255, 42, 230); }
 
-#temperature { background-color: rgb(253, 129, 34); }
-#temperature:hover { background-color: rgb(255, 209, 42); }
+#temperature { 
+    background-color: rgb(253, 129, 34); 
+}
 
-/* info-bulle au-dessus du bouton */
+#temperature:hover { 
+    background-color: rgb(255, 209, 42); 
+}
+
+
 #hint::after, #temperature::after {
     content: attr(data-info);
     position: absolute;
@@ -309,6 +315,10 @@ button {
     opacity: 1;
 }
 
+#temperature:hover::after {
+    opacity: 1;
+}
+
 #valider, #valider-small, #valider-white {
     width: 250px;
     height: 60px;
@@ -321,7 +331,6 @@ button {
 #valider-small {
     width: 120px;
     height: 40px;
-    font-size: 20px;
 }
 
 #valider-white{
@@ -336,52 +345,8 @@ button {
     transition: all 0.1s ease;
 }
 
-.hint1 p, .hint2 p{
-    font-size: 20px;
-}
-
-#temperature {
-    width: 180px;
-    background-color: rgb(253, 129, 34);
-    height: 30px;
-    font-size: 20px;
-    border: 2 solid black ;
-    border-radius: 5px;
-    position:relative;
-    transition: box-shadow 0.5s ease;
-    transition: transform 0.2s ease;
-}
-
-#temperature::after {
-    content: attr(data-info);
-    position: absolute;
-    bottom: 120%;
-    left: 50%;
-    transform: translateX(-50%);
-    background: black;
-    color: white;
-    padding: 8px 12px;
-    border-radius: 5px;
-    white-space: nowrap;
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.2s;
-}
-#temperature:hover{
-
-    background-color: rgb(255, 209, 42);
-    box-shadow: rgb(0, 151, 13) 0px 0px 10px;
-    transform: rotate3d(-0.5,1,0.05,20deg) scale(1.05);
-}
-
-#temperature:hover::after {
-    opacity: 1;
-}
-
 #more, #moremore, #moremoremore{
     background-color: var(--more);
-    font-size: 20px;
-    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
     color: #FFF;
     width: 55px;
     height: 25px;
@@ -394,8 +359,6 @@ button {
 
 #less, #lessless, #lesslessless {
     background-color: rgb(77, 142, 255);
-    font-size: 20px;
-    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
     width: 50px;
     height: 25px;
     align-items: center;
