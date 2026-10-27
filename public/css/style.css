@@ -21,8 +21,8 @@ html, main{
 body {
     margin: 0;
     font-family: "Poppins", system-ui, sans-serif;
-    color: var(--texte);
-    background: var(--fond);
+    color: var(--text);
+    background: var(--background);
 }
 
 button{
@@ -239,7 +239,7 @@ button{
 }
 
 
-#valider {
+#valider, #valider-small {
     width: 300px;
     height: 70px;
     background-color: var(--green-grab);
@@ -256,6 +256,12 @@ button{
     background-color: rgb(238, 255, 47);
     box-shadow: rgb(0, 151, 13) 0px 0px 10px;
     transform: rotate3d(-0.5,1,0.05,20deg) scale(1.05);
+}
+
+#valider-small{
+    width: 120px;
+    height: 40px;
+    font-size: 20px;
 }
 
 .hint1 p, .hint2 p{
@@ -462,7 +468,7 @@ body.secret_mode {
 .wrapper {
   position: fixed;
   inset: 0;
-  background-color: green;
+  background-color: var(--green-grab);
   z-index: -1;
   overflow: hidden;
 }
@@ -510,12 +516,40 @@ body.secret_mode {
 #login {
   position: relative;
   z-index: 1;
-  max-width: 320px;
+  max-width: 420px;
   margin: 20vh auto 0;
   padding: 20px;
   background: rgba(255, 255, 255, 0.9);
   border-radius: 8px;
   text-align: center;
+}
+
+#login > form > div{
+    height: 40px;
+    font-size: 20px;
+}
+
+#login label{
+    display: inline-block;
+    width: 90px;
+    text-align: right;
+}
+
+.form-text{
+    border: 1px rgb(30, 134, 30) solid;
+    border-radius: 3px;
+    padding: 2px;
+    margin: 3px;
+    height:25px;
+    width: 250px;
+    font-size: inherit;
+}
+
+.form-text:focus{
+    border-color: var(--green-grab);
+    box-shadow: 0 0 5px 2px var(--green-grab);
+    outline: none;
+    transition: box-shadow 0.2s ease-out;
 }
 
 footer {
