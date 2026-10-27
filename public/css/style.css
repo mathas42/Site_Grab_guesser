@@ -39,8 +39,7 @@ button{
 .produit img {
     width: auto;
     height: 370px;
-    transition: box-shadow 0.5s ease;
-    transition: transform 0.2s ease;
+    transition: box-shadow 0.5s ease, transform 0.2s ease;
 }
 
 .produit img:hover {
@@ -205,8 +204,7 @@ button{
     font-size: 20px;
     border: 2 solid black ;
     border-radius: 5px;
-    transition: box-shadow 0.5s ease;
-    transition: transform 0.2s ease;
+    transition: box-shadow 0.5s ease, transform 0.2s ease;
 
 }
 
@@ -239,7 +237,7 @@ button{
 }
 
 
-#valider, #valider-small {
+#valider, #valider-small, #valider-white {
     width: 300px;
     height: 70px;
     background-color: var(--green-grab);
@@ -262,6 +260,18 @@ button{
     width: 120px;
     height: 40px;
     font-size: 20px;
+}
+
+#valider-white{
+    color: black;
+    background-color: var(--background);
+    transition: all 0.1s ease;
+}
+
+#valider-white:hover{
+    box-shadow: 5px 5px 10px 1px;
+    transform: scale(1.02);
+    transition: all 0.1s ease;
 }
 
 .hint1 p, .hint2 p{
@@ -561,6 +571,22 @@ footer {
 }
 
 /*Responsive styles */
+@media (max-width:1024px) {
+    #screen {
+        flex-direction: column;
+        gap: 50px;
+        padding-top: 10%;
+        padding-bottom: 10%;
+    }
+
+    #new {
+        width: 400px;
+        font-size: 90px;
+        height: 100px;
+        font-size: 70px;
+    }
+}
+
 @media (max-width: 768px) {
     #title{
         font-size: 60px;
@@ -605,20 +631,4 @@ footer {
         #screen{
             padding-top: 50px;
         }
-}
-
-@media (max-width:1024px) {
-    #screen{
-        flex-direction: column;
-        gap: 50px;
-        padding-top: 10%;
-        padding-bottom: 10%;
-    }
-
-    #new {
-        width: 400px;
-        font-size: 90px;
-        height: 100px;
-        font-size: 70px;
-    }
 }
