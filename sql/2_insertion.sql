@@ -280,7 +280,7 @@ VALUES
     '/images/White_Rice.jpg'
 ),
 (
-    'Aesorted Pork Wontons (12pc)',
+    'Assorted Pork Wontons (12pc)',
     'Yuen Kee Dumpling - Sri Petaling [Non-Halal]',
     24.90,
     '/images/Aesorted_Pork_Wontons.jpg'
