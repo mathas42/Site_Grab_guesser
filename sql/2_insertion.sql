@@ -535,4 +535,79 @@ VALUES
     '/images/Oriental_Egg_Tart_6pc.jpg'
 );
 
+INSERT INTO produit (nom, nom_restaurant, prix, image)
+VALUES
+(
+    'ZUS Signature Curry Puff',
+    'ZUS Coffee DT - Wisma Standard Chartered',
+    4.62,
+    '/images/ZUS_Signature_Curry_Puff.jpg'
+),
+(
+    'Hot CEO Latte',
+    'ZUS Coffee DT - Wisma Standard Chartered',
+    10.28,
+    '/images/Hot_CEO_Latte.jpg'
+),
+(
+    'Siew Yuk Char Siew Rice',
+    'Chicken Rice - Restoran Damai Utama [Non-Halal]',
+    18.90,
+    '/images/Siew_Yuk_Char_Siew_Rice.jpg'
+),
+(
+    'KCH Banana Chips',
+    'Kanna Curry House - Jalan Gasing',
+    12.21,
+    '/images/KCH_Banana_Chips.jpg'
+),
+(
+    'Homemade Coconut Candy',
+    'Kanna Curry House - Jalan Gasing',
+    9.90,
+    '/images/Homemade_Coconut_Candy.jpg'
+),
+(
+    'Crunchy Roast Chicken Wings (6pc)',
+    'Byrd Box Fried Chicken Rice Bowl - Jalan Raja Chulan',
+    27.29,
+    '/images/Crunchy_Roast_Chicken_Wings_6pc.jpg'
+),
+(
+    'Frozen Durian',
+    'Durian QQ (Food) - Jalan Imbi',
+    36.90,
+    '/images/Frozen_Durian.jpg'
+),
+(
+    'Durian Mochi',
+    '[D3] Durian - Bukit Jalil',
+    15.00,
+    '/images/Durian_Mochi.jpg'
+),
+(
+    'Mixed Grapes (300g)',
+    'Fresh Fruit & Desserts - Taman Bukit Serdang',
+    18.00,
+    '/images/Mixed_Grapes_300g.jpg'
+),
+(
+    'Maklouba Chicken',
+    'Damascus Restoran - Bukit Bintang',
+    27.90,
+    '/images/Maklouba_Chicken.jpg'
+),
+(
+    'Whole Wheat Bread with Fried Chicken',
+    'Man Shi Guang - Bukit Jalil [Non-Halal]',
+    21.20,
+    '/images/Whole_Wheat_Bread_with_Fried_Chicken.jpg'
+),
+(
+    'Spring Roll',
+    'Connaught Vietnam Kitchen - Taman Connaught [Non-Halal]',
+    12.90,
+    '/images/Spring_Roll.jpg'
+);
+
 
