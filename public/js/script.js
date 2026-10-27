@@ -221,7 +221,6 @@ function begin() {
 
                 </div>
             `;
-
             document.querySelector(".produit img").addEventListener("click", () => {openPopup(produit);});
 
             // récupère la barre de réponse
@@ -506,7 +505,6 @@ function hint() {
                 "More or Less : " + data.hint_count;
         }
         let div = document.getElementById("secret");
-        div.style.height = "35px";
     });
 }
 
@@ -565,7 +563,6 @@ function temperature() {
                 "Temperature : " + data.temp_count;
         }
         let div2 = document.getElementById("secret2");
-        div2.style.height = "35px";
     });
 }
 

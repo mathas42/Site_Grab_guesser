@@ -381,13 +381,18 @@ app.post("/api/verifier", (req, res) => {
                     }
                     }
 
-                    // Ajoute les points et passe à la manche suivante
-                    db.query(
-                        `UPDATE partie
-                         SET score = score + ?,
-                             round = round + 1
-                         WHERE id = ?`,
-                        [points, partieId],
+                    // Remet les indices à leur valeur de départ pour la manche suivante
+                const hintsPerRound = Number(parties[0].hard) === 1 ? 1 : 2;
+
+                        // Ajoute les points et passe à la manche suivante
+                        db.query(
+                            `UPDATE partie
+                            SET score = score + ?,
+                            round = round + 1,
+                            hint_count = ?,
+                            temp_count = ?
+                            WHERE id = ?`,
+                        [points, hintsPerRound, hintsPerRound, partieId],
                         (err, result) => {
 
                             if (err) {

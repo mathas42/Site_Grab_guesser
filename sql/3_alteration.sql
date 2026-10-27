@@ -133,7 +133,7 @@ SET description = CASE
     WHEN nom = 'White Rice'
     THEN 'White rice is a staple food across much of Asia, including Malaysia, China, Japan and Southeast Asia. The grains are milled to remove the bran and germ, producing a softer texture and milder flavor. It is served alongside curries, grilled meats, soups and countless everyday dishes.'
 
-    WHEN nom = 'Aesorted Pork Wontons (12pc)'
+    WHEN nom = 'Assorted Pork Wontons (12pc)'
     THEN 'Wontons are traditional Chinese dumplings made with thin wrappers around a savory filling. Pork is a common ingredient, and wontons can be boiled, served in soup or prepared with sauces. Their many regional variations reflect the diversity of Chinese dumpling culture.'
 
     WHEN nom = 'Salted Egg Yolk & Pork Shumai'
@@ -302,6 +302,67 @@ WHERE nom IN (
     'Hakka Pork Nasi Lemak',
     'Oriental Egg Tart (6pc)'
 );
+
+
+SET SQL_SAFE_UPDATES = 0;
+
+UPDATE produit
+SET description = CASE
+
+    WHEN nom = 'ZUS Signature Curry Puff'
+    THEN 'A Malaysian-style curry puff with a crisp, golden pastry shell and a savory filling seasoned with aromatic curry spices. It is a popular snack enjoyed with coffee or tea.'
+
+    WHEN nom = 'Hot CEO Latte'
+    THEN 'A hot espresso-based latte combining rich coffee flavors with smooth steamed milk. It is a comforting coffee drink suitable for enjoying at any time of the day.'
+
+    WHEN nom = 'Siew Yuk Char Siew Rice'
+    THEN 'A rice dish combining siew yuk, or crispy roasted pork belly, with char siew, a Chinese-style barbecued pork known for its sweet and savory glaze. It brings together two popular Cantonese roasted meat preparations.'
+
+    WHEN nom = 'KCH Banana Chips'
+    THEN 'Thin slices of banana fried until crisp, creating a crunchy snack with a naturally sweet flavor. Banana chips are commonly enjoyed as a snack in Malaysia and across South and Southeast Asia.'
+
+    WHEN nom = 'Homemade Coconut Candy'
+    THEN 'A traditional-style sweet made with coconut and sugar, offering a rich coconut aroma and a chewy texture. Coconut candy is a popular confection in many Southeast Asian food traditions.'
+
+    WHEN nom = 'Crunchy Roast Chicken Wings (6pc)'
+    THEN 'Six chicken wings roasted or cooked until the outside becomes crunchy while the meat remains juicy. They make a savory finger-food option that can be enjoyed as a snack or shared as a side dish.'
+
+    WHEN nom = 'Frozen Durian'
+    THEN 'Durian flesh preserved by freezing to retain its distinctive aroma and rich, creamy texture. Known as the king of fruits in Southeast Asia, durian has a strong fragrance and a sweet, custard-like flavor.'
+
+    WHEN nom = 'Durian Mochi'
+    THEN 'A soft, chewy Japanese-style mochi filled with durian-flavored filling. The delicate rice-based outer layer contrasts with the rich, creamy and distinctive taste of durian.'
+
+    WHEN nom = 'Mixed Grapes (300g)'
+    THEN 'A 300-gram serving of grapes, offering a refreshing combination of juicy texture and natural sweetness. Grapes are commonly enjoyed fresh as a snack or as part of a fruit selection.'
+
+    WHEN nom = 'Maklouba Chicken'
+    THEN 'A Middle Eastern rice dish traditionally prepared by layering rice, chicken and vegetables with aromatic spices before turning the pot upside down for serving. The name maklouba means upside down in Arabic.'
+
+    WHEN nom = 'Whole Wheat Bread with Fried Chicken'
+    THEN 'A sandwich-style meal combining whole wheat bread with fried chicken. The bread provides a hearty, slightly nutty flavor, while the chicken adds a crispy texture and savory taste.'
+
+    WHEN nom = 'Spring Roll'
+    THEN 'A popular Vietnamese-style snack made by wrapping a savory filling in a thin wrapper and cooking it until crisp. Spring rolls are often served as an appetizer or light snack.'
+
+    ELSE description
+
+END
+WHERE nom IN (
+    'ZUS Signature Curry Puff',
+    'Hot CEO Latte',
+    'Siew Yuk Char Siew Rice',
+    'KCH Banana Chips',
+    'Homemade Coconut Candy',
+    'Crunchy Roast Chicken Wings (6pc)',
+    'Frozen Durian',
+    'Durian Mochi',
+    'Mixed Grapes (300g)',
+    'Maklouba Chicken',
+    'Whole Wheat Bread with Fried Chicken',
+    'Spring Roll'
+);
+
 
 ALTER TABLE users
 MODIFY COLUMN best_score DECIMAL(10,2) NULL;
