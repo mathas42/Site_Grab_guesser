@@ -85,6 +85,13 @@ button {
     background-color: var(--dark-green);
 }
 
+.next-class:hover{
+    box-shadow: var(--glow);
+    transform: var(--tilt);
+    background-color: var(--dark-green);
+    transition: box-shadow 0.5s ease, transform 0.2s ease, background-color 0.2s ease;
+}
+
 #new2:hover {
     background-color: rgb(255, 47, 252);
 }
@@ -177,7 +184,7 @@ button {
 
 #more, #moremore, #moremoremore,
 #less, #lessless, #lesslessless {
-    min-width: 50px;
+    min-width: 60px;
     height: 25px;
     color: var(--card);
     padding-bottom: 30px;
@@ -296,7 +303,7 @@ button {
     opacity: 1;
 }
 
-#valider, #valider-small, #valider-white {
+#valider, #valider-small, #valider-white, .next-class {
     width: 250px;
     height: 60px;
     margin: 10px;
