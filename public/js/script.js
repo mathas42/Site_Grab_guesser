@@ -221,7 +221,6 @@ function begin() {
 
                 </div>
             `;
-
             document.querySelector(".produit img").addEventListener("click", () => {openPopup(produit);});
 
             // récupère la barre de réponse

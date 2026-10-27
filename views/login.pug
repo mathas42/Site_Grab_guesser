@@ -20,13 +20,14 @@ html(lang="en")
             div.bubble: img(src="/images/icons/chinese-food-svgrepo-com.svg", alt="Chinese food").icon
 
         div#login
-            h2 Login
+            h2 Log-in to your account
             form(action="/login", method="POST")
                 div
-                    label(for="email") E-mail:
-                    input(type="text", name="email", required)
+                    label(for="email") E-mail
+                    input.form-text#email(type="text", name="email", required)
                 div
-                    label(for="password") Password:
-                    input(type="password", name="password", required)
+                    label(for="password") Password
+                    input.form-text#password(type="password", name="password", required)
                 div
-                    button(type="submit") Login
+                    button#valider-small(type="submit") Login
+            p First time here? #[a(href="/register") Create an account]

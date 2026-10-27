@@ -7,28 +7,29 @@ html(lang="en")
         title Register
     body
         section.wrapper
-            div.bulle: img(src="/images/icons/chinese-food-svgrepo-com.svg", alt="Chinese food").icon
-            div.bulle: img(src="/images/icons/food-pack-box-with-handle-svgrepo-com.svg", alt="Food pack").icon
-            div.bulle: img(src="/images/icons/restaurant-paper-svgrepo-com.svg", alt="Restaurant paper").icon
-            div.bulle: img(src="/images/icons/chinese-food-svgrepo-com.svg", alt="Chinese food").icon
-            div.bulle: img(src="/images/icons/food-pack-box-with-handle-svgrepo-com.svg", alt="Food pack").icon
-            div.bulle: img(src="/images/icons/restaurant-paper-svgrepo-com.svg", alt="Restaurant paper").icon
-            div.bulle: img(src="/images/icons/chinese-food-svgrepo-com.svg", alt="Chinese food").icon
-            div.bulle: img(src="/images/icons/food-pack-box-with-handle-svgrepo-com.svg", alt="Food pack").icon
-            div.bulle: img(src="/images/icons/restaurant-paper-svgrepo-com.svg", alt="Restaurant paper").icon
-            div.bulle: img(src="/images/icons/chinese-food-svgrepo-com.svg", alt="Chinese food").icon
+            div.bubble: img(src="/images/icons/chinese-food-svgrepo-com.svg", alt="Chinese food").icon
+            div.bubble: img(src="/images/icons/food-pack-box-with-handle-svgrepo-com.svg", alt="Food pack").icon
+            div.bubble: img(src="/images/icons/restaurant-paper-svgrepo-com.svg", alt="Restaurant paper").icon
+            div.bubble: img(src="/images/icons/chinese-food-svgrepo-com.svg", alt="Chinese food").icon
+            div.bubble: img(src="/images/icons/food-pack-box-with-handle-svgrepo-com.svg", alt="Food pack").icon
+            div.bubble: img(src="/images/icons/restaurant-paper-svgrepo-com.svg", alt="Restaurant paper").icon
+            div.bubble: img(src="/images/icons/chinese-food-svgrepo-com.svg", alt="Chinese food").icon
+            div.bubble: img(src="/images/icons/food-pack-box-with-handle-svgrepo-com.svg", alt="Food pack").icon
+            div.bubble: img(src="/images/icons/restaurant-paper-svgrepo-com.svg", alt="Restaurant paper").icon
+            div.bubble: img(src="/images/icons/chinese-food-svgrepo-com.svg", alt="Chinese food").icon
 
         div#login
             h2 Register
             form(action="/register", method="POST")
                 div
-                    label(for="name") Name:
-                    input#name(type="text", name="name", required)
+                    label(for="name") Name 
+                    input#name.form-text(type="text", name="name", required)
                 div
-                    label(for="email") E-mail:
-                    input#email(type="email", name="email", required)
+                    label(for="email") E-mail 
+                    input#email.form-text(type="email", name="email", required)
                 div
-                    label(for="password") Password:
-                    input#password(type="password", name="password", required)
+                    label(for="password") Password 
+                    input#password.form-text(type="password", name="password", required)
                 div
-                    button(type="submit") Register
+                    button#valider-small(type="submit") Register
+            p Already a user? #[a(href="/login") Log-in]
