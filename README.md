@@ -42,6 +42,31 @@ Run the command with a project path.
 
 ---
 
+stateDiagram-v2
+[*] --> Idle
+Idle --> Running : Start
+Running --> Paused : Pause
+Running --> Finished : End
+Paused --> Running : Resume
+Paused --> Stopped : Stop
+Stopped --> Idle : Reset
+Finished --> Idle : Reset
+Finished --> [*]
+
+    state Running {
+        [*] --> Init
+        Init --> Processing
+        Processing --> Validate
+        Validate --> [*]
+    }
+
+````mermaid
+flowchart TD
+    A[Début] --> B{Choix}
+    B -->|Oui| C[Action 1]
+    B -->|Non| D[Action 2]
+    C --> E[Fin]
+    D --> E[Fin]
 ## How to Format Database Schemas in Markdown
 
 This section shows the markdown syntax patterns for documenting each type of schema information. Use these patterns consistently throughout your schema.md file for maximum readability.
@@ -61,7 +86,7 @@ CREATE TABLE users (
 );
 
 CREATE INDEX idx_users_email ON users(email) WHERE deleted_at IS NULL;
-```
+````
 
 ### Column Reference Tables
 
