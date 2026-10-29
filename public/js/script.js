@@ -143,6 +143,7 @@ async function begin() {
             // affiche le score venant de la BDD
             document.getElementById("score").textContent =
                 Math.round(Number(data.score) * 100) / 100;
+            SummaryPoint(); 
 
             if (data.hard == 1){
                 let haut = document.getElementById("info");
@@ -287,6 +288,7 @@ function valider() {
                 });
 
             localStorage.setItem("historique", JSON.stringify(historique));
+            SummaryPoint();
 
         if (points<=0){
             son.play();
@@ -374,7 +376,7 @@ function valider() {
         let annonce2 = document.createElement("p");
         annonce2.textContent =
             formatPrix(prix) + " RM " +
-            (Number(prix) / 4.65).toFixed(2) + " Euro";
+            EuroChange(prix).toFixed(2) + " Euro";
         document.querySelector(".annonce222").appendChild(annonce2);
 
         // display the gap bewteen the answer and the good
@@ -397,33 +399,37 @@ function valider() {
     });
 }
 
-function color(prix, reponse_joueur) {
+function color(price, player_answer) {
     const barre2 = document.getElementById("barre");
     const texte = document.getElementById("modal-text");
 
-    prix = Number(prix);
-    reponse_joueur = Number(reponse_joueur);
+    price = Number(price);
+    player_answer = Number(player_answer);
 
-    const diff = Math.round((reponse_joueur - prix) * 100) / 100;
-    const absDiff = Math.abs(diff);
+    const absDiff = Math.abs(player_answer - price);
+    const gap = absDiff / price * 100;
 
-
-    if (absDiff === 6.7 || absDiff === 0.67) {
+    if (Math.abs(gap - 6.7) < 0.01 ||
+        Math.abs(gap - 0.67) < 0.01) {
         barre2.style.accentColor = "gold";
-        secret_mode();       
+        secret_mode();
+        return;
     }
-    else if (diff < 0) {
-        barre2.style.accentColor = "blue";
-    }
-    else if (diff > 0) {
-        barre2.style.accentColor = "red";
-    }
-    else {
+    if (gap === 0) {
         barre2.style.accentColor = "green";
-        texte.textContent = "Congratulations, you have the right price !😎";
-        openModal(); 
+        texte.textContent =
+            "Congratulations, you have the right price! 😎";
+        openModal();
+        return;
     }
-            
+
+    //Blue to red ( far to near)
+    const t = Math.max(0, Math.min(1, (gap - 1) / 98));
+
+    const red = Math.round(229 + (59 - 229) * t); //red reference : rgb(229,72,77) nearest
+    const green = Math.round(72 + (130 - 72) * t);//blue reference : rgb(59, 130, 246) farest
+    const blue = Math.round(77 + (246 - 77) * t);
+    barre2.style.accentColor = `rgb(${red}, ${green}, ${blue})`;
 }
 
 
@@ -435,6 +441,13 @@ function closeModal() {
     document.getElementById("modal").classList.remove("open");
 }
 
+function SummaryPoint() {
+    const text = document.getElementById("summary");
+    if (!text) return;
+
+    const historique = JSON.parse(localStorage.getItem("historique")) || [];
+    text.textContent = historique.map(manche => manche.points).join(" / ");
+}
 
 // when the boutton "More" or "Less" is clicked
 function hint() {
