@@ -169,6 +169,10 @@ button {
     color: var(--card);
 }
 
+#summary {
+    text-align: left;
+}
+
 #list {
     margin: 20px;
 }
@@ -372,7 +376,7 @@ button {
 #moremoremore {
     background: linear-gradient(to bottom, #f4777b, #d94349);
     color: white;
-    width: 55px;
+    width: 58px;
     height: 35px;
     border-radius: 12px;
 }
