@@ -25,12 +25,15 @@ html(lang="fr")
                         tr
                             th Rank
                             th Player
+                            th Avatar
                             th Best score
                     tbody
                         each player, index in scoreboard
                             tr
                                 td= index + 1
                                 td= player.nickname
+                                td
+                                    img.scoreboard-avatar(src=player.avatar, alt="Avatar de " + player.nickname)
                                 td= Number(player.best_score).toFixed(2) + " points"
 
                         if scoreboard.length === 0
@@ -45,12 +48,15 @@ html(lang="fr")
                         tr
                             th Rank
                             th Player
+                            th Avatar
                             th Best Hard score
                     tbody
                         each player, index in scoreboard2
                             tr
                                 td= index + 1
                                 td= player.nickname
+                                td
+                                    img.scoreboard-avatar(src=player.avatar, alt="Avatar de " + player.nickname)
                                 td= Number(player.best_hard_score).toFixed(2) + " points"
 
                         if scoreboard2.length === 0
@@ -60,5 +66,6 @@ html(lang="fr")
         div#home
             button.next-class(type="button",onclick="window.location.href='/index'") Home
 
+        script(src="/js/script.js")
         script(src="/js/script.js")
         script(src="/js/result_script.js")

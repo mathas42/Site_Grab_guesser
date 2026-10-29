@@ -369,3 +369,6 @@ MODIFY COLUMN best_score DECIMAL(10,2) NULL;
 
 ALTER TABLE users
 MODIFY COLUMN best_hard_score DECIMAL(10,2) NULL;
+
+ALTER TABLE users
+ADD COLUMN avatar VARCHAR(255) DEFAULT '/images/avatars/avatar1.png';

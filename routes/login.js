@@ -4,8 +4,28 @@ const router = express.Router();
 const db = require("../database");
 const bcrypt = require("bcrypt");
 
+const avatars = [
+    "/images/avatars/avatar1.png",
+    "/images/avatars/avatar2.png",
+    "/images/avatars/avatar3.png",
+    "/images/avatars/avatar4.png",
+    "/images/avatars/avatar5.png",
+    "/images/avatars/avatar6.png",
+    "/images/avatars/avatar7.png"
+];
+
+router.get("/register", (req, res) => {
+    res.render("register", {
+        avatars,
+        avatar: avatars[0]
+    });
+});
+
 router.post("/register", (req, res) => {
-    const { name, email, password } = req.body;
+    const { name, email, password, avatar } = req.body;
+
+    // Vérifier que l'avatar choisi est autorisé
+    const avatarChoisi = avatars.includes(avatar) ? avatar : avatars[0];
 
     db.query(
         "SELECT email, nickname FROM users WHERE email = ? OR nickname = ?",
@@ -23,8 +43,8 @@ router.post("/register", (req, res) => {
                     .hash(password, 10)
                     .then((hash) => {
                         db.query(
-                            "INSERT INTO users (nickname,email,hash_password) VALUES (?,?,?)",
-                            [name, email, hash],
+                            "INSERT INTO users (nickname,email,hash_password,avatar) VALUES (?,?,?,?)",
+                            [name, email, hash, avatar],
                             (error) => {
                                 if (error) {
                                     console.error(error);
@@ -66,6 +86,7 @@ router.post("/login", (req, res) => {
                 }
                 req.session.userId = user.id;
                 req.session.nickname = user.nickname;
+                req.session.avatar = user.avatar;
                 return res.redirect("/index");
             });
         }

@@ -1,0 +1,67 @@
+.profil-container {
+    max-width: 600px;
+    margin: 40px auto;
+    padding: 25px;
+    text-align: center;
+}
+
+#nickname {
+    display: block;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 10px;
+    margin: 10px 0 20px;
+}
+
+.avatar-option {
+    width: 70px;
+    height: 70px;
+    padding: 0;
+    border: 2px solid transparent;
+    border-radius: 50%;
+    overflow: hidden;
+    cursor: pointer;
+    background: white;
+    box-sizing: border-box;
+    flex-shrink: 0;
+}
+
+.avatar-option img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+.avatar-option.selectionne {
+    border-color: #8b5cf6;
+}
+
+#avatar-actuel {
+    display: block;
+    width: 100px;
+    height: 100px;
+    margin: 10px auto;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+#galerie-avatars {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin: 20px 0;
+}
+
+#avatar-div-actuel {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+#message-profil {
+    margin: 15px 0;
+}

@@ -4,6 +4,8 @@ html(lang="en")
         meta(charset="UTF-8")
         meta(name="viewport", content="width=device-width, initial-scale=1.0")
         link(rel="stylesheet", href="/css/style.css")
+        link(rel="stylesheet", href="/css/style_profil.css")
+        script(src="/js/register.js", defer)
         title Register
     body
         section.wrapper
@@ -18,9 +20,26 @@ html(lang="en")
             div.bubble: img(src="/images/icons/restaurant-paper-svgrepo-com.svg", alt="Restaurant paper").icon
             div.bubble: img(src="/images/icons/chinese-food-svgrepo-com.svg", alt="Chinese food").icon
 
-        div#login
+        div#regist
             h2 Register
-            form(action="/register", method="POST")
+            form#form-profil(action="/register", method="POST")
+                div 
+                    h3 Select your avatar
+
+                    div#avatar-div-actuel
+                        img#avatar-actuel(
+                            src=avatar
+                            alt="Avatar actuel"
+                        )
+
+                    #galerie-avatars
+                        each image in avatars
+                            button.avatar-option(
+                                type="button"
+                                data-avatar=image
+                                class= image === avatar ? "selectionne" : ""
+                            )
+                                img(src=image, alt="Choisir cet avatar")
                 div
                     label(for="name") Name 
                     input#name.form-text(type="text", name="name", required)

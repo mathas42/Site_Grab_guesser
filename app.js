@@ -7,6 +7,16 @@ const PORT = 3000;
 
 const db = require("./database");
 
+const avatars = [
+    "/images/avatars/avatar1.png",
+    "/images/avatars/avatar2.png",
+    "/images/avatars/avatar3.png",
+    "/images/avatars/avatar4.png",
+    "/images/avatars/avatar5.png",
+    "/images/avatars/avatar6.png",
+    "/images/avatars/avatar7.png"
+];
+
 // Pug
 app.set("view engine", "pug");
 app.set("views", "./views");
@@ -32,7 +42,8 @@ app.use((req, res, next) => {
     if (req.session.userId) {
         res.locals.user = {
             id: req.session.userId,
-            nickname: req.session.nickname
+            nickname: req.session.nickname,
+            avatar: req.session.avatar
         };
     } else {
         res.locals.user = null;
@@ -80,6 +91,7 @@ app.get("/jeu", (req, res) => {
 });
 
 app.use("/", require("./routes/login"));
+app.use("/", require("./routes/profil"));
 
 // Result page
 app.get("/result", (req, res) => {
@@ -89,7 +101,7 @@ app.get("/result", (req, res) => {
     }
 
     db.query(
-        `SELECT nickname, best_score, best_hard_score
+        `SELECT nickname, avatar, best_score, best_hard_score
          FROM users`,
         (error, results) => {
             if (error) {
@@ -106,7 +118,8 @@ app.get("/result", (req, res) => {
             res.render("result", {
                 scoreboard: classement,
                 scoreboard2: classementHard,
-                nickname: req.session.nickname
+                nickname: req.session.nickname,
+                avatar: req.session.avatar
             });
         }
     );
@@ -441,7 +454,7 @@ app.post("/api/new-game", (req, res) => {
 });
 
 app.get("/register", (req, res) => {
-    res.render("register");
+    res.render("register", { avatars });
 });
 
 app.post("/api/learn", (req, res) => {
@@ -556,6 +569,38 @@ app.post("/api/fin-partie-hard", (req, res) => {
     );
 });
 
+app.post("/api/avatar", (req, res) => {
+    if (!req.session.userId) {
+        return res.status(401).json({
+            erreur: "Vous devez être connecté."
+        });
+    }
+
+    const { avatar } = req.body;
+
+    // Autoriser uniquement les avatars disponibles
+    if (!avatars.includes(avatar)) {
+        return res.status(400).json({
+            erreur: "Avatar invalide."
+        });
+    }
+
+    db.query("UPDATE users SET avatar = ? WHERE id = ?", [avatar, req.session.userId], (error) => {
+        if (error) {
+            console.error(error);
+            return res.status(500).json({
+                erreur: "Erreur de sauvegarde."
+            });
+        }
+
+        req.session.avatar = avatar;
+
+        res.json({
+            message: "Avatar enregistré !"
+        });
+    });
+});
+
 app.get("/hall_of_fame", (req, res) => {
     // Vérifie que le joueur est connecté
     if (!req.session.userId) {
@@ -563,7 +608,7 @@ app.get("/hall_of_fame", (req, res) => {
     }
 
     db.query(
-        `SELECT nickname, best_score
+        `SELECT nickname,avatar , best_score
          FROM users
          WHERE best_score IS NOT NULL
          ORDER BY best_score DESC
@@ -575,7 +620,7 @@ app.get("/hall_of_fame", (req, res) => {
             }
 
             db.query(
-                `SELECT nickname, best_hard_score
+                `SELECT nickname,avatar , best_hard_score
                  FROM users
                  WHERE best_hard_score IS NOT NULL
                  ORDER BY best_hard_score DESC
@@ -588,6 +633,7 @@ app.get("/hall_of_fame", (req, res) => {
 
                     res.render("hall_of_fame", {
                         nickname: req.session.nickname,
+                        avatar: req.session.avatar,
                         scoreboard: scoreboard,
                         scoreboard2: scoreboard2
                     });

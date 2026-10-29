@@ -1,0 +1,47 @@
+
+doctype html
+html(lang="fr")
+    head
+        meta(charset="UTF-8")
+        meta(name="viewport", content="width=device-width, initial-scale=1.0")
+        title My profil
+        link(rel="stylesheet", href="/css/style.css")
+        link(rel="stylesheet", href="/css/style_profil.css")
+        script(src="/js/profil.js", defer)
+
+    body
+        main.profil-container
+            h1 My profil
+
+            form#form-profil
+                label(for="nickname") My pseudo
+                input#nickname(
+                    type="text"
+                    name="nickname"
+                    value=nickname
+                    maxlength="30"
+                    required
+                )
+
+                h2 Select my avatar
+                div#avatar-div-actuel
+                    img#avatar-actuel(
+                        src=avatar
+                        alt="Avatar actuel"
+                    )
+
+                #galerie-avatars
+                    each image in avatars
+                        button.avatar-option(
+                            type="button"
+                            data-avatar=image
+                            class= image === avatar ? "selectionne" : ""
+                        )
+                            img(src=image, alt="Choisir cet avatar")
+
+                
+                button.new#enregistrer-profil(type="submit") Apply
+
+                p#message-profil(aria-live="polite")
+
+            button#valider-white(type="button",onclick="window.location.href='/index'") Home
