@@ -118,6 +118,7 @@ button {
 #screen {
     margin: 20px;
     gap: 20px;
+    font-size: 30px;
 }
 
 .icon {
@@ -324,27 +325,55 @@ button {
     transition: all 0.1s ease;
 }
 
-#more, #moremore, #moremoremore{
-    background-color: var(--more);
-    color: var(--card);
+/* Boutons pour augmenter le prix */
+#more, #moremore, #moremoremore {
+    background: linear-gradient(to bottom, #f4777b, #d94349);
+    color: white;
     width: 55px;
-    height: 25px;
-    align-items: center;
+    height: 35px;
+    border-radius: 12px;
+
 }
 
-#more:hover, #moremore:hover, #moremoremore:hover{
-    background-color: rgb(255, 213, 47);
+/* Survol */
+#more:hover, #moremore:hover, #moremoremore:hover {
+    background: linear-gradient(to bottom, #ff898d, #e65359);
+    transform: translateY(-2px);
+    box-shadow: 0 7px 0 #a92e34,
+                0 9px 14px rgba(0, 0, 0, 0.2);
 }
 
+/* Clic : le bouton s'enfonce */
+#more:active, #moremore:active, #moremoremore:active {
+    transform: translateY(4px);
+    box-shadow: 0 1px 0 #a92e34,
+                0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+
+/* Boutons pour diminuer le prix */
 #less, #lessless, #lesslessless {
-    background-color: rgb(77, 142, 255);
-    width: 50px;
-    height: 25px;
-    align-items: center;
+    background: linear-gradient(to bottom, #619aff, #2861d9);
+    color: white;
+    width: 55px;
+    height: 35px;
+    border-radius: 12px;
+
 }
 
-#less:hover, #lessless:hover, #lesslessless:hover{
-    background-color: rgb(47, 255, 255);
+/* Survol */
+#less:hover, #lessless:hover, #lesslessless:hover {
+    background: linear-gradient(to bottom, #83b0ff, #3975ed);
+    transform: translateY(-2px);
+    box-shadow: 0 7px 0 #1944a0,
+                0 9px 14px rgba(0, 0, 0, 0.2);
+}
+
+/* Clic : le bouton s'enfonce */
+#less:active, #lessless:active, #lesslessless:active {
+    transform: translateY(4px);
+    box-shadow: 0 1px 0 #1944a0,
+                0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 .popup-overlay {
