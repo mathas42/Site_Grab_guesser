@@ -1,19 +1,77 @@
-# Site_Grab_guesser
+# Grab Food Guesser
 
-Guess the price of a dish
+<div align="center">
+  <img src="/public/images/Logo_Grab_Food_Guesser.png" alt="Grab Food Guesser" width="300" height="auto">
+</div>
 
-![Alt text](/public/images/Logo_Grab_Food_Guesser.png)
+## Aim of the project
 
 ## Contents
 
 - [Installation](#installation)
 - [Usage](#usage)
-- [Contributing](#contributing)
 - [Data Bases](#data-bases)
+- [Contributing](#contributing)
 
-## Installation
+# Installation
 
-Install the package with your package manager.
+Follow these steps to install and run the project locally.
+
+### 1. Download the project
+
+- Download the project ZIP file.
+- Extract its contents into a folder.
+- Open the project folder in your preferred IDE.
+
+### 2. Configure environment variables
+
+- Create a `.env` file in the root directory of the project.
+- Add your local MySQL database password:
+
+```env
+DATABASE_PASSWORD='your_password'
+```
+
+Replace `your_password` with your actual MySQL password.
+
+### 3. Set up the database
+
+- Start your MySQL server.
+- Connect to your local MySQL instance.
+- Open the SQL scripts provided in the project.
+- Execute the scripts to create and initialize the database.
+
+### 4. Install dependencies
+
+Make sure [Node.js](https://nodejs.org/) is installed on your computer.
+
+Open a terminal in the project's root directory and run:
+
+```bash
+npm install
+```
+
+If Express is not already listed as a dependency, install it with:
+
+```bash
+npm install express
+```
+
+### 5. Start the application
+
+Run the following command in your terminal:
+
+```bash
+node app.js
+```
+
+### 6. Access the application
+
+Once the server has started successfully, open your browser and navigate to:
+
+[http://localhost:3000/](http://localhost:3000/)
+
+The web application should now be accessible locally.
 
 ## Usage
 
@@ -42,6 +100,16 @@ Run the command with a project path.
 
 ---
 
+```mermaid
+gitGraph
+    commit id: "Init"
+    branch feature
+    commit id: "Feature work"
+    checkout main
+    merge feature
+```
+
+```mermaid
 stateDiagram-v2
 [*] --> Idle
 Idle --> Running : Start
@@ -59,14 +127,17 @@ Finished --> [*]
         Processing --> Validate
         Validate --> [*]
     }
+```
 
-````mermaid
+```mermaid
 flowchart TD
     A[Début] --> B{Choix}
     B -->|Oui| C[Action 1]
     B -->|Non| D[Action 2]
     C --> E[Fin]
     D --> E[Fin]
+```
+
 ## How to Format Database Schemas in Markdown
 
 This section shows the markdown syntax patterns for documenting each type of schema information. Use these patterns consistently throughout your schema.md file for maximum readability.
@@ -76,46 +147,62 @@ This section shows the markdown syntax patterns for documenting each type of sch
 Use fenced SQL code blocks for CREATE TABLE statements. Include constraints, defaults, and CHECK clauses inline so the full structure is visible at a glance:
 
 ```sql
-CREATE TABLE users (
-  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-  email VARCHAR(255) UNIQUE NOT NULL,
-  name VARCHAR(200) NOT NULL,
-  role VARCHAR(20) DEFAULT 'member' CHECK (role IN ('admin', 'member', 'viewer')),
-  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  deleted_at TIMESTAMP
+CREATE TABLE IF NOT EXISTS produit (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nom VARCHAR(255) NOT NULL,
+    nom_restaurant VARCHAR(255) NOT NULL,
+    prix DECIMAL(10, 2) NOT NULL,
+    image VARCHAR(255)
 );
-
-CREATE INDEX idx_users_email ON users(email) WHERE deleted_at IS NULL;
-````
+CREATE TABLE IF NOT EXISTS partie (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    score DECIMAL(10, 2) DEFAULT 0,
+    round INT DEFAULT 1,
+    hint_count INT DEFAULT 2,
+    temp_count INT DEFAULT 2,
+    produit_actuel INT,
+    FOREIGN KEY (produit_actuel) REFERENCES produit(id)
+);
+CREATE TABLE IF NOT EXISTS users (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nickname VARCHAR(255) NOT NULL UNIQUE,
+    email VARCHAR(255) NOT NULL UNIQUE,
+    hash_password VARCHAR(255) NOT NULL,
+    creation_date datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    user_role ENUM('Admin', 'Player') DEFAULT 'Player' NOT NULL
+);
+```
 
 ### Column Reference Tables
 
 Use markdown tables to provide column-by-column documentation with business context. This is where you add the meaning that SQL alone cannot express:
 
-| Column     | Type         | Nullable | Default           | Description                                             |
-| ---------- | ------------ | -------- | ----------------- | ------------------------------------------------------- |
-| id         | UUID         | No       | gen_random_uuid() | Primary key, auto-generated server-side                 |
-| email      | VARCHAR(255) | No       | -                 | Login email, globally unique, case-insensitive matching |
-| name       | VARCHAR(200) | No       | -                 | Display name shown in the application UI                |
-| role       | VARCHAR(20)  | No       | 'member'          | Permission level: admin, member, or viewer              |
-| created_at | TIMESTAMP    | No       | CURRENT_TIMESTAMP | Account creation time (stored as UTC)                   |
-| deleted_at | TIMESTAMP    | Yes      | -                 | Soft delete marker (null = active record)               |
+| Column        | Type                    | Nullable | Default           | Description                                             |
+| ------------- | ----------------------- | -------- | ----------------- | ------------------------------------------------------- |
+| id            | UUID                    | No       | -                 | Primary key, auto-generated server-side                 |
+| nickname      | VARCHAR(255)            | No       | -                 | Login email, globally unique, case-insensitive matching |
+| email         | VARCHAR(255)            | No       | -                 | Display name shown in the application UI                |
+| hash_password | VARCHAR(255)            | No       | -                 | Permission level: admin, member, or viewer              |
+| creation_date | datetime                | No       | CURRENT_TIMESTAMP | Account creation time (stored as UTC)                   |
+| user_role     | ENUM('Admin', 'Player') | No       | 'Player'          | Soft delete marker (null = active record)               |
 
 ### Entity Relationship Diagrams
 
 Use text-based diagrams to show how tables connect. Keep them simple and readable in plain text:
 
-```
-users
-  |-- 1:N --> posts (author_id)
-  |-- 1:N --> comments (author_id)
-posts
-  |-- N:1 --> users (author_id)
-  |-- 1:N --> comments (post_id)
-  |-- N:N --> tags (via post_tags junction table)
-comments
-  |-- N:1 --> users (author_id)
-  |-- N:1 --> posts (post_id)
+```mermaid
+sequenceDiagram
+    participant Utilisateur
+    participant Frontend
+    participant Backend
+    participant BaseDeDonnées
+
+    Utilisateur->>Frontend: Requête de connexion
+    Frontend->>Backend: Valider utilisateur
+    Backend->>BaseDeDonnées: Requête données utilisateur
+    BaseDeDonnées-->>Backend: Retour infos utilisateur
+    Backend-->>Frontend: Résultat validation
+    Frontend-->>Utilisateur: Réponse connexion
 ```
 
 For more detail, add a relationship reference table documenting foreign keys and delete behavior:
@@ -140,8 +227,8 @@ Use bullet lists to document rules enforced in application code, not just databa
 - Soft-deleted records are excluded from all API responses but retained for 90 days
 - Posts with status 'published' cannot be moved back to 'draft'
 
-## Contributing
+# Contributing
 
-- Mathias Auguste Luis :
-- Galland Matthieu Jean-Pierre :
-- Timothée Hao-Jie Maxime :
+- [Mathias](https://github.com/mathas42) :
+- [ Matthieu](https://github.com/MatthieuGalland) :
+- [Timothée](https://github.com/Elfvelour) :
