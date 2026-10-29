@@ -1,19 +1,69 @@
-# Grab Food Guesser
+# GRAB FOOD GUESSER
+
+---
+
+**Institution:** _Asia Pacific University (APU)_
+
+**Intake Code:** _CX010-2.5-3-AWP_
+
+**Academic Year:** _2026_
+
+**Subject:** _Advanced Web Programming Project_
+
+**Project Title:** _GRAB FOOD GUESSER_
+
+---
+
+### Team Members
+
+| Name             | Student ID |
+| ---------------- | ---------- |
+| Mathias Leroy    | TP193      |
+| Matthieu Galland | TP193475   |
+| Timothée Girault | TP193489   |
+
+---
+
+## Contents
+
+1. [Project Overview](#project-overview)
+2. [Installation and Setup](#installation-and-setup)
+3. [Project Design](#project-design)
+4. [Implementation](#implementation)
+5. [User Guide](#user-guide)
+6. [Conclusion](#conclusion)
+7. [Contributing](#contributing)
+8. [References](#references)
+
+---
+
+## Project Overview
 
 <div align="center">
   <img src="/public/images/Logo_Grab_Food_Guesser.png" alt="Grab Food Guesser" width="300" height="auto">
 </div>
 
-## Aim of the project
+#### Aim of the project
 
-## Contents
+As part of our **Advanced Web Programming (CX010-2.5-3-AWP) course** at APU, we are required to develop a website based on a topic of our choice. The project must meet the following technical requirements:
 
-- [Installation](#installation)
-- [Usage](#usage)
-- [Data Bases](#data-bases)
-- [Contributing](#contributing)
+- Develop a web interface that includes multiple pages.
+- Create a web server equipped with an API.
+- Establish communication with a SQL-based data persistence system.
+- Implement user authentication using standard security mechanisms.
+- Enable a Single Page Application (SPA) to communicate with a Node.js web server.
 
-# Installation
+#### Project Concept: Grab Food Guesser
+
+The aim of our project is to help users discover Malaysian cuisine through an interactive price-guessing game.
+
+Each dish is presented with a description to help users learn more about Malaysian food and its culinary culture. Players must guess the price of each dish and compare their estimates with the actual prices.
+
+Through this game, users can explore local specialties, discover new dishes, and learn more about Malaysian cuisine in an entertaining and engaging way.
+
+---
+
+## Installation and Setup
 
 Follow these steps to install and run the project locally.
 
@@ -26,6 +76,7 @@ Follow these steps to install and run the project locally.
 ### 2. Configure environment variables
 
 - Create a `.env` file in the root directory of the project.
+- Copy paste the `.env.exemple`
 - Add your local MySQL database password:
 
 ```env
@@ -73,74 +124,9 @@ Once the server has started successfully, open your browser and navigate to:
 
 The web application should now be accessible locally.
 
-## Usage
-
-Run the command with a project path.
-
-## Data Bases
-
-## Markdown Schema vs Other Documentation Tools
-
-| Feature                      | Markdown (.md)        | dbdiagram.io / DrawSQL | Confluence / Notion | pgAdmin / DataGrip  | SchemaSpy / tbls       |
-| ---------------------------- | --------------------- | ---------------------- | ------------------- | ------------------- | ---------------------- |
-| Version controlled in git    | Yes                   | Export only            | No                  | No                  | Re-generate each time  |
-| AI assistants can read it    | Natively              | No                     | Poorly              | No                  | Partially              |
-| Free and open                | Yes                   | Freemium               | Paid                | Varies              | Yes                    |
-| Works offline                | Yes                   | No                     | No                  | Yes                 | Yes (after generation) |
-| Reviewable in pull requests  | Yes                   | No                     | No                  | No                  | Yes (if committed)     |
-| Includes business context    | Yes (authored)        | No (visual only)       | Yes (if maintained) | No (structure only) | No (auto-generated)    |
-| Setup required               | None                  | Account signup         | Account + setup     | Installation        | Installation + config  |
-| Stays in sync with code      | Same PR as migrations | Manual export          | Manual update       | Live connection     | Re-run on each change  |
-| Human-readable without tools | Yes                   | Need browser           | Need browser        | Need application    | Need browser           |
-| Supports query examples      | Yes                   | No                     | Yes                 | No                  | No                     |
-| Documents business rules     | Yes                   | No                     | Yes (if maintained) | No                  | No                     |
-| Migration history tracking   | Yes                   | No                     | Manual              | No                  | No                     |
-
-**The key advantage of markdown**: it is the only format that combines version control, AI readability, business context, and zero dependencies in a single file. Other tools excel at visualization or auto-generation, but none match markdown for maintaining a living, reviewed, AI-readable schema document.
-
 ---
 
-```mermaid
-gitGraph
-    commit id: "Init"
-    branch feature
-    commit id: "Feature work"
-    checkout main
-    merge feature
-```
-
-```mermaid
-stateDiagram-v2
-[*] --> Idle
-Idle --> Running : Start
-Running --> Paused : Pause
-Running --> Finished : End
-Paused --> Running : Resume
-Paused --> Stopped : Stop
-Stopped --> Idle : Reset
-Finished --> Idle : Reset
-Finished --> [*]
-
-    state Running {
-        [*] --> Init
-        Init --> Processing
-        Processing --> Validate
-        Validate --> [*]
-    }
-```
-
-```mermaid
-flowchart TD
-    A[Début] --> B{Choix}
-    B -->|Oui| C[Action 1]
-    B -->|Non| D[Action 2]
-    C --> E[Fin]
-    D --> E[Fin]
-```
-
-## How to Format Database Schemas in Markdown
-
-This section shows the markdown syntax patterns for documenting each type of schema information. Use these patterns consistently throughout your schema.md file for maximum readability.
+## Project Design
 
 ### Table Definitions
 
@@ -187,6 +173,83 @@ Use markdown tables to provide column-by-column documentation with business cont
 | user_role     | ENUM('Admin', 'Player') | No       | 'Player'          | Soft delete marker (null = active record)               |
 
 ### Entity Relationship Diagrams
+
+---
+
+## Implementation
+
+---
+
+## User Guide
+
+---
+
+## Conclusion
+
+---
+
+## References
+
+---
+
+## Markdown Schema vs Other Documentation Tools
+
+| Feature                      | Markdown (.md)        | dbdiagram.io / DrawSQL | Confluence / Notion | pgAdmin / DataGrip  | SchemaSpy / tbls       |
+| ---------------------------- | --------------------- | ---------------------- | ------------------- | ------------------- | ---------------------- |
+| Version controlled in git    | Yes                   | Export only            | No                  | No                  | Re-generate each time  |
+| AI assistants can read it    | Natively              | No                     | Poorly              | No                  | Partially              |
+| Free and open                | Yes                   | Freemium               | Paid                | Varies              | Yes                    |
+| Works offline                | Yes                   | No                     | No                  | Yes                 | Yes (after generation) |
+| Reviewable in pull requests  | Yes                   | No                     | No                  | No                  | Yes (if committed)     |
+| Includes business context    | Yes (authored)        | No (visual only)       | Yes (if maintained) | No (structure only) | No (auto-generated)    |
+| Setup required               | None                  | Account signup         | Account + setup     | Installation        | Installation + config  |
+| Stays in sync with code      | Same PR as migrations | Manual export          | Manual update       | Live connection     | Re-run on each change  |
+| Human-readable without tools | Yes                   | Need browser           | Need browser        | Need application    | Need browser           |
+| Supports query examples      | Yes                   | No                     | Yes                 | No                  | No                     |
+| Documents business rules     | Yes                   | No                     | Yes (if maintained) | No                  | No                     |
+| Migration history tracking   | Yes                   | No                     | Manual              | No                  | No                     |
+
+---
+
+```mermaid
+gitGraph
+    commit id: "Init"
+    branch feature
+    commit id: "Feature work"
+    checkout main
+    merge feature
+```
+
+```mermaid
+stateDiagram-v2
+[*] --> Idle
+Idle --> Running : Start
+Running --> Paused : Pause
+Running --> Finished : End
+Paused --> Running : Resume
+Paused --> Stopped : Stop
+Stopped --> Idle : Reset
+Finished --> Idle : Reset
+Finished --> [*]
+
+    state Running {
+        [*] --> Init
+        Init --> Processing
+        Processing --> Validate
+        Validate --> [*]
+    }
+```
+
+```mermaid
+flowchart TD
+    A[Début] --> B{Choix}
+    B -->|Oui| C[Action 1]
+    B -->|Non| D[Action 2]
+    C --> E[Fin]
+    D --> E[Fin]
+```
+
+## How to Format Database Schemas in Markdown
 
 Use text-based diagrams to show how tables connect. Keep them simple and readable in plain text:
 
