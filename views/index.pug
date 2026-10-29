@@ -15,12 +15,12 @@ html(lang="en")
             h2#welcome Welcome #{user.nickname} ! 
         
         div#screen.flex-center
-            button#new(onclick="new_play()") Play
-            button#new(onclick="new_learn_()") Learn
+            button.new(onclick="new_play()") Play
+            button.new(onclick="new_learn_()") Learn
         div#screen.flex-center
-            button#new2(onclick="new_hard()") Hard Mode
+            button.new#new2(onclick="new_hard()") Hard Mode
             form(action="/logout", method="post", style="display:contents")
-                button#new3(type="submit") Log-out
+                button.new#new3(type="submit") Log-out
 
         img(src="/images/icons/chinese-food-svgrepo-com.svg", alt="Chinese food").icon
         img(src="/images/icons/food-pack-box-with-handle-svgrepo-com.svg", alt="Food pack").icon

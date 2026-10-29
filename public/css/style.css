@@ -54,7 +54,7 @@ button {
     gap: 10px;
 }
 
-#new, #new2, #new3 {
+.new{
     width: 300px;
     height: 70px;
     border-radius: var(--radius);
@@ -71,17 +71,13 @@ button {
     background-color: rgba(52, 48, 54, 0.8);
 }
 
-#new, #new2, #new3, #hint, #temperature, #valider, #valider-small {
+.new, #hint, #temperature, #valider-small, .next-class {
     transition: box-shadow 0.5s ease, transform 0.2s ease, background-color 0.2s ease;
 }
 
-#new:hover, #new2:hover, #new3:hover,
-#hint:hover, #temperature:hover, #valider:hover, #valider-small:hover {
+.new:hover, #hint:hover, #temperature:hover, #valider-small:hover {
     box-shadow: var(--glow);
     transform: var(--tilt);
-}
-
-#new:hover, #new2:hover, #new3:hover, #valider:hover, #valider-small:hover {
     background-color: var(--dark-green);
 }
 
@@ -89,7 +85,6 @@ button {
     box-shadow: var(--glow);
     transform: var(--tilt);
     background-color: var(--dark-green);
-    transition: box-shadow 0.5s ease, transform 0.2s ease, background-color 0.2s ease;
 }
 
 #new2:hover {
@@ -303,7 +298,7 @@ button {
     opacity: 1;
 }
 
-#valider, #valider-small, #valider-white, .next-class {
+#valider-small, #valider-white, .next-class {
     width: 250px;
     height: 60px;
     margin: 10px;

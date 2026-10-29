@@ -14,7 +14,7 @@ function formatPrix(valeur) {
 function afficherValeur(valeur) {
     document.getElementById("value").textContent =
         formatPrix(valeur) + " RM " +
-        (Number(valeur) / 4.65).toFixed(2) + " Euro";
+        EuroChange(valeur).toFixed(2) + " Euro";
 }
 
 //collect the JSON that contain products and their informations
@@ -97,8 +97,10 @@ function new_learn_() {
 
 
 // fonction qui s'effectue au début de chaque page du jeu
-function begin() {
-
+async function begin() {
+    console.log("attente");
+    await LoadChange();
+    console.log("reussiSS")
     // Vérifie si la partie est terminée
     if (sessionStorage.getItem("terminee") === "true") {
         localStorage.clear();
