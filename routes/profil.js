@@ -9,7 +9,14 @@ const avatars = [
     "/images/avatars/avatar4.png",
     "/images/avatars/avatar5.png",
     "/images/avatars/avatar6.png",
-    "/images/avatars/avatar7.png"
+    "/images/avatars/avatar7.png",
+    "/images/avatars/avatar8.png",
+    "/images/avatars/avatar9.png",
+    "/images/avatars/avatar10.png",
+    "/images/avatars/avatar11.png",
+    "/images/avatars/avatar12.png",
+    "/images/avatars/avatar13.png",
+    "/images/avatars/avatar14.png"
 ];
 
 // Afficher la page du profil

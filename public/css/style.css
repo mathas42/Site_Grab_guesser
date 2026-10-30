@@ -734,7 +734,7 @@ body.secret_mode {
 #regist {
     position: relative;
     z-index: 1;
-    max-width: 720px;
+    max-width: 620px;
     margin: 20vh auto 0;
     padding: 20px;
     background: rgba(255, 255, 255, 0.9);
