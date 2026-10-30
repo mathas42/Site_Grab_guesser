@@ -25,10 +25,10 @@ html(lang="en")
             form(action="/login", method="POST")
                 div
                     label(for="email") E-mail
-                    input.form-text#email(type="text", name="email", required)
+                    input.form-text#email(type="text", name="email", placeholder="mail@example.com", required)
                 div
                     label(for="password") Password
-                    input.form-text#password(type="password", name="password", required)
+                    input.form-text#password(type="password", name="password", placeholder="Your password", required)
                 div
                     button#valider-small(type="submit") Login
             p First time here? #[a#account(href="/register") Create an account]
