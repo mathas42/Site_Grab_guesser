@@ -20,5 +20,8 @@ CREATE TABLE IF NOT EXISTS users (
     email VARCHAR(255) NOT NULL UNIQUE,
     hash_password VARCHAR(255) NOT NULL,
     creation_date datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    user_role ENUM('Admin', 'Player') DEFAULT 'Player' NOT NULL
+    user_role ENUM('Admin', 'Player') DEFAULT 'Player' NOT NULL,
+    best_score DECIMAL(10,2) NULL,
+    best_hard_score DECIMAL(10,2) NULL,
+    avatar VARCHAR(255) DEFAULT '/images/avatars/avatar1.png'
 );
