@@ -100,24 +100,31 @@ fetch("/api/produits")
     .then(produits => {
         catalogue.innerHTML = "";
 
-        // sort the products by the first letter of their name, ignoring accents and case  
-        produits.sort((a, b) => {
-        const lettreA = a.nom.match(/\p{L}/u)?.[0] || "";
-        const lettreB = b.nom.match(/\p{L}/u)?.[0] || "";
-
-        return lettreA.localeCompare(lettreB, "fr", {
-            sensitivity: "base"
-        }) || a.nom.localeCompare(b.nom, "fr", {
-            sensitivity: "base"
-        });
+        // remove duplicates (same restaurant + same dish name, ignoring case and spaces)
+        const seen = new Set();
+        const uniques = produits.filter(produit => {
+            const key = produit.nom_restaurant.trim().toLowerCase() + "|"+ produit.nom.trim().toLowerCase();
+            if (seen.has(key)) return false;
+            seen.add(key);
+            return true;
         });
 
-        produits.forEach(produit => {
+        // sort by the first letter of the name, ignoring accents and case
+        uniques.sort((a, b) => {
+            const letterA = a.nom.match(/\p{L}/u)?.[0] || "";
+            const letterB = b.nom.match(/\p{L}/u)?.[0] || "";
+
+            return letterA.localeCompare(letterB, "fr", { sensitivity: "base" })
+                || a.nom.localeCompare(b.nom, "fr", { sensitivity: "base" });
+        });
+
+        // display the cards
+        uniques.forEach(produit => {
             catalogue.appendChild(creerPlat(produit));
         });
 
         catalogue.appendChild(empty);
-        update();   // initial display 
+        update();   // initial display
     })
     .catch(err => {
         console.error("Error :", err);

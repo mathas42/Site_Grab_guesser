@@ -5,7 +5,8 @@ html(lang="en")
         meta(name="viewport", content="width=device-width, initial-scale=1.0")
         link(rel="stylesheet", href="/css/style.css")
         link(rel="icon", type="image/png", href="/images/Logo_Grab_Food_Guesser.png")
-        script(src="/js/script.js")
+        script(src="/js/script.js" defer)
+        script(src="/js/profil.js")
         title Grab Food Guesser
 
     body#index
@@ -13,7 +14,7 @@ html(lang="en")
             h1#title Grab Food Guesser !
         if user
             h2#welcome Welcome #{user.nickname}
-                img.avatar-profil(src=user.avatar, alt="Avatar de " + user.nickname)
+                img.avatar-profil(src=user.avatar, alt="Avatar de " + user.nickname, data-nickname=user.nickname, onclick="ProfilePopup()")
         
         div#screen.flex-center
             button.new(onclick="new_play()") Play
@@ -30,6 +31,7 @@ html(lang="en")
         img(src="/images/icons/restaurant-paper-svgrepo-com.svg", alt="Restaurant paper").icon
         img(src="/images/icons/food-fruit-fruits-18-svgrepo-com.svg", alt="Fruit").icon
         img(src="/images/icons/food-color-coffee-long-svgrepo-com.svg", alt="Chinese food").icon
+
 
         footer
             p © 2026 Grab Food Guesser MLMGTG. All rights reserved.

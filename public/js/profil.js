@@ -13,6 +13,10 @@ galerie.querySelectorAll(".avatar-option").forEach((bouton) => {
         avatarChoisi = bouton.dataset.avatar;
         avatarActuel.src = avatarChoisi;
 
+        avatarActuel.addEventListener("click",()=>{
+            openPopup();
+        })
+
         galerie.querySelectorAll(".avatar-option").forEach((element) => {
             element.classList.remove("selectionne");
         });
@@ -58,3 +62,77 @@ form.addEventListener("submit", async (event) => {
         boutonEnregistrer.disabled = false;
     }
 });
+
+
+function ProfilePopup() {
+    const avatar = document.querySelector(".avatar-profil");
+    if (!avatar) return;
+
+    const overlay = document.createElement("div");
+    const popup = document.createElement("div");
+    const image = document.createElement("img");
+    const title = document.createElement("h2");
+    const description = document.createElement("p");
+    const editButton = document.createElement("button");
+    const logOut= document.createElement("button");
+    const closeButton = document.createElement("button");
+
+    overlay.style.background="#007a3d";
+
+    image.src = avatar.src;
+    image.alt = avatar.alt;
+    image.style.width="30%";
+    image.style.borderRadius="50%";
+    image.style.justifyContent="center";
+
+    title.textContent = avatar.dataset.nickname;
+    title.style.textAlign="center";
+
+    description.textContent = "Your profile";
+
+    logOut.textContent="Log Out"
+    logOut.type="submit";
+    editButton.textContent = "Edit profile";
+    closeButton.textContent = "Close";
+
+    overlay.classList.add("popup-overlay");
+    popup.classList.add("popup");
+    logOut.classList.add("popup-close");
+    editButton.classList.add("popup-close");
+    closeButton.classList.add("popup-close");
+
+    popup.append(image, title, description, editButton,logOut, closeButton);
+    overlay.appendChild(popup);
+    document.body.appendChild(overlay);
+
+    function close() {
+        overlay.remove();
+        document.removeEventListener("keydown", onKey);
+    }
+
+    function onKey(e) {
+        if (e.key === "Escape") close();
+    }
+
+    logOut.addEventListener("click", () => {
+        const logoutForm = document.createElement("form");
+        logoutForm.method = "POST";
+        logoutForm.action = "/logout";
+        document.body.appendChild(logoutForm);
+        logoutForm.submit();
+    });
+
+    editButton.addEventListener("click", () => {
+        window.location.href = "/profil";
+    });
+    closeButton.addEventListener("click", close);
+
+    // clicking outside the popup closes it
+    overlay.addEventListener("click", (e) => {
+        if (e.target === overlay) close();
+    });
+
+    document.addEventListener("keydown", onKey);
+}
+
+
