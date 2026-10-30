@@ -1,3 +1,18 @@
+:root {
+    --green: #00a651;
+    --dark-green: #007a3d;
+    --green-grab: #00b14f;
+    --background: #f7faf4;
+    --card: #ffffff;
+    --text: #1f2a24;
+    --soft-text: #5b6b62;
+    --less: #3b82f6;
+    --more: #e5484d;
+    --radius: 16px;
+    --shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+    --glow: 0 0 10px var(--dark-green);
+    --tilt: rotate3d(-0.5, 1, 0.05, 20deg) scale(1.05);
+}
 
 @keyframes tilt_easter_egg {
     0% {
@@ -164,4 +179,13 @@ body.secret_mode {
     border: 1px rgb(30, 134, 30) solid;
     border-radius: 3px;
     font-size: inherit;
+}
+
+#account,#log-in{
+    text-decoration: none;
+}
+
+#account:hover,#log-in:hover{
+    text-decoration: underline;
+     color:var(--dark-green) ;
 }

@@ -1,29 +1,49 @@
-.profil-container {
-    max-width: 600px;
-    margin: 40px auto;
-    padding: 25px;
+#regist {
+    --avatar-size: 50px;      
+    --current-size: 70px;
+    --gallery-gap: 8px;
+
+    position: relative;
+    z-index: 1;
+    box-sizing: border-box;
+    width: 100%;
+    margin: 0 auto;
+    padding: 16px 20px;
+    overflow-y: auto;        
+    border-radius: 8px;
+    background: #FFF;
     text-align: center;
 }
 
-#nickname {
-    display: block;
-    width: 100%;
-    box-sizing: border-box;
-    padding: 10px;
-    margin: 10px 0 20px;
+#regist h2 {
+    margin: 0 0 6px;
 }
 
+#regist h3 {
+    margin: 6px 0;
+    font-size: 1.1rem;
+}
+
+#regist #galerie-avatars {
+    margin: 10px 0;
+}
+
+#regist #avatar-actuel {
+    margin: 6px auto;
+}
+
+
 .avatar-option {
-    width: 70px;
-    height: 70px;
+    --size: var(--avatar-size, 70px);
+    flex-shrink: 0;
+    box-sizing: border-box;
+    width: var(--size);
+    height: var(--size);
     padding: 0;
+    overflow: hidden;
     border: 2px solid transparent;
     border-radius: 50%;
-    overflow: hidden;
-    cursor: pointer;
     background: white;
-    box-sizing: border-box;
-    flex-shrink: 0;
 }
 
 .avatar-option img {
@@ -38,6 +58,13 @@
     border-color: #8b5cf6;
 }
 
+#avatar-div-actuel {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
 #avatar-actuel {
     display: block;
     width: 100px;
@@ -49,17 +76,26 @@
 
 #galerie-avatars {
     display: flex;
-    justify-content: center;
     flex-wrap: wrap;
-    gap: 12px;
+    justify-content: center;
+    gap: var(--gallery-gap, 12px);
     margin: 20px 0;
 }
 
-#avatar-div-actuel {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+
+.profil-container {
+    max-width: 600px;
+    margin: 40px auto;
+    padding: 25px;
+    text-align: center;
+}
+
+#nickname {
+    display: block;
+    box-sizing: border-box;
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0 20px;
 }
 
 #message-profil {
