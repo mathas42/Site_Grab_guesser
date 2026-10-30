@@ -1,6 +1,13 @@
 const express = require("express");
 const expressSession = require("express-session");
 
+//swagger ui
+const swaggerUi = require('swagger-ui-express');
+const swaggerSpec = require('./swagger');
+
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+app.get('/api-docs.json', (req, res) => res.json(swaggerSpec));
+
 const app = express();
 
 const PORT = 3000;
@@ -301,6 +308,56 @@ app.post("/api/temperature", (req, res) => {
     });
 });
 
+
+
+/**
+ * @openapi
+ * /api/verifier:
+ *   post:
+ *     summary: "Check player's response and calculates points"
+ *     description: "Compares the user's price selection and compares it to the real price. It then calculates the points given to the player and goes to the next round."
+ *     tags: ["Partie"]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required: [partieId, id, reponse]
+ *             properties:
+ *               partieId: { type: integer, description: "Id de la partie en cours", example: 1 }
+ *               id: { type: integer, description: "Id du produit à deviner", example: 3 }
+ *               reponse: { type: number, description: "Prix proposé par le joueur", example: 5.5 }
+ *     responses:
+ *       200:
+ *         description: "Réponse vérifiée, score et manche mis à jour"
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 points: { type: number, description: "Points gagnés sur cette manche", example: 3.2 }
+ *                 prix: { type: number, description: "Vrai prix du produit", example: 6 }
+ *                 ecart: { type: number, description: "Écart absolu entre la réponse et le prix", example: 0.5 }
+ *                 score: { type: number, description: "Nouveau score total", example: 10.4 }
+ *                 round: { type: integer, description: "Nouvelle manche", example: 4 }
+ *       404:
+ *         description: "Produit introuvable ou partie introuvable"
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 erreur: { type: string, example: "Produit introuvable" }
+ *       500:
+ *         description: "Erreur BDD"
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 erreur: { type: string, example: "Erreur BDD" }
+ */
 app.post("/api/verifier", (req, res) => {
     const { partieId, id, reponse } = req.body;
 

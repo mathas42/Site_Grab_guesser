@@ -5,7 +5,9 @@
     "express": "^5.2.1",
     "express-session": "^1.19.0",
     "mysql2": "^3.24.4",
-    "pug": "^3.0.4"
+    "pug": "^3.0.4",
+    "swagger-jsdoc": "^6.3.0",
+    "swagger-ui-express": "^5.0.1"
   },
   "allowScripts": {
     "bcrypt@6.0.0": true
