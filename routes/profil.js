@@ -33,6 +33,74 @@ router.get("/profil", (req, res) => {
 });
 
 // Modifier le pseudo et l'avatar
+/**
+ * @openapi
+ * /api/profil:
+ *   post:
+ *     summary: "Update the player's nickname and avatar"
+ *     description: |
+ *       Updates the nickname and avatar of the logged-in player, then updates the session. The nickname must be unused by other players.
+ *
+ *       **Body parameters (JSON):**
+ *       - `nickname` (string) : new nickname, 1 to 30 characters (spaces around are trimmed)
+ *       - `avatar` (string) : path of the chosen avatar, from `/images/avatars/avatar1.png` to `/images/avatars/avatar14.png`
+ *     tags: ["Utilisateur"]
+ *     security:
+ *       - cookieAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required: [nickname, avatar]
+ *             properties:
+ *               nickname: { type: string, minLength: 1, maxLength: 30, description: "New nickname", example: "Player1" }
+ *               avatar: { type: string, description: "Path of the chosen avatar", example: "/images/avatars/avatar3.png" }
+ *     responses:
+ *       200:
+ *         description: "OK, profile updated"
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message: { type: string, example: "Profil updated" }
+ *                 nickname: { type: string, description: "Saved nickname", example: "Player1" }
+ *                 avatar: { type: string, description: "Saved avatar", example: "/images/avatars/avatar3.png" }
+ *       400:
+ *         description: "Invalid nickname or avatar"
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 erreur: { type: string, enum: ["Le pseudo doit contenir entre 1 et 30 caractères.", "Avatar invalide."], example: "Avatar invalide." }
+ *       401:
+ *         description: "Player not logged in"
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 erreur: { type: string, example: "Vous devez être connecté." }
+ *       409:
+ *         description: "Nickname already taken"
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 erreur: { type: string, example: "Ce pseudo est déjà utilisé." }
+ *       500:
+ *         description: "Database error"
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 erreur: { type: string, enum: ["Erreur lors de la vérification du pseudo.", "Erreur lors de la sauvegarde du profil."], example: "Erreur lors de la sauvegarde du profil." }
+ */
 router.post("/api/profil", (req, res) => {
     if (!req.session.userId) {
         return res.status(401).json({

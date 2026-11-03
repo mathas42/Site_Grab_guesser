@@ -28,6 +28,59 @@ router.get("/register", (req, res) => {
     });
 });
 
+/**
+ * @openapi
+ * /register:
+ *   post:
+ *     summary: "Creates a new user account"
+ *     description: |
+ *       Creates a new user with a hashed password, username, avatar and a mail, then redirects to the login page.
+ *
+ *       **Body parameters (form or JSON):**
+ *       - `name` (string) : nickname of the user
+ *       - `email` (string) : email of the user
+ *       - `password` (string) : password of the user, stored hashed with bcrypt
+ *       - `avatar` (string, optional) : path of the chosen avatar, from `/images/avatars/avatar1.png` to `/images/avatars/avatar14.png`
+ *     tags: ["Utilisateur"]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/x-www-form-urlencoded:
+ *           schema:
+ *             $ref: "#/components/schemas/RegisterBody"
+ *         application/json:
+ *           schema:
+ *             $ref: "#/components/schemas/RegisterBody"
+ *     responses:
+ *       302:
+ *         description: "Account created, redirects to /login"
+ *       409:
+ *         description: "Email or nickname already taken"
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message: { type: string, enum: ["Email already taken", "Nickname already taken"], example: "Email already taken" }
+ *       500:
+ *         description: "Database or hashing error"
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message: { type: string, example: "An error occurred" }
+ * components:
+ *   schemas:
+ *     RegisterBody:
+ *       type: object
+ *       required: [name, email, password]
+ *       properties:
+ *         name: { type: string, description: "Nickname of the user", example: "Player1" }
+ *         email: { type: string, format: email, description: "Email of the user", example: "player1@mail.com" }
+ *         password: { type: string, format: password, description: "Password of the user", example: "motdepasse" }
+ *         avatar: { type: string, description: "Path of the chosen avatar", default: "/images/avatars/avatar1.png", example: "/images/avatars/avatar3.png" }
+ */
 router.post("/register", (req, res) => {
     const { name, email, password, avatar } = req.body;
 
@@ -71,6 +124,65 @@ router.post("/register", (req, res) => {
     );
 });
 
+/**
+ * @openapi
+ * /login:
+ *   post:
+ *     summary: "Log in a user"
+ *     description: |
+ *       Checks the email and password, opens a session (cookie `connect.sid`) then redirects to the home page.
+ *
+ *       **Body parameters (form or JSON):**
+ *       - `email` (string) : email of the user
+ *       - `password` (string) : password of the user
+ *     tags: ["Utilisateur"]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/x-www-form-urlencoded:
+ *           schema:
+ *             $ref: "#/components/schemas/LoginBody"
+ *         application/json:
+ *           schema:
+ *             $ref: "#/components/schemas/LoginBody"
+ *     responses:
+ *       302:
+ *         description: "Logged in, session opened and redirects to /index"
+ *       401:
+ *         description: "Email or password incorrect (JSON if the email is unknown, plain text if the password is wrong)"
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message: { type: string, example: "Email or password incorrect" }
+ *           text/plain:
+ *             schema: { type: string, example: "Email or password incorrect" }
+ *       500:
+ *         description: "Database or hashing error"
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message: { type: string, example: "An error occurred" }
+ *           text/plain:
+ *             schema: { type: string, example: "An error occurred" }
+ * components:
+ *   schemas:
+ *     LoginBody:
+ *       type: object
+ *       required: [email, password]
+ *       properties:
+ *         email: { type: string, format: email, description: "Email of the user", example: "player1@mail.com" }
+ *         password: { type: string, format: password, description: "Password of the user", example: "motdepasse" }
+ *   securitySchemes:
+ *     cookieAuth:
+ *       type: apiKey
+ *       in: cookie
+ *       name: connect.sid
+ *       description: "Session cookie set by POST /login"
+ */
 router.post("/login", (req, res) => {
     const { email, password } = req.body;
     db.query("SELECT * FROM users WHERE email = ?", [email], (error, results) => {
@@ -100,6 +212,22 @@ router.post("/login", (req, res) => {
     });
 });
 
+/**
+ * @openapi
+ * /logout:
+ *   post:
+ *     summary: "Log out the user"
+ *     description: "Destroys the session, deletes the connect.sid cookie then redirects to the home page."
+ *     tags: ["Utilisateur"]
+ *     responses:
+ *       302:
+ *         description: "Logged out, redirects to /"
+ *       500:
+ *         description: "Session could not be destroyed"
+ *         content:
+ *           text/plain:
+ *             schema: { type: string, example: "Log-off error" }
+ */
 router.post("/logout", (req, res) => {
     if (req.session) {
         req.session.destroy((err) => {

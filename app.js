@@ -315,6 +315,73 @@ app.post("/api/hint", (req, res) => {
     });
 });
 
+/**
+ * @openapi
+ * /api/temperature:
+ *   post:
+ *     summary: "Use a hint"
+ *     description: |
+ *       Tells the player how close their current guess is to the real price, and removes one "Temperature" hint from the game.
+ *
+ *       | Gap with real price | Message | Color |
+ *       |---|---|---|
+ *       | < 1 | very hot | red |
+ *       | < 4 | hot | orange |
+ *       | < 8 | cold | blue |
+ *       | >= 8 | very cold | darkblue |
+ *
+ *       **Body parameters (JSON):**
+ *       - `partieId` (integer) : id of ongoing game
+ *       - `id` (integer) : product's id
+ *       - `reponse` (number) : price currently guessed by the player
+ *     tags: ["Partie"]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required: [partieId, id, reponse]
+ *             properties:
+ *               partieId: { type: integer, description: "Id of game", example: 1 }
+ *               id: { type: integer, description: "Product's id", example: 3 }
+ *               reponse: { type: number, description: "Price currently guessed by the player", example: 15 }
+ *     responses:
+ *       200:
+ *         description: "OK"
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message: { type: string, description: "\"very hot at X\", \"hot at X\", \"cold at X\" or \"very cold at X\", X being the player's guess", example: "hot at 15" }
+ *                 couleur: { type: string, enum: [red, orange, blue, darkblue], description: "Color matching the temperature", example: "orange" }
+ *                 temp_count: { type: integer, description: "Remaining \"Temperature\" hints", example: 1 }
+ *       400:
+ *         description: "No hint left, or game unfindable"
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 erreur: { type: string, example: "Plus d'indices Temperature" }
+ *       404:
+ *         description: "Product unfindable"
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 erreur: { type: string, example: "Produit introuvable" }
+ *       500:
+ *         description: "Database error"
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 erreur: { type: string, example: "Erreur BDD" }
+ */
 app.post("/api/temperature", (req, res) => {
     const { partieId, id, reponse } = req.body;
 
@@ -636,6 +703,43 @@ app.get("/api/partie/:id", (req, res) => {
     );
 });
 
+/**
+ * @openapi
+ * /api/new-game:
+ *   post:
+ *     summary: "Creates a new game"
+ *     description: |
+ *       Creates a new game starting at round 1 with a score of 0, and returns its id. The game gets 2 "More or Less" and 2 "Temperature" hints in normal mode, and only 1 of each in hard mode.
+ *
+ *       **Body parameters (JSON):**
+ *       - `hard` (integer, optional) : Gamemode selected, 0 for normal, 1 for hard.
+ *     tags: ["Partie"]
+ *     requestBody:
+ *       required: false
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               hard: { type: integer, enum: [0, 1], default: 0, description: "Gamemode selected, 0 for normal, 1 for hard.", example: 0 }
+ *     responses:
+ *       200:
+ *         description: "OK"
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 partieId: { type: integer, description: "game ID", example: 0 }
+ *       500:
+ *         description: "Database error"
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 erreur: { type: string, example: "Erreur BDD" }
+ */
 app.post("/api/new-game", (req, res) => {
     // Récupère le mode choisi : 1 = Hard, 0 = Normal
     const hard = Number(req.body.hard) === 1 ? 1 : 0;
@@ -669,6 +773,55 @@ app.get("/register", (req, res) => {
     res.render("register", { avatars });
 });
 
+/**
+ * @openapi
+ * /api/learn:
+ *   post:
+ *     summary: "Get a product's details"
+ *     description: |
+ *       Returns the name, restaurant, image and description of a product.
+ *
+ *       **Body parameters (JSON):**
+ *       - `id` (integer) : product's id
+ *     tags: ["Produit"]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required: [id]
+ *             properties:
+ *               id: { type: integer, description: "Product's id", example: 1 }
+ *     responses:
+ *       200:
+ *         description: "OK"
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 nom: { type: string, description: "Product's name", example: "Shawarma Beef Medium" }
+ *                 restaurant: { type: string, description: "Restaurant selling the product", example: "Shawarma Al Sham - Bandar Tasik Selatan" }
+ *                 image: { type: string, description: "Path to the product's image", example: "/images/Shawarma_beef.jpg" }
+ *                 description: { type: string, nullable: true, description: "Description of the product", example: "Shawarma is a popular Middle Eastern dish, particularly associated with Levantine cuisine." }
+ *       404:
+ *         description: "Product unfindable"
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 erreur: { type: string, example: "Produit introuvable" }
+ *       500:
+ *         description: "Database error"
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 erreur: { type: string, example: "Erreur BDD" }
+ */
 app.post("/api/learn", (req, res) => {
     const { partieId, id, reponse } = req.body;
 
@@ -701,6 +854,62 @@ app.post("/api/learn", (req, res) => {
     );
 });
 
+/**
+ * @openapi
+ * /api/fin-partie:
+ *   post:
+ *     summary: "Save the score of a normal (ie not hard) game"
+ *     description: |
+ *       Saves the final score of a normal mode game as the player's best_score if it beats the current one.
+ *
+ *       **Body parameters (JSON):**
+ *       - `score` (number) : final score of the game
+ *     tags: ["Partie"]
+ *     security:
+ *       - cookieAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required: [score]
+ *             properties:
+ *               score: { type: number, description: "Final score of the game", example: 18.5 }
+ *     responses:
+ *       200:
+ *         description: "OK, score saved and best score only updated if beaten"
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message: { type: string, example: "Score saved" }
+ *       400:
+ *         description: "Score missing or not a number"
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message: { type: string, example: "Invalid score" }
+ *       401:
+ *         description: "Player not logged in"
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message: { type: string, example: "You must be logged in" }
+ *       500:
+ *         description: "Database error"
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message: { type: string, example: "Database error" }
+ */
 app.post("/api/fin-partie", (req, res) => {
     // Vérifie que le joueur est connecté
     if (!req.session.userId) {
@@ -741,6 +950,62 @@ app.post("/api/fin-partie", (req, res) => {
     );
 });
 
+/**
+ * @openapi
+ * /api/fin-partie-hard:
+ *   post:
+ *     summary: "Save the score of a hard game"
+ *     description: |
+ *       Saves the final score of a hard mode game as the player's best_hard_score, only if it beats the previous one.
+ *
+ *       **Body parameters (JSON):**
+ *       - `score` (number) : final score of the game
+ *     tags: ["Partie"]
+ *     security:
+ *       - cookieAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required: [score]
+ *             properties:
+ *               score: { type: number, description: "Final score of the game (can be negative)", example: 12.3 }
+ *     responses:
+ *       200:
+ *         description: "OK, score saved, best hard score only updated if beaten"
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message: { type: string, example: "Score saved" }
+ *       400:
+ *         description: "Score missing or not a number"
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message: { type: string, example: "Invalid score" }
+ *       401:
+ *         description: "Player not logged in"
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message: { type: string, example: "You must be logged in" }
+ *       500:
+ *         description: "Database error"
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message: { type: string, example: "Database error" }
+ */
 app.post("/api/fin-partie-hard", (req, res) => {
     // Vérifie que le joueur est connecté
     if (!req.session.userId) {
@@ -781,6 +1046,62 @@ app.post("/api/fin-partie-hard", (req, res) => {
     );
 });
 
+/**
+ * @openapi
+ * /api/avatar:
+ *   post:
+ *     summary: "Change the player's avatar"
+ *     description: |
+ *       Saves the chosen avatar for the player and updates it.
+ *
+ *       **Body parameters (JSON):**
+ *       - `avatar` (string) : path of the chosen avatar, from `/images/avatars/avatar1.png` to `/images/avatars/avatar14.png`
+ *     tags: ["Utilisateur"]
+ *     security:
+ *       - cookieAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required: [avatar]
+ *             properties:
+ *               avatar: { type: string, description: "Path of the chosen avatar", example: "/images/avatars/avatar3.png" }
+ *     responses:
+ *       200:
+ *         description: "OK"
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message: { type: string, example: "Avatar enregistré !" }
+ *       400:
+ *         description: "Avatar not in the allowed list"
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 erreur: { type: string, example: "Avatar invalide." }
+ *       401:
+ *         description: "Player not logged in"
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 erreur: { type: string, example: "Vous devez être connecté." }
+ *       500:
+ *         description: "Database error"
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 erreur: { type: string, example: "Erreur de sauvegarde." }
+ */
 app.post("/api/avatar", (req, res) => {
     if (!req.session.userId) {
         return res.status(401).json({
