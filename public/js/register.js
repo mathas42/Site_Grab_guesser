@@ -24,6 +24,7 @@ if (form && avatarActuel && galerie) {
 
     // CAS 1 : inscription
     if (form.action.endsWith("/register")) {
+        getNotification('Resgister', 'Your profile have been created.')
         form.addEventListener("submit", () => {
             let inputAvatar = form.querySelector('input[name="avatar"]');
 
@@ -36,6 +37,7 @@ if (form && avatarActuel && galerie) {
 
             inputAvatar.value = avatarChoisi;
         });
+        
     }
 
     // CAS 2 : modification du profil
@@ -72,6 +74,7 @@ if (form && avatarActuel && galerie) {
                     message.textContent = data.message;
                     nicknameInput.value = data.nickname;
                     avatarActuel.src = data.avatar;
+                    getNotification('Register', 'Your profile have been created.')
                 } catch (error) {
                     message.textContent = error.message;
                 } finally {

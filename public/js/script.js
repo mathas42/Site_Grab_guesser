@@ -810,7 +810,25 @@ function iconClickAnimation(event){
 document.addEventListener("click", iconClickAnimation);
 
 
+let notificationTimer = null;
+function getNotification(name, text) {
+    const notification = document.querySelector(".notification");
+    if (!notification) return;
+    if (name) notification.querySelector(".name").textContent = name;
+    if (text) notification.querySelector(".message").textContent = text;
+    clearTimeout(notificationTimer);         
+    notification.classList.remove("hidden");
+    notification.classList.add("active");
+    notificationTimer = setTimeout(closeNotification, 3000);
+}
 
+function closeNotification() {
+    const notification = document.querySelector(".notification");
+    if (!notification) return;
+    clearTimeout(notificationTimer);
+    notification.classList.remove("active");
+    notification.classList.add("hidden");
+}
 
 function secret_mode() {
     const body = document.body;

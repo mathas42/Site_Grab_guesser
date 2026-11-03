@@ -56,6 +56,7 @@ form.addEventListener("submit", async (event) => {
 
         // Actualiser le pseudo affiché dans le champ
         nicknameInput.value = data.nickname;
+        getNotification('Profile updated', 'Your profile has been saved.')
     } catch (error) {
         message.textContent = error.message;
     } finally {
@@ -81,25 +82,29 @@ function ProfilePopup() {
 
     image.src = avatar.src;
     image.alt = avatar.alt;
-    image.style.width="30%";
-    image.style.borderRadius="50%";
-    image.style.justifyContent="center";
+    image.style.width = "30%";
+    image.style.aspectRatio = "1 / 1";
+    image.style.objectFit = "cover";
+    image.style.borderRadius = "50%";
+    image.style.alignSelf = "center";
 
     title.textContent = avatar.dataset.nickname;
     title.style.textAlign="center";
 
     description.textContent = "Your profile";
 
-    logOut.textContent="Log Out"
+    logOut.textContent="Log Out";
     logOut.type="submit";
+
     editButton.textContent = "Edit profile";
-    closeButton.textContent = "Close";
+    closeButton.textContent = "X";
 
     overlay.classList.add("popup-overlay");
     popup.classList.add("popup");
     logOut.classList.add("popup-close");
     editButton.classList.add("popup-close");
     closeButton.classList.add("popup-close");
+    closeButton.classList.add("x-close");
 
     popup.append(image, title, description, editButton,logOut, closeButton);
     overlay.appendChild(popup);
