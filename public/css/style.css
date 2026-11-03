@@ -500,8 +500,6 @@ button {
     grid-template-columns: repeat(4, minmax(0, 1fr));
     gap: 12px;
     margin: 20px 0;
-    padding-right: 40px;
-    padding-left: 40px;
 }
 
 .avatar-option:hover {
