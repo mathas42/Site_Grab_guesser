@@ -9,12 +9,11 @@ html(lang="fr")
 
     body
         div#info.flex-center
-            h2 
-                span#summary 
             h2 Score : 
                 span#score 0
-            h2 Round : 
+            h2#round-box(data-info="No round played yet") Round : 
                 span#round 1/5
+            div#progress
 
         div#list.flex-center
             #products-list

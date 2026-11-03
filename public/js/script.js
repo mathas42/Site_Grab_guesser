@@ -408,11 +408,15 @@ function closeModal() {
 }
 
 function SummaryPoint() {
-    const text = document.getElementById("summary");
-    if (!text) return;
-
+    const box = document.getElementById("round-box");
+    if (!box) return;
     const historique = JSON.parse(localStorage.getItem("historique")) || [];
-    text.textContent = historique.map((manche) => manche.points).join(" / ");
+    box.dataset.info =
+        historique.length === 0
+            ? "No round played yet"
+            : historique
+                  .map((manche, i) => "Round " + (i + 1) + " : " + manche.points.toFixed(2) + " pts")
+                  .join("\n");
 }
 
 // when the boutton "More" or "Less" is clicked

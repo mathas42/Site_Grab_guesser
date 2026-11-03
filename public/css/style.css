@@ -369,6 +369,37 @@ button {
 }
 
 
+#round-box {
+    position: relative;
+    cursor: help;
+}
+
+#round-box::after {
+    content: attr(data-info);
+    position: absolute;
+    top: 120%;         
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 10;
+    width: max-content;
+    max-width: 260px;
+    padding: 8px 12px;
+    border-radius: 5px;
+    background: black;
+    color: white;
+    font-size: 1rem;
+    font-weight: normal;
+    text-align: center;
+    white-space: pre-line;     
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s;
+}
+
+#round-box:hover::after {
+    opacity: 1;
+}
+
 .popup-overlay {
     position: fixed;
     inset: 0;
