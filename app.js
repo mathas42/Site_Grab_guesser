@@ -5,9 +5,6 @@ const expressSession = require("express-session");
 const swaggerUi = require('swagger-ui-express');
 const swaggerSpec = require('./swagger');
 
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
-app.get('/api-docs.json', (req, res) => res.json(swaggerSpec));
-
 const app = express();
 
 const PORT = 3000;
@@ -30,6 +27,9 @@ const avatars = [
     "/images/avatars/avatar13.png",
     "/images/avatars/avatar14.png"
 ];
+
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+app.get('/api-docs.json', (req, res) => res.json(swaggerSpec));
 
 // Pug
 app.set("view engine", "pug");
@@ -139,6 +139,37 @@ app.get("/result", (req, res) => {
     );
 });
 
+/**
+ * @openapi
+ * /api/produits:
+ *   get:
+ *     summary: "Gets all product informations"
+ *     description: "Gives all essential informations about every product : id, dish name, restaurant name, an image and a description"
+ *     tags: ["Produit"]
+ *     responses:
+ *       200:
+ *         description: "OK"
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 type: object
+ *                 properties:
+ *                   id: { type: integer, description: "Product ID", example: 0 }
+ *                   nom: { type: string, description: "Dish name", example: "" }
+ *                   nom_restaurant: { type: string, description: "Name of the restaurant", example: "Shawarma Al Sham - Bandar Tasik Selatan" }
+ *                   image: { type: string, description: "Dish image", example: "/images/Shawarma_beef.jpg" }
+ *                   description: { type: string, description: "Description of the dish", example: "Shawarma is a popular Middle Eastern dish, particularly associated with Levantine cuisine." }
+ *       500:
+ *         description: "Database error"
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 erreur: { type: string, example: "Erreur BDD" }
+ */
 app.get("/api/produits", (req, res) => {
     db.query("SELECT id, nom, nom_restaurant, image, description FROM produit", (err, results) => {
         if (err) {
@@ -150,6 +181,65 @@ app.get("/api/produits", (req, res) => {
     });
 });
 
+/**
+ * @openapi
+ * /api/hint:
+ *   post:
+ *     summary: "Uses a hint"
+ *     description: |
+ *       Tells the player whether the real price is higher or lower than their current guess, and removes one hint from the game.
+ *
+ *       **Body parameters (JSON):**
+ *       - `partieId` (integer) : id of the game
+ *       - `id` (integer) : product's id
+ *       - `reponse` (number) : price guessed by the player
+ *     tags: ["Partie"]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required: [partieId, id, reponse]
+ *             properties:
+ *               partieId: { type: integer, description: "Id of ongoing game", example: 1 }
+ *               id: { type: integer, description: "Product's id", example: 3 }
+ *               reponse: { type: number, description: "Price currently guessed by the player", example: 15 }
+ *     responses:
+ *       200:
+ *         description: "OK"
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message: { type: string, description: "\"more than X\", \"less than X\" or \"that's it ! X\", X being the player's guess", example: "more than 15" }
+ *                 hint_count: { type: integer, description: "Remaining \"More or Less\" hints", example: 1 }
+ *       400:
+ *         description: "No hint left, or game unfindable"
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 erreur: { type: string, example: "Plus d'indices More or Less" }
+ *       404:
+ *         description: "Product unfindable"
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 erreur: { type: string, example: "Produit introuvable" }
+ *       500:
+ *         description: "Database error"
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 erreur: { type: string, example: "Erreur BDD" }
+ */
 app.post("/api/hint", (req, res) => {
     const { partieId, id, reponse } = req.body;
 
@@ -315,7 +405,13 @@ app.post("/api/temperature", (req, res) => {
  * /api/verifier:
  *   post:
  *     summary: "Check player's response and calculates points"
- *     description: "Compares the user's price selection and compares it to the real price. It then calculates the points given to the player and goes to the next round."
+ *     description: |
+ *       Compares the user's price selection and compares it to the real price. It then calculates the points given to the player and goes to the next round.
+ *
+ *       **Body parameters (JSON):**
+ *       - `partieId` (integer) : id of ongoing game
+ *       - `id` (integer) : product's id
+ *       - `reponse` (number) : price guessed by the player
  *     tags: ["Partie"]
  *     requestBody:
  *       required: true
@@ -325,32 +421,37 @@ app.post("/api/temperature", (req, res) => {
  *             type: object
  *             required: [partieId, id, reponse]
  *             properties:
- *               partieId: { type: integer, description: "Id de la partie en cours", example: 1 }
- *               id: { type: integer, description: "Id du produit à deviner", example: 3 }
- *               reponse: { type: number, description: "Prix proposé par le joueur", example: 5.5 }
+ *               partieId:
+ *                 oneOf:
+ *                   - { type: integer }
+ *                   - { type: string }
+ *                 description: "Id of ongoing game (the front sends it as a string read from localStorage)"
+ *                 example: 1
+ *               id: { type: integer, description: "Product's id", example: 3 }
+ *               reponse: { type: number, description: "Answer given by player", example: 5.5 }
  *     responses:
  *       200:
- *         description: "Réponse vérifiée, score et manche mis à jour"
+ *         description: "OK, score updated and next round can start"
  *         content:
  *           application/json:
  *             schema:
  *               type: object
  *               properties:
- *                 points: { type: number, description: "Points gagnés sur cette manche", example: 3.2 }
- *                 prix: { type: number, description: "Vrai prix du produit", example: 6 }
- *                 ecart: { type: number, description: "Écart absolu entre la réponse et le prix", example: 0.5 }
- *                 score: { type: number, description: "Nouveau score total", example: 10.4 }
- *                 round: { type: integer, description: "Nouvelle manche", example: 4 }
+ *                 points: { type: number, description: "Points earned", example: 3.2 }
+ *                 prix: { type: number, description: "True price", example: 6 }
+ *                 ecart: { type: number, description: "Difference between guess and true price", example: 0.5 }
+ *                 score: { type: number, description: "New total score", example: 10.4 }
+ *                 round: { type: integer, description: "New round", example: 4 }
  *       404:
- *         description: "Produit introuvable ou partie introuvable"
+ *         description: "Product or game unfindable"
  *         content:
  *           application/json:
  *             schema:
  *               type: object
  *               properties:
- *                 erreur: { type: string, example: "Produit introuvable" }
+ *                 erreur: { type: string, enum: ["Produit introuvable", "Partie introuvable"], example: "Produit introuvable" }
  *       500:
- *         description: "Erreur BDD"
+ *         description: "Database error"
  *         content:
  *           application/json:
  *             schema:
@@ -460,7 +561,54 @@ app.post("/api/verifier", (req, res) => {
         });
     });
 });
-
+/**
+ * @openapi
+ * /api/partie/{id}:
+ *   get:
+ *     summary: "Select a game from its ID"
+ *     description: |
+ *       Returns the current state of a game: score, round, remaining hints and difficulty mode.
+ *
+ *       **Path parameters:**
+ *       - `id` (integer) : Game ID to search
+ *     tags: ["Partie"]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema: { type: integer }
+ *         description: "Game ID to search"
+ *         example: 1
+ *     responses:
+ *       200:
+ *         description: "OK, game found"
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 score: { type: number, description: "Current total score", example: 10.4 }
+ *                 round: { type: integer, description: "Current round", example: 4 }
+ *                 hint_count: { type: integer, description: "Remaining hints", example: 2 }
+ *                 temp_count: { type: integer, description: "Remaining temperature hints", example: 1 }
+ *                 hard: { type: integer, description: "1 = hard mode, 0 = normal mode", example: 0 }
+ *       404:
+ *         description: "Unfindable game"
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 erreur: { type: string, example: "Partie introuvable" }
+ *       500:
+ *         description: "Database error"
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 erreur: { type: string, example: "Erreur BDD" }
+ */
 app.get("/api/partie/:id", (req, res) => {
     const partieId = req.params.id;
 

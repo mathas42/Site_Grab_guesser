@@ -1,3 +1,4 @@
+const path = require('path');
 const swaggerJsdoc = require('swagger-jsdoc');
 
 const options = {
@@ -10,7 +11,7 @@ const options = {
     },
     servers: [{ url: 'http://localhost:3000' }],
   },
-  apis: ['./routes/*.js'], // fichiers où se trouvent tes commentaires
+  apis: [path.join(__dirname, 'app.js'), path.join(__dirname, 'routes/*.js')], // fichiers où se trouvent tes commentaires
 };
 
 module.exports = swaggerJsdoc(options);
