@@ -56,7 +56,7 @@ form.addEventListener("submit", async (event) => {
 
         // Actualiser le pseudo affiché dans le champ
         nicknameInput.value = data.nickname;
-        getNotification('Profile updated', 'Your profile has been saved.')
+        getNotification('Profile updated', 'Your profile has been saved.');
     } catch (error) {
         message.textContent = error.message;
     } finally {

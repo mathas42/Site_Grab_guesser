@@ -43,13 +43,13 @@ html(lang="en")
                                 img(src=image, alt="Choisir cet avatar")
                 div
                     label(for="name") Name 
-                    input#name.form-text(type="text", name="name",placeholder="ex: Mathias", required)
+                    input#name.form-text(type="text" name="name" placeholder="ex: Mathias" size="32" minlength="3" maxlength="30" autocomplete="nickname" required)
                 div
                     label(for="email") E-mail 
-                    input#email.form-text(type="email", name="email",placeholder="ex: mathias@example.com", required)
+                    input#email.form-text(type="email" name="email" placeholder="ex: mathias@example.com" size="32" minlength="6" maxlength="64" autocomplete="email" required)
                 div
                     label(for="password") Password 
-                    input#password.form-text(type="password", name="password", placeholder="ex: 1234", required)
+                    input#password.form-text(type="password" name="password" placeholder="ex: 1234" size="32" minlength="8" maxlength="64" autocomplete="password" required)
                 div
                     button#valider-small(type="submit") Register 
             p Already a user? #[a#log-in(href="/login") Log-in]

@@ -629,7 +629,7 @@ button {
     animation: resize 1s ease-in-out;
     width: 32px;
     height: 32px;
-    border: 2px solid var(--green-grab)
+    border: 2px solid var(--green-grab);
 }
 
 @keyframes showNote {
@@ -653,11 +653,11 @@ button {
     0%,40%{
         width: 38px;
         height: 38px;
-        border: 8px solid rgb(80, 80, 80);}
+        border: 8px solid var(--green-grab);}
     100%{
         width: 32px;
         height: 32px;
-        border: 4px solid rgb(80, 80, 80);}
+        border: 2px solid var(--green-grab);}
 }
 
 
@@ -672,7 +672,7 @@ button {
     animation: resizeBack 1s ease-in-out;
     width: 38px;
     height: 38px;
-    border: 8px solid rgb(80, 80, 80);
+    border: 8px solid var(--green-grab);
 }
 
 
@@ -698,11 +698,13 @@ button {
     0%{
         width: 32px;
         height: 32px;
-        border: 4px solid rgb(80, 80, 80); }
+        border: 2px solid var(--green-grab)
+    }
     60%,100%{
         width: 38px;
         height: 38px;
-        border: 8px solid rgb(80, 80, 80); }
+        border: 8px solid var(--green-grab);
+    }
 }
 
 
