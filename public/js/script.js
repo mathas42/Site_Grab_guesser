@@ -193,9 +193,11 @@ async function begin() {
 
                 <div class="produit">
                     <img src="${produit.image}">
-                    <h2>${produit.nom}</h2>
-                    <h3>${produit.nom_restaurant}</h3>
 
+                    <div class="produit2">
+                        <h2 class="name_dish">${produit.nom}</h2>
+                        <h3 class="resto">${produit.nom_restaurant}</h3>
+                    </div>
                 </div>
             `;
             document.querySelector(".produit img").addEventListener("click", () => {
@@ -415,7 +417,9 @@ function SummaryPoint() {
         historique.length === 0
             ? "No round played yet"
             : historique
-                  .map((manche, i) => "Round " + (i + 1) + " : " + manche.points.toFixed(2) + " pts")
+                  .map(
+                      (manche, i) => "Round " + (i + 1) + " : " + manche.points.toFixed(2) + " pts"
+                  )
                   .join("\n");
 }
 
@@ -765,14 +769,13 @@ function iconClickAnimation(event) {
 }
 document.addEventListener("click", iconClickAnimation);
 
-
 let notificationTimer = null;
 function getNotification(name, text) {
     const notification = document.querySelector(".notification");
     if (!notification) return;
     if (name) notification.querySelector(".name").textContent = name;
     if (text) notification.querySelector(".message").textContent = text;
-    clearTimeout(notificationTimer);         
+    clearTimeout(notificationTimer);
     notification.classList.remove("hidden");
     notification.classList.add("active");
     notificationTimer = setTimeout(closeNotification, 3000);

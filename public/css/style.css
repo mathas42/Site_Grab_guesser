@@ -179,9 +179,17 @@ button {
 
 .produit {
     display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+}
+
+.produit2 {
+    display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    margin-left: 20px;
 }
 
 .produit img {
@@ -193,6 +201,16 @@ button {
 
 .produit img:hover {
     transform: scale(1.05);
+}
+
+.name_dish {
+    max-width: 500px;
+    text-align: center;
+}
+
+.resto {
+    max-width: 500px;
+    text-align: center;
 }
 
 #rep {
@@ -279,7 +297,7 @@ button {
 #reveal2 p,
 #reveal3 p,
 #reveal4 p {
-    margin: 4px 0;
+    margin: 0px 0;
 }
 
 #sec {
