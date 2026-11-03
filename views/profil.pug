@@ -1,4 +1,3 @@
-
 doctype html
 html(lang="fr")
     head
@@ -8,6 +7,7 @@ html(lang="fr")
         link(rel="stylesheet", href="/css/style.css")
         link(rel="stylesheet", href="/css/style_profil.css")
         script(src="/js/profil.js", defer)
+        script(src="/js/script.js")
 
     body
         main.profil-container
@@ -41,6 +41,12 @@ html(lang="fr")
 
                 
                 button.new#enregistrer-profil(type="submit") Apply
+                div.notification
+                    img(src="/images/Logo_Grab_Food_Guesser.png")
+                    div.details
+                        div.name
+                        div.message
+                    span.btn(onclick="closeNotification()") x
 
                 p#message-profil(aria-live="polite")
 

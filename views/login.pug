@@ -4,6 +4,7 @@ html(lang="en")
         meta(charset="UTF-8")
         meta(name="viewport", content="width=device-width, initial-scale=1.0")
         link(rel="stylesheet", href="/css/style.css")
+        link(rel="stylesheet", href="/css/style_login.css")
         link(rel="icon", type="image/png", href="/images/Logo_Grab_Food_Guesser.png")
         title Login
     body
@@ -24,10 +25,10 @@ html(lang="en")
             form(action="/login", method="POST")
                 div
                     label(for="email") E-mail
-                    input.form-text#email(type="text", name="email", required)
+                    input.form-text#email(type="text", name="email", placeholder="mail@example.com", required)
                 div
                     label(for="password") Password
-                    input.form-text#password(type="password", name="password", required)
+                    input.form-text#password(type="password", name="password", placeholder="Your password", required)
                 div
                     button#valider-small(type="submit") Login
-            p First time here? #[a(href="/register") Create an account]
+            p First time here? #[a#account(href="/register") Create an account]
