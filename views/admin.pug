@@ -1,0 +1,58 @@
+doctype html
+html(lang="en")
+    head
+        meta(charset="UTF-8")
+        meta(name="viewport", content="width=device-width, initial-scale=1.0")
+        link(rel="stylesheet", href="/css/style.css")
+        link(rel="icon", type="image/png", href="/images/Logo_Grab_Food_Guesser.png")
+        script(src="/js/script.js" defer)
+        script(src="/js/profil.js")
+        title Grab Food Guesser - Admin
+
+    body#admin
+        div#title_div.flex-center
+            h1#title Grab Food Guesser !
+        if user
+            h2#welcome Welcome #{user.nickname}
+                img.avatar-profil(src=user.avatar, alt="Avatar de " + user.nickname, data-nickname=user.nickname, onclick="ProfilePopup()")
+
+        div#screen.flex-center
+            h2 Admin
+
+        div.notification
+            img(src="/images/Logo_Grab_Food_Guesser.png")
+            div.details
+                div.name
+                div.message
+            span.btn(onclick="closeNotification()") x
+        img(src="/images/icons/chinese-food-svgrepo-com.svg", alt="Chinese food").icon
+        img(src="/images/icons/food-pack-box-with-handle-svgrepo-com.svg", alt="Food pack").icon
+        img(src="/images/icons/restaurant-paper-svgrepo-com.svg", alt="Restaurant paper").icon
+        img(src="/images/icons/food-fruit-fruits-18-svgrepo-com.svg", alt="Fruit").icon
+        img(src="/images/icons/food-color-coffee-long-svgrepo-com.svg", alt="Chinese food").icon
+
+        footer
+            div#footer-content
+                div#infos
+                    p.title Infos
+                    div.block
+                        a(href="/about") About
+                        a(href="/contact") Contact
+                        a(href="/terms") Terms of Service
+                        a(href="/privacy") Privacy Policy
+                div#path
+                    p.title Path
+                    div.block
+                        a(href="/") Home
+                        a(href="/profil") Profile
+                        a(href="/learn") Learn
+                        a(href="/play") Play
+                div#socials
+                    p.title Socials
+                    div.block
+                        a(href="https://www.instagram.com/") Instagram
+                        a(href="https://www.facebook.com/") Facebook
+                        a(href="https://twitter.com/") Twitter
+                        a(href="https://www.linkedin.com/") LinkedIn
+
+            p © 2026 Grab Food Guesser MLMGTG. All rights reserved.

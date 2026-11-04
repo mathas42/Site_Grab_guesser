@@ -100,8 +100,17 @@ app.get("/jeu", (req, res) => {
     if (!req.session.userId) {
         return res.redirect("/login");
     }
-
     res.render("jeu");
+});
+
+app.get("/admin", (req, res) => {
+    if (!req.session.userId) {
+        return res.redirect("/login");
+    }
+    if (!req.session.isAdmin) {
+        return res.redirect("/index");
+    }
+    res.render("admin");
 });
 
 app.use("/", require("./routes/login"));

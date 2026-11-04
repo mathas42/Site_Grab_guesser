@@ -206,6 +206,12 @@ router.post("/login", (req, res) => {
                 req.session.userId = user.id;
                 req.session.nickname = user.nickname;
                 req.session.avatar = user.avatar;
+                if(user.user_role === "Admin"){
+                    req.session.isAdmin = true;
+                }
+                else{
+                    req.session.isAdmin = false;
+                }
                 return res.redirect("/index");
             });
         }
