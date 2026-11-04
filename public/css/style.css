@@ -1,23 +1,21 @@
 :root {
-    --green: #00a651;
-    --dark-green: #007a3d;
     --green-grab: #00b14f;
-    --background: #f7faf4;
+    --green-white-grab: #b6e9cc;
+    --green-dark-grab: #355744;
+    --illustration: #0ab300;
+    --complementary: #b30063;
+    --action-button: #00b3a9;
+    --background-site: #eff5ef;
+    --background-color60: #cddbcf;
+    --background-color40: #263929;
     --card: #ffffff;
     --text: #1f2a24;
-    --soft-text: #5b6b62;
-    --less: #3b82f6;
-    --more: #e5484d;
-    --ink: #0b3d2e;        
-    --mint: #e8f5ec;         
-    --mint-border: #cfe9d8;
-    --accent: #ffb703;       
-    --on-dark: #e9f5ee;     
-    --on-dark-soft: #9fc2ae; 
+    --text-on-dark: #ffffff;
+    --soft-text: #4b5c4a;
     --font-title: ui-rounded, "SF Pro Rounded", "Avenir Next", "Segoe UI", system-ui, sans-serif;
     --radius: 16px;
     --shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
-    --glow: 0 0 10px var(--dark-green);
+    --glow: 0 0 10px var(--green-grab);
     --tilt: rotate3d(-0.5, 1, 0.05, 20deg) scale(1.05);
 }
 
@@ -28,16 +26,10 @@ html {
 body {
     margin: 0;
     padding-bottom: 30px;
-    font-family:
-        system-ui,
-        -apple-system,
-        "Segoe UI",
-        Roboto,
-        Arial,
-        sans-serif;
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
     font-size: 1.25rem;
     color: var(--text);
-    background: var(--background);
+    background: var(--background-site);
 }
 
 button {
@@ -52,7 +44,7 @@ button {
 }
 
 #reponse {
-    accent-color: var(--green);
+    accent-color: var(--green-grab);
 }
 
 #barre,
@@ -73,8 +65,8 @@ button {
     height: 70px;
     border-radius: var(--radius);
     font-size: 50px;
-    color: var(--card);
-    background-color: var(--green);
+    color: var(--text-on-dark);
+    background-color: var(--green-dark-grab);
 }
 
 #new2 {
@@ -102,13 +94,13 @@ button {
 #valider-small:hover {
     box-shadow: var(--glow);
     transform: var(--tilt);
-    background-color: var(--dark-green);
+    background-color: var(--green-dark-grab);
 }
 
 .next-class:hover {
     box-shadow: var(--glow);
     transform: var(--tilt);
-    background-color: var(--dark-green);
+    background-color: var(--green-dark-grab);
 }
 
 #new2:hover {
@@ -127,8 +119,8 @@ button {
 }
 
 #title {
-    background-color: var(--green);
-    color: var(--card);
+    background-color: var(--green-dark-grab);
+    color: var(--text-on-dark);
     border-radius: 20px;
     font-size: 100px;
     text-align: center;
@@ -166,14 +158,14 @@ button {
     margin: 20px;
     padding: 14px 20px;
     gap: 40px;
-    background-color: var(--green-grab);
+    background-color: var(--green-dark-grab);
     border-radius: var(--radius);
     box-shadow: var(--shadow);
 }
 
 #info h2 {
     margin: 0;
-    color: var(--card);
+    color: var(--text-on-dark);
 }
 
 #summary {
@@ -236,7 +228,7 @@ button {
 #lesslessless {
     min-width: 60px;
     height: 25px;
-    color: var(--card);
+    color: var(--text-on-dark);
     padding-bottom: 30px;
     border-radius: var(--radius);
 }
@@ -244,13 +236,13 @@ button {
 #more,
 #moremore,
 #moremoremore {
-    background-color: var(--more);
+    background-color: var(--complementary);
 }
 
 #less,
 #lessless,
 #lesslessless {
-    background-color: var(--less);
+    background-color: var(--action-button);
 }
 
 #more:hover,
@@ -265,10 +257,10 @@ button {
 #more:hover,
 #moremore:hover,
 #moremoremore:hover {
-    background: #e96367;
+    background:var(--complementary);
     transform: translateY(-2px);
     box-shadow:
-        0 7px 0 #a92e34,
+        0 7px 0 #7a0044,
         0 9px 14px rgba(0, 0, 0, 0.2);
 }
 
@@ -277,17 +269,17 @@ button {
 #moremoremore:active {
     transform: translateY(4px);
     box-shadow:
-        0 1px 0 #a92e34,
+        0 1px 0 #7a0044,
         0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 #less:hover,
 #lessless:hover,
 #lesslessless:hover {
-    background: #4b8efb;
+    background: var(--action-button);
     transform: translateY(-2px);
     box-shadow:
-        0 7px 0 #1944a0,
+        0 7px 0 #007f78,
         0 9px 14px rgba(0, 0, 0, 0.2);
 }
 
@@ -296,7 +288,7 @@ button {
 #lesslessless:active {
     transform: translateY(4px);
     box-shadow:
-        0 1px 0 #1944a0,
+        0 1px 0 #007f78,
         0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
@@ -424,7 +416,7 @@ button {
 
 #valider-white {
     color: black;
-    background-color: var(--background);
+    background-color: var(--background-site);
     transition: all 0.1s ease;
 }
 
@@ -597,7 +589,7 @@ button {
     width: 400px;
     max-width: 90vw;
     padding: 15px 25px;
-    background-color: var(--dark-green);
+    background-color: var(--green-dark-grab);
     color: white;
     border-radius: 5px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
@@ -625,7 +617,7 @@ button {
 
 #close-modal:hover,
 .modal-btn:hover {
-    background-color: var(--green);
+    background-color: var(--action-button);
 }
 
 .form-text:focus {
@@ -650,7 +642,7 @@ button {
 }
 
 .x-close:hover {
-    color: var(--dark-green);
+    color: var(--green-dark-grab);
 }
 
 /*notification*/
@@ -659,7 +651,7 @@ button {
     top: 15px;
     left: 50%;
     transform: translate(-50%, -200px);
-    background: var(--dark-green);
+    background: var(--green-dark-grab);
     width: fit-content;
     height: 60px;
     box-sizing: border-box;
@@ -809,8 +801,8 @@ button {
     flex-direction: column;
     margin: 20px auto;
     padding: 24px 20px;
-    background: var(--mint);
-    border: 1px solid var(--mint-border);
+    background: var(--background-color60);
+    border: 1px solid var(--green-white-grab);
     border-radius: var(--radius);
 }
 
@@ -831,20 +823,20 @@ button {
     font-weight: 800;
     letter-spacing: -0.01em;
     text-align: center;
-    color: var(--ink);
+    color: var(--background-color40);
 }
 
 #tutorial p {
     margin: 0;
     line-height: 1.6;
-    color: var(--soft-text);
+    color: var(--background-color40);
 }
 
 footer {
     margin-top: auto;
     padding: 36px 20px 16px;
-    background: var(--ink);
-    color: var(--on-dark-soft);
+    background: var(--green-dark-grab);
+    color: var(--green-white-grab);
     text-align: center;
     font-size: 1rem;
 }
@@ -867,7 +859,7 @@ footer {
     font-weight: 800;
     letter-spacing: 0.14em;
     text-transform: uppercase;
-    color: var(--on-dark);
+    color: var(--text-on-dark);
     width: fit-content;
 }
 
@@ -883,13 +875,13 @@ footer {
 }
 
 footer a {
-    color: var(--on-dark-soft);
+    color: var(--green-white-grab);
     text-decoration: none;
     transition: color 0.2s ease;
 }
 
 footer a:hover {
-    color: var(--accent);
+    color: var(--text-on-dark);
 }
 
 footer p {
