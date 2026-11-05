@@ -116,6 +116,8 @@ app.get("/admin", (req, res) => {
 app.use("/", require("./routes/login"));
 app.use("/", require("./routes/profil"));
 
+app.use("/admin", require("./routes/admin"));
+
 // Result page
 app.get("/result", (req, res) => {
     // Vérifie que le joueur est connecté
