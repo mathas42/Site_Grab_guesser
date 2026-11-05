@@ -18,21 +18,26 @@ html(lang="en")
                 img.avatar-profil(src=user.avatar, alt="Avatar de " + user.nickname, data-nickname=user.nickname, onclick="ProfilePopup()")
 
         div#screen.flex-center
-            h2 Admin
+            h2 Admin panel
 
             div 
             form#search
                 input#search-input(type="search", name="search", placeholder="Username or ID")
                 button(type="submit") Search
             
-            table
+            table#user-data
                 thead
                     tr
+                        th Modify
                         th ID
                         th Role
                         th Username
                         th Email
                         th Created
+                        th Change Role
+                        th Change nickname 
+                        th Delete User
+                        th Confirm changes
                 tbody#users
 
 
