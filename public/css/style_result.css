@@ -29,8 +29,9 @@
     transition: width 0.2s ease;
 }
 
-h2 {
+#h2_game {
     text-align: center;
+    margin: 0;
 }
 
 .round img {

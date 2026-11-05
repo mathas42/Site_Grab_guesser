@@ -789,6 +789,60 @@ function closeNotification() {
     notification.classList.add("hidden");
 }
 
+const PAGE_NAMES = {
+    "/": "Home",
+    "/index": "Menu",
+    "/learn": "Learn",
+    "/jeu": "Game",
+    "/result": "Result",
+    "/hall_of_fame": "Hall of Fame",
+    "/profil": "Profile",
+    "/login": "Login",
+    "/register": "Register"
+};
+
+
+const OUTSIDE_MENU = ["/login", "/register"];
+
+function breadcrumb() {
+    const box = document.getElementById("historic-path");
+    const path = window.location.pathname.toLowerCase().replace(/\/$/, "") || "/";
+    const trail = [["/", PAGE_NAMES["/"]]];
+
+    if (path !== "/") {
+        if (path !== "/index" && !OUTSIDE_MENU.includes(path)) {
+            trail.push(["/index", PAGE_NAMES["/index"]]);
+        }
+        trail.push([path, PAGE_NAMES[path] || path.slice(1)]);
+    }
+
+    box.replaceChildren();
+    trail.forEach(([href, label], i) => {
+        if (i > 0) {
+            const sep = document.createElement("span");
+            sep.className = "separator";
+            sep.textContent = ">";
+            box.appendChild(sep);
+        }
+
+        if (i === trail.length - 1) {
+            const current = document.createElement("span");
+            current.className = "current";
+            current.setAttribute("aria-current", "page");
+            current.textContent = label;
+            box.appendChild(current);
+        } else {
+            const link = document.createElement("a");
+            link.href = href;
+            link.textContent = label;
+            box.appendChild(link);
+        }
+    });
+}
+
+breadcrumb();
+
+
 function secret_mode() {
     const body = document.body;
     body.classList.remove("secret_mode");
