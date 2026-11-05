@@ -1,5 +1,6 @@
 link(rel="stylesheet", href="/css/style.css")
 footer
+    nav#historic-path(aria-label="Breadcrumb")
     div#footer-content
         div#infos
             p.title User
@@ -12,7 +13,7 @@ footer
             p.title Path
             div.block
                 a(href="/") Home
-                a(href="/jeu") Play
+                a(href="/jeu", onclick="new_play()") Play
                 a(href="/learn") Learn
                 a(href="/Hall_of_Fame") Hall of Fame
         div#socials

@@ -877,6 +877,35 @@ footer {
     cursor: pointer;
 }
 
+#historic-path {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 20px;
+    font-size: 0.9rem;
+}
+
+#historic-path a {
+    color: var(--green-white-grab);
+    text-decoration: none;
+}
+
+#historic-path a:hover {
+    color: var(--text-on-dark);
+    text-decoration: underline;
+}
+
+#historic-path .separator {
+    color: var(--green-white-grab);
+    opacity: 0.6;
+}
+
+#historic-path .current {
+    color: var(--text-on-dark);
+    font-weight: 700;
+}
+
 footer {
     margin-top: auto;
     padding: 36px 20px 16px;
