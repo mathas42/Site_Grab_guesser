@@ -6,7 +6,9 @@ mixin card(title)
 mixin button(text, onclick, className, id)
     button(onclick=onclick, class=className, id=id)= text
 
-mixin question(title, content)
+mixin question(number, className, title, content)
+    if number
+        div(class=className)= number
     div.question
         h2.title= title
         p= content

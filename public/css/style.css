@@ -811,11 +811,11 @@ footer {
 #tutorial {
     display: flex;
     flex-direction: column;
-    margin: 20px auto;
-    padding: 24px 20px;
+    margin: 0px auto;
+    padding: 0px 20px;
     background: var(--background-color60);
     border: 1px solid var(--green-white-grab);
-    border-radius: var(--radius);
+    width: 100%;
 }
 
 #tutorial-content {
@@ -827,7 +827,6 @@ footer {
 }
 
 #tutorial h2 {
-    position: relative;
     margin: 0 0 10px;
     padding-bottom: 10px;
     font-family: var(--font-title);
@@ -839,9 +838,43 @@ footer {
 }
 
 #tutorial p {
-    margin: 0;
-    line-height: 1.6;
+    max-width: 650px;
+    margin: 0 auto;         
+    text-align: justify;
+    hyphens: auto;
+}
+
+.question {
+    text-align: left;
+}
+
+#tutorial .title {
+    margin-top: 20px;
+}
+
+.number {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;     
+    width: 50px;
+    height: 50px;
+    margin: 20px auto 10px;     
+    padding: 0;
+    border: 2px solid var(--background-color40);
+    border-radius: 50%;
+    font-family: var(--font-title);
+    font-size: 1.4rem;
+    font-weight: 800;
+    line-height: 1;
+    letter-spacing: 0;           
     color: var(--background-color40);
+}
+
+.number:hover {
+    background-color: var(--background-color40);
+    color: var(--background-color60);
+    cursor: pointer;
 }
 
 footer {
@@ -867,11 +900,14 @@ footer {
     margin: 0 0 14px;
     padding: 0 0 8px;
     font-family: var(--font-title);
-    font-size: 0.85rem;
+    font-size: 1.2rem;
     font-weight: 800;
     letter-spacing: 0.14em;
     text-transform: uppercase;
     color: var(--text-on-dark);
+}
+
+footer .title {        
     width: fit-content;
 }
 
