@@ -1013,3 +1013,8 @@ footer p {
         padding-top: 50px;
     }
 }
+
+#admin #screen {
+    flex-direction: column;
+    align-items: center;
+}
