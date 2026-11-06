@@ -145,6 +145,13 @@ button {
     font-size: 30px;
 }
 
+#screen-footer{
+    margin: 20px;
+    gap: 20px;
+    font-size: 30px;
+    margin-bottom: 19%;
+}
+
 footer {
     margin-top: auto;
 }

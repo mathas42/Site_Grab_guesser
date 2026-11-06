@@ -11,12 +11,9 @@ html(lang="en")
 
     body#index
         include components/mixin.pug
+        include components/nav.pug
         div#title_div.flex-center
             h1#title Grab Food Guesser !
-        if user
-            h2#welcome Welcome #{user.nickname}
-                img.avatar-profil(src=user.avatar, alt="Avatar de " + user.nickname, data-nickname=user.nickname, onclick="ProfilePopup()")
-        
         div#screen.flex-center
             +button("Play","new_play()","new","")
             +button("Learn","new_learn_()","new","")

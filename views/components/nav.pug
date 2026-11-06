@@ -1,17 +1,19 @@
 link(rel="stylesheet", href="/css/style_nav.css")
-nav 
-    div#nav-logo-container
-        img#nav-logo(src="/images/grab_logo.png", alt="Grab logo", onclick="window.location.href='/'")
+nav#main-nav
+    a#nav-logo-link(href="/")
+        img#nav-logo(src="/images/grab_logo.png", alt="Grab logo")
     div#nav-container
-        a(href="/index") Home
+        a(href="/") Home
+        a(href="/play") Play
         a(href="/learn") Learn
-        a(href="/about") About
+        a(href="/index") Index
     div#nav-container2
-        img#nav-hamburger(src="/images/nav/hamburger-svgrepo-com.svg", alt="Hamburger icon")
         if user
-            h2#user-name #{user.nickname}
-                img.avatar-profil(src=user.avatar, alt="Avatar de " + user.nickname, data-nickname=user.nickname, onclick="ProfilePopup()")
+            img.avatar-profil(src=user.avatar, alt="Avatar de " + user.nickname, data-nickname=user.nickname, onclick="ProfilePopup()")
+            span#user-name= user.nickname
         else
             a(href="/login")
-                img#nav-login(src="/images/nav/user-svgrepo-com.svg", alt="default user avatar")
+                img#nav-login(src="/images/nav/user-svgrepo-com.svg", alt="Login")
+        img#nav-hamburger(src="/images/nav/hamburger-svgrepo-com.svg", alt="Menu", onclick="toggleNav()")
 
+    script(src="/js/nav.js" defer)

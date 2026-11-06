@@ -1,55 +1,89 @@
-nav{
+body { 
+    margin: 0; 
+}
+
+#main-nav {
     display: flex;
     justify-content: space-between;
-    flex-wrap: wrap;
-    flex-direction: row;
     align-items: center;
+    gap: 20px;
+    padding: 10px 20px;
     background-color: var(--green-dark-grab);
-
 }
 
-#nav-logo{
+#nav-logo {
+    display: block;
     width: 100px;
     height: auto;
-    margin: 0 20px;
+    margin: 0;
     border-radius: var(--radius);
     border: 2px solid var(--green-grab);
+    transition: border-color 0.2s ease;
 }
 
-#nav-logo:hover{
-    border: 2px solid var(--green-light-grab);
-    width: 103px;
+#nav-logo:hover { 
+    border-color: var(--green-white-grab);
+}  
+
+#nav-container {
+    display: flex;
+    align-items: center;
+    gap: 20px;
 }
 
 #nav-container a {
     color: var(--green-white-grab);
-    margin: 0 20px;
     text-decoration: none;
+    padding: 5px 10px;
+    border-radius: var(--radius);
     transition: color 0.2s ease;
-    justify-content: space-between;
-}
-#nav-container a:hover {
-    color: var(--text-on-dark);
 }
 
-#nav-login,#nav-hamburger{
-    width:50px;
-    height:50px;
-    margin: 0 20px;
-    padding: 5px 10px;
+#nav-container a:hover { 
+    color: var(--text-on-dark); 
+}
+
+#nav-container a.active {
+    color: var(--text-on-dark);
+    font-weight: 700;
+    background: var(--green-grab);
+}
+
+#nav-container2 {               
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+#nav-login, #nav-hamburger {
+    width: 50px;
+    height: 50px;
+    margin: 0;
+    padding: 5px;
+    box-sizing: border-box;
     filter: brightness(0) invert(1);
     transition: all 0.2s ease;
 }
+#nav-login { 
+    border-radius: 50%; 
+}
 
-#nav-login{
+#nav-login:hover { 
+    background-color: var(--green-grab); filter: none;
+}
+
+#nav-hamburger:hover { filter: brightness(0);
+}
+
+nav .avatar-profil {
+    width: 50px;
+    height: 50px;
     border-radius: 50%;
+    border: 2px solid black;
+    transition: all 0.2s ease;
 }
-
-#nav-login:hover{
-    background-color: var(--green-grab);
-    filter:none;
+nav #user-name {
+    color:white;
 }
-
-#nav-hamburger:hover{
-  filter: brightness(0);
+nav .avatar-profil:hover{
+    border: 2px solid var(--green-grab);
 }
