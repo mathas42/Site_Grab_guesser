@@ -702,11 +702,7 @@ function getRandomFloat(min, max) {
     return Math.random() * (max - min) + min;
 }
 
-if (window.location.pathname === "/") {
-    window.addEventListener("load", randomImgPosition);
-}
-
-if (window.location.pathname === "/index") {
+if (["/", "/index", "/admin"].includes(window.location.pathname)) {
     window.addEventListener("load", randomImgPosition);
 }
 
@@ -762,7 +758,7 @@ function openPopup(produit) {
 
 function iconClickAnimation(event) {
     const icon = event.target.closest(".icon");
-    icon.animate([{ scale: 1 }, { scale: 0.9, offset: 0.1 }, { scale: 1 }], {
+    icon?.animate([{ scale: 1 }, { scale: 0.9, offset: 0.1 }, { scale: 1 }], {
         duration: 200,
         easing: "ease-in"
     });
