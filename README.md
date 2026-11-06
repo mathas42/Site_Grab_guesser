@@ -40,7 +40,7 @@
 ## Project Overview
 
 <div align="center">
-  <img src="/public/images/Logo_Grab_Food_Guesser.png" alt="Grab Food Guesser" width="300" height="auto">
+  <img src="/public/images/grab_logo.png" alt="Grab Food Guesser" width="300" height="auto">
 </div>
 
 #### Aim of the project
