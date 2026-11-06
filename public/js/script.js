@@ -201,7 +201,7 @@ async function begin() {
                 </div>
             `;
             document.querySelector(".produit img").addEventListener("click", () => {
-                openPopup(produit);
+                openPopuplight(produit);
             });
 
             // récupère la barre de réponse
@@ -706,7 +706,7 @@ if (["/", "/index", "/admin"].includes(window.location.pathname)) {
     window.addEventListener("load", randomImgPosition);
 }
 
-function openPopup(produit) {
+function openPopuplight(produit) {
     // Création des éléments HTML
     const overlay = document.createElement("div");
     const popup = document.createElement("div");

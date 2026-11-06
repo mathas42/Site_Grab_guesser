@@ -21,4 +21,8 @@ historique.forEach((manche, index) => {
 
     round.append(titre, image, nom, points);
     conteneur.appendChild(round);
+
+    round.addEventListener("click", () => {
+        openPopup(manche);
+    });
 });

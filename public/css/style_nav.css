@@ -34,7 +34,7 @@ body {
 #nav-container a {
     color: var(--green-white-grab);
     text-decoration: none;
-    padding: 5px 10px;
+    padding: 10px 10px 15px 10px;
     border-radius: var(--radius);
     transition: color 0.2s ease;
 }
@@ -84,6 +84,11 @@ nav .avatar-profil {
 nav #user-name {
     color:white;
 }
+
+nav #user-name:hover {
+    color:var(--green-grab);
+}
+
 nav .avatar-profil:hover{
     border: 2px solid var(--green-grab);
 }
