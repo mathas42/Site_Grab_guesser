@@ -23,6 +23,7 @@ nav{
 
 #nav-container a {
     color: var(--green-white-grab);
+    margin: 0 20px;
     text-decoration: none;
     transition: color 0.2s ease;
     justify-content: space-between;
@@ -31,17 +32,24 @@ nav{
     color: var(--text-on-dark);
 }
 
-#nav-login{
+#nav-login,#nav-hamburger{
     width:50px;
+    height:50px;
     margin: 0 20px;
     padding: 5px 10px;
-    border-radius: var(--radius);
-    border: 2px solid black;
-    background-color: white;
-    color: var(--green-white-grab);
+    filter: brightness(0) invert(1);
     transition: all 0.2s ease;
 }
-#nav-login:hover {
-    border: 2px solid var(--green-light-grab);
-    background-color: var(--green-light-grab);
+
+#nav-login{
+    border-radius: 50%;
+}
+
+#nav-login:hover{
+    background-color: var(--green-grab);
+    filter:none;
+}
+
+#nav-hamburger:hover{
+  filter: brightness(0);
 }

@@ -3,10 +3,11 @@ nav
     div#nav-logo-container
         img#nav-logo(src="/images/grab_logo.png", alt="Grab logo", onclick="window.location.href='/'")
     div#nav-container
-        a(href="/") Home
+        a(href="/index") Home
         a(href="/learn") Learn
         a(href="/about") About
     div#nav-container2
+        img#nav-hamburger(src="/images/nav/hamburger-svgrepo-com.svg", alt="Hamburger icon")
         if user
             h2#user-name #{user.nickname}
                 img.avatar-profil(src=user.avatar, alt="Avatar de " + user.nickname, data-nickname=user.nickname, onclick="ProfilePopup()")
