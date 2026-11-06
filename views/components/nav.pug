@@ -1,0 +1,16 @@
+link(rel="stylesheet", href="/css/style_nav.css")
+nav 
+    div#nav-logo-container
+        img#nav-logo(src="/images/grab_logo.png", alt="Grab logo", onclick="window.location.href='/'")
+    div#nav-container
+        a(href="/") Home
+        a(href="/learn") Learn
+        a(href="/about") About
+    div#nav-container2
+        if user
+            h2#user-name #{user.nickname}
+                img.avatar-profil(src=user.avatar, alt="Avatar de " + user.nickname, data-nickname=user.nickname, onclick="ProfilePopup()")
+        else
+            a(href="/login")
+                img#nav-login(src="/images/nav/user-svgrepo-com.svg", alt="default user avatar")
+
