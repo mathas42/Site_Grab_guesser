@@ -167,12 +167,14 @@ footer {
 }
 
 #info {
-    margin: 20px;
-    padding: 14px 20px;
-    gap: 40px;
+    position: sticky;
+    top: 0;
+    z-index: 100; 
+    margin: 2px 20px 0 20px;      
+    padding: 14px 0px;
+    gap: 20px;
     background-color: var(--green-dark-grab);
-    border-radius: var(--radius);
-    box-shadow: var(--shadow);
+    border-radius:  var(--radius);  
 }
 
 #info h2 {
@@ -180,12 +182,8 @@ footer {
     color: var(--text-on-dark);
 }
 
-#summary {
-    text-align: left;
-}
-
 #list {
-    margin: 20px;
+    margin: 15px auto;
 }
 
 .produit {
@@ -313,11 +311,12 @@ footer {
 
 #sec {
     box-sizing: border-box;
-    width: min(900px, 92vw);
+    width: min(700px, 92vw);
+    height: 100px;
     margin: 10px auto;
     padding: 20px;
     background-color: rgb(108, 244, 103);
-    border-radius: 5px;
+    border-radius: var(--radius);
 }
 
 #sec legend {

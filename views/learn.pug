@@ -19,5 +19,8 @@ html(lang="en")
             p#counter 
             button#see-more(type="button" hidden) More
 
-        script(src="/js/change.js")
-        script(src="/js/learn_script.js")
+        include components/footer.pug
+
+        script(src="/js/change.js" defer)
+        script(src="/js/learn_script.js" defer)
+        script(src="/js/script.js" defer)
