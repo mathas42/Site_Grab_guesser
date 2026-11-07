@@ -92,3 +92,37 @@ nav #user-name:hover {
 nav .avatar-profil:hover{
     border: 2px solid var(--green-grab);
 }
+
+#nav-menu {
+    position: fixed;
+    top: 5;
+    right: 0;
+    z-index: 20;
+    width: 240px;
+    height: 250px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    padding: 20px;
+    box-sizing: border-box;
+    background: var(--green-dark-grab);
+}
+
+#nav-menu a,
+#nav-menu button {
+    color: var(--green-white-grab);
+    text-align: left;
+    font: inherit;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+#nav-menu a{
+    background: none;
+    border: none;
+}
+
+#nav-menu a:hover,
+#nav-menu button:hover {
+    color: var(--text-on-dark);
+}

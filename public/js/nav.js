@@ -16,7 +16,37 @@ function backgroundColorNava() {
 }
 
 function toggleNav() {
-    document.querySelector("nav").classList.toggle("open");
+    
+    const existing = document.getElementById("nav-menu");
+    if (existing) {
+        existing.remove();
+        return;
+    }
+
+    const aside = document.createElement("aside");
+    aside.id = "nav-menu";
+
+    const closeButton = document.createElement("button");
+    closeButton.type = "button";
+    closeButton.textContent = "x";
+    closeButton.classList.add("button-close", "popup-close");
+    closeButton.addEventListener("click", () => aside.remove());
+
+    const settingsLink = document.createElement("a");
+    settingsLink.href = "/profil";
+    settingsLink.textContent = "Settings";
+
+    const form = document.createElement("form");
+    form.method = "POST";
+    form.action = "/logout";
+
+    const logOutButton = document.createElement("button");
+    logOutButton.type = "submit";
+    logOutButton.textContent = "Log Out";
+    form.appendChild(logOutButton);
+
+    aside.append(closeButton, settingsLink, form);
+    document.body.appendChild(aside);
 }
 
 backgroundColorNava();

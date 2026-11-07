@@ -7,6 +7,8 @@ nav#main-nav
         a(href="/jeu", onclick="new_play()") Play
         a(href="/learn") Learn
         a(href="/index") Index
+        if isAdmin
+            a(href="/admin") Admin
     div#nav-container2
         if user
             img.avatar-profil(src=user.avatar, alt="Avatar de " + user.nickname, data-nickname=user.nickname, onclick="ProfilePopup()")

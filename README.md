@@ -240,13 +240,44 @@ Finished --> [*]
     }
 ```
 
+Website Navigational Structure
+
 ```mermaid
 flowchart TD
-    A[Début] --> B{Choix}
-    B -->|Oui| C[Action 1]
-    B -->|Non| D[Action 2]
-    C --> E[Fin]
-    D --> E[Fin]
+    Start([Start]) --> Home[Home Page]
+
+    Home --> Login[Login Page]
+    Home --> Register[Registration Page]
+
+    Login --> Dashboard[Main Dashboard]
+    Register --> Dashboard
+
+    Dashboard --> Play[Play]
+    Dashboard --> Learn[Learn]
+    Dashboard --> Profile[Profile]
+    Dashboard --> HallOfFame[Hall of Fame]
+
+    Profile --> EditUsername[Edit Username]
+    Profile --> EditAvatar[Edit Avatar]
+
+    Play --> Normal[Normal Mode]
+    Play --> Hardcore[Hardcore Mode]
+
+    Normal --> GameResult[Game Results]
+    Hardcore --> GameResult
+
+    GameResult --> Dashboard
+
+    EditUsername --> Profile
+    EditAvatar --> Profile
+
+    Learn --> Dashboard
+    HallOfFame --> Dashboard
+
+    style Start fill:#15803d,color:#fff,stroke:#15803d
+    style Home fill:#166534,color:#fff,stroke:#166534
+    style Dashboard fill:#166534,color:#fff,stroke:#166534
+    style GameResult fill:#d97706,color:#fff,stroke:#d97706
 ```
 
 ## How to Format Database Schemas in Markdown

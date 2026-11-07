@@ -62,6 +62,7 @@ app.use((req, res, next) => {
     } else {
         res.locals.user = null;
     }
+    res.locals.isAdmin = !!req.session.isAdmin;
     next();
 });
 

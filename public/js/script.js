@@ -794,7 +794,8 @@ const PAGE_NAMES = {
     "/hall_of_fame": "Hall of Fame",
     "/profil": "Profile",
     "/login": "Login",
-    "/register": "Register"
+    "/register": "Register",
+    "/admin": "Admin"
 };
 
 
