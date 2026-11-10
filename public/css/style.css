@@ -46,6 +46,12 @@ button {
     cursor: pointer;
 }
 
+#background {
+    isolation: isolate;
+    min-height: 100vh;
+    background: url("/images/background_grab_guesseur.png") center / cover no-repeat;
+}
+
 .flex-center {
     display: flex;
     justify-content: center;

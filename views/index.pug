@@ -12,19 +12,20 @@ html(lang="en")
     body#index
         include components/mixin.pug
         include components/nav.pug
-        div#title_div.flex-center
-            h1#title Grab Food Guesser !
-        div#screen.flex-center
-            +button("Play","new_play()","new","")
-            +button("Learn","new_learn_()","new","")
-        div#screen.flex-center
-            +button("Hard Mode","new_hard()","new","new2")
-        include components/notification.pug
-        img(src="/images/icons/chinese-food-svgrepo-com.svg", alt="Chinese food").icon
-        img(src="/images/icons/food-pack-box-with-handle-svgrepo-com.svg", alt="Food pack").icon
-        img(src="/images/icons/restaurant-paper-svgrepo-com.svg", alt="Restaurant paper").icon
-        img(src="/images/icons/food-fruit-fruits-18-svgrepo-com.svg", alt="Fruit").icon
-        img(src="/images/icons/food-color-coffee-long-svgrepo-com.svg", alt="Chinese food").icon
+        div#background
+            div#title_div.flex-center
+                h1#title Grab Food Guesser !
+            div#screen.flex-center
+                +button("Play","new_play()","new","")
+                +button("Learn","new_learn_()","new","")
+            div#screen.flex-center
+                +button("Hard Mode","new_hard()","new","new2")
+            include components/notification.pug
+            img(src="/images/icons/chinese-food-svgrepo-com.svg", alt="Chinese food").icon
+            img(src="/images/icons/food-pack-box-with-handle-svgrepo-com.svg", alt="Food pack").icon
+            img(src="/images/icons/restaurant-paper-svgrepo-com.svg", alt="Restaurant paper").icon
+            img(src="/images/icons/food-fruit-fruits-18-svgrepo-com.svg", alt="Fruit").icon
+            img(src="/images/icons/food-color-coffee-long-svgrepo-com.svg", alt="Chinese food").icon
 
         div#tutorial
             div#tutorial-content
