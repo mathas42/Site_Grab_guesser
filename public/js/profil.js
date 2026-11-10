@@ -36,9 +36,7 @@ form.addEventListener("submit", async (event) => {
     try {
         const response = await fetch("/api/profil", {
             method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
+            headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
                 nickname: nicknameInput.value,
                 avatar: avatarChoisi
@@ -51,15 +49,9 @@ form.addEventListener("submit", async (event) => {
             throw new Error(data.erreur || "Erreur lors de la sauvegarde.");
         }
 
-        message.textContent = data.message;
-        avatarActuel.src = data.avatar;
-
-        // Actualiser le pseudo affiché dans le champ
-        nicknameInput.value = data.nickname;
-        getNotification('Profile updated', 'Your profile has been saved.');
+        window.location.href = "/index?profile=updated";
     } catch (error) {
-        message.textContent = error.message;
-    } finally {
+        message.textContent = error.message;               
         boutonEnregistrer.disabled = false;
     }
 });

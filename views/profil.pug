@@ -8,9 +8,11 @@ html(lang="fr")
         link(rel="stylesheet", href="/css/style_profil.css")
         link(rel="icon", type="image/png", href="/images/logo_loupe.png")
         script(src="/js/profil.js", defer)
+        script(src="/js/notification.js")
         script(src="/js/script.js")
 
     body
+        include components/notification.pug
         main.profil-container
             h1 My profile
 
@@ -42,13 +44,6 @@ html(lang="fr")
 
                 
                 button.new#enregistrer-profil(type="submit") Apply
-                div.notification
-                    img(src="/images/Logo_Grab_Food_Guesser.png")
-                    div.details
-                        div.name
-                        div.message
-                    span.btn(onclick="closeNotification()") x
-
                 p#message-profil(aria-live="polite")
 
             button#valider-white(type="button",onclick="window.location.href='/index'") Home
