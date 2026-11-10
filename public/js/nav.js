@@ -15,22 +15,24 @@ function backgroundColorNava() {
     });
 }
 
+function closeNav() {
+    const menu = document.getElementById("nav-menu");
+    if (menu) menu.remove();
+    document.removeEventListener("click", closeOnOutsideClick);
+}
+
+function closeOnOutsideClick(event) {
+    if (event.target.closest("#nav-menu") || event.target.closest("#nav-hamburger")) return;
+    closeNav();
+}
+
 function toggleNav() {
-    
-    const existing = document.getElementById("nav-menu");
-    if (existing) {
-        existing.remove();
+    if (document.getElementById("nav-menu")) {
+        closeNav();
         return;
     }
-
     const aside = document.createElement("aside");
     aside.id = "nav-menu";
-
-    const closeButton = document.createElement("button");
-    closeButton.type = "button";
-    closeButton.textContent = "x";
-    closeButton.classList.add("button-close", "popup-close");
-    closeButton.addEventListener("click", () => aside.remove());
 
     const settingsLink = document.createElement("a");
     settingsLink.href = "/profil";
@@ -45,8 +47,9 @@ function toggleNav() {
     logOutButton.textContent = "Log Out";
     form.appendChild(logOutButton);
 
-    aside.append(closeButton, settingsLink, form);
+    aside.append(settingsLink, form);
     document.body.appendChild(aside);
+    document.addEventListener("click", closeOnOutsideClick);
 }
 
 backgroundColorNava();

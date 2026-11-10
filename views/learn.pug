@@ -12,12 +12,12 @@ html(lang="en")
         header#header_learn
             h1 Learn about Malaysian Food
             input#research(type="search", placeholder="Search a dish...", aria-label="Search a dish")
-            button#valider-white(type="button",onclick="window.location.href='/index'") Home
+            img#nav-home(src="/images/nav/home-svgrepo-com.svg", alt="Home", onclick="window.location.href='/index'")
 
         main
             div#catalogue
             p#counter 
-            button#see-more(type="button" hidden) More
+            button#see-more.new(type="button" hidden) More
 
         include components/footer.pug
 

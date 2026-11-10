@@ -123,15 +123,15 @@ body {
     margin: 0 auto 48px;
     padding: 10px 28px;
     border: none;
-    border-radius: 15px;
+    border-radius: var(--radius);
+    font-size: 24px;
     background-color: var(--green-grab);
-    font-size: 18px;
-    cursor: pointer;
 }
 
-#see-more:hover {
-    background-color: rgb(238, 255, 47);
+#see-more:hover{
+    background-color: var(--illustration);
 }
+
 
 #see-more[hidden] {
     display: none;
@@ -193,6 +193,20 @@ body {
     background-color: rgb(238, 255, 47);
 }
 
+#nav-home{
+    width: 50px;
+    height: 50px;
+    margin: 0;
+    padding: 5px;
+    box-sizing: border-box;
+    filter: brightness(0) invert(1);
+    transition: all 0.2s ease;
+}
+
+
+#nav-home:hover { 
+    filter: brightness(0);
+}
 
 @media (max-width: 600px) {
     #header_learn {

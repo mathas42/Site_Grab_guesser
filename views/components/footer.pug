@@ -8,7 +8,8 @@ footer
                 a(href="/profil") Profile
                 a(href="/login") Login
                 a(href="/register") Register
-                a(href="/admin") Admin
+                if isAdmin
+                    a(href="/admin") Admin
         div#path 
             p.title Path
             div.block
