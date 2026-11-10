@@ -78,12 +78,8 @@ button {
 }
 
 #new2 {
-    background-color: rgba(186, 47, 255, 0.8);
+    background-color: var(--complementary);
     margin-bottom: 200px;
-}
-
-#new3 {
-    background-color: rgba(52, 48, 54, 0.8);
 }
 
 .new,
@@ -109,16 +105,13 @@ button {
 .next-class:hover {
     box-shadow: var(--glow);
     transform: var(--tilt);
-    background-color: var(--illustration);
+    background-color: var(--green-grab);
 }
 
 #new2:hover {
-    background-color: rgb(255, 47, 252);
+    background-color: #c23367;
 }
 
-#new3:hover {
-    background-color: rgb(101, 100, 101);
-}
 
 #home #new {
     width: auto;
@@ -820,7 +813,7 @@ footer {
     flex-direction: column;
     margin: 0px auto;
     padding: 0px 20px;
-    background: var(--background-color60);
+    background: var(--card);
     border: 1px solid var(--green-white-grab);
     width: 100%;
 }
