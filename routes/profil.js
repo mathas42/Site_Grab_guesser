@@ -19,7 +19,8 @@ const avatars = [
     "/images/avatars/avatar14.png"
 ];
 
-// Afficher la page du profil
+
+// Display the profil page
 router.get("/profil", (req, res) => {
     if (!req.session.userId) {
         return res.redirect("/login");
@@ -32,7 +33,7 @@ router.get("/profil", (req, res) => {
     });
 });
 
-// Modifier le pseudo et l'avatar
+// Modify the pseudo and avatar
 /**
  * @openapi
  * /api/profil:
@@ -104,7 +105,7 @@ router.get("/profil", (req, res) => {
 router.post("/api/profil", (req, res) => {
     if (!req.session.userId) {
         return res.status(401).json({
-            erreur: "Vous devez être connecté."
+            erreur: "You must to be connected."
         });
     }
 
@@ -113,17 +114,17 @@ router.post("/api/profil", (req, res) => {
 
     if (!nickname || nickname.length > 30) {
         return res.status(400).json({
-            erreur: "Le pseudo doit contenir entre 1 et 30 caractères."
+            erreur: "The pseudo must following between 1 and 30 characters."
         });
     }
 
     if (!avatars.includes(avatar)) {
         return res.status(400).json({
-            erreur: "Avatar invalide."
+            erreur: "Invalid avatar."
         });
     }
 
-    // Vérifier que le pseudo n'est pas déjà utilisé
+    //Verify is the pseudo is not already used
     db.query(
         "SELECT id FROM users WHERE nickname = ? AND id != ?",
         [nickname, req.session.userId],
@@ -131,17 +132,17 @@ router.post("/api/profil", (req, res) => {
             if (error) {
                 console.error(error);
                 return res.status(500).json({
-                    erreur: "Erreur lors de la vérification du pseudo."
+                    erreur:"Error while the pseudo verification."
                 });
             }
 
             if (results.length > 0) {
                 return res.status(409).json({
-                    erreur: "Ce pseudo est déjà utilisé."
+                    erreur: "This pseudo is already used."
                 });
             }
 
-            // Enregistrer les changements dans MySQL
+            // Register changes in MySQL
             db.query(
                 "UPDATE users SET nickname = ?, avatar = ? WHERE id = ?",
                 [nickname, avatar, req.session.userId],
@@ -149,11 +150,11 @@ router.post("/api/profil", (req, res) => {
                     if (error) {
                         console.error(error);
                         return res.status(500).json({
-                            erreur: "Erreur lors de la sauvegarde du profil."
+                            erreur:"Error while profil saving."
                         });
                     }
 
-                    // Mettre à jour la session
+                    // Refresh the session
                     req.session.nickname = nickname;
                     req.session.avatar = avatar;
 

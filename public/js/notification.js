@@ -1,3 +1,5 @@
+const { json } = require("express");
+
 let notificationTimer = null;
 function getNotification(name, text) {
     const notification = document.querySelector(".notification");
