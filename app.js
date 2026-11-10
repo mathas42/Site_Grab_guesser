@@ -1188,6 +1188,46 @@ app.get("/hall_of_fame", (req, res) => {
     );
 });
 
+
+app.get("/api/catalogue", (req, res) => {
+    const limit = Math.min(Math.max(parseInt(req.query.limit, 10) || 12, 1), 50);
+    const offset = Math.max(parseInt(req.query.offset, 10) || 0, 0);
+    const search = String(req.query.search || "").trim().slice(0, 100);
+    const like = "%" + search.replace(/[\\%_]/g, "\\$&") + "%";
+
+    // un seul plat par (nom + restaurant), sans tenir compte de la casse ni des espaces
+    const base = `
+        FROM produit p
+        JOIN (
+            SELECT MIN(id) AS id
+            FROM produit
+            GROUP BY LOWER(TRIM(nom)), LOWER(TRIM(nom_restaurant))
+        ) u ON u.id = p.id
+        WHERE CONCAT(p.nom, ' ', p.nom_restaurant) LIKE ?`;
+
+    db.query(`SELECT COUNT(*) AS total ${base}`, [like], (err, countRows) => {
+        if (err) {
+            console.error(err);
+            return res.status(500).json({ erreur: "Erreur BDD" });
+        }
+
+        db.query(
+            `SELECT p.id, p.nom, p.nom_restaurant, p.image, p.description, p.prix
+             ${base}
+             ORDER BY p.nom ASC
+             LIMIT ? OFFSET ?`,
+            [like, limit, offset],
+            (err2, rows) => {
+                if (err2) {
+                    console.error(err2);
+                    return res.status(500).json({ erreur: "Erreur BDD" });
+                }
+                res.json({ produits: rows, total: countRows[0].total });
+            }
+        );
+    });
+});
+
 app.listen(PORT, () => {
     console.log(`Serveur lancé sur http://localhost:${PORT}`);
 });

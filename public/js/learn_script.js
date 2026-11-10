@@ -1,24 +1,19 @@
-const BY_PAGE = 12;   // maximum number of dishes displayed at once
-let limit = BY_PAGE;
+const BY_PAGE = 12;   // number of dishes loaded each time
 
 const catalogue = document.getElementById("catalogue");
 const research = document.getElementById("research");
 const counter = document.getElementById("counter");
 const seeMore = document.getElementById("see-more");
 
-// removes accents and uppercase letters : "Crème" -> "creme"
-function normalize(texte) {
-    return texte
-        .normalize("NFD")
-        .replace(/[\u0300-\u036f]/g, "")
-        .toLowerCase();
-}
+let offset = 0;          // number of dishes already displayed
+let total = 0;           // number of dishes matching the search
+let currentSearch = "";
+let requestId = 0;       // ignores outdated responses
 
 // creates a dish element from the product data
 function creerPlat(produit) {
     const plat = document.createElement("article");
     plat.classList.add("plat");
-    plat.dataset.research = normalize(produit.nom + " " + produit.nom_restaurant);
 
     const image = document.createElement("img");
     image.src = produit.image;
@@ -35,14 +30,10 @@ function creerPlat(produit) {
     restaurant.classList.add("plat-resto");
     restaurant.textContent = produit.nom_restaurant;
 
-   
-
     corps.append(nom, restaurant);
     plat.append(image, corps);
 
-    plat.addEventListener("click", () => {
-        openPopup(produit);
-    });
+    plat.addEventListener("click", () => openPopup(produit));
 
     return plat;
 }
@@ -50,88 +41,62 @@ function creerPlat(produit) {
 // message displayed when no dishes match the search
 const empty = document.createElement("p");
 empty.id = "aucun-resultat";
-empty.textContent = "No dishes found ";
-empty.hidden = true;
+empty.textContent = "No dishes found";
 
-// function that updates the display of dishes based on the search input and limit
-function update() {
-    const text = normalize(research.value.trim());
-    let found = 0;
-    let displayed = 0;
+// loads one page of dishes from the server
+// reset = true : new search, we start again from the first dish
+async function loadPage(reset = false) {
+    const start = reset ? 0 : offset;
+    const id = ++requestId;
+    seeMore.disabled = true;
 
-    document.querySelectorAll(".plat").forEach(plat => {
-        const correspond = plat.dataset.research.includes(text);
-        if (correspond) {
-            found++;
-        }
-
-        const visible = correspond && found <= limit;
-        plat.hidden = !visible;
-        if (visible) {
-            displayed++;
-        }
-    });
-
-    counter.textContent = displayed + " / " + found + " dishes displayed";
-    seeMore.hidden = found <= limit;
-    empty.hidden = found > 0;
-}
-
-// a new search resets the limit and updates the display
-research.addEventListener("input", () => {
-    limit = BY_PAGE;
-    update();
-});
-
-// more dishes are displayed when the "See more" button is clicked
-seeMore.addEventListener("click", () => {
-    limit += BY_PAGE;
-    update();
-});
-
-// retrieve the products from the server and display them
-fetch("/api/produits")
-    .then(response => {
-        if (!response.ok) {
-            throw new Error("Error " + response.status);
-        }
-        return response.json();
-    })
-    .then(produits => {
-        catalogue.innerHTML = "";
-
-        // remove duplicates (same restaurant + same dish name, ignoring case and spaces)
-        const seen = new Set();
-        const uniques = produits.filter(produit => {
-            const key = produit.nom_restaurant.trim().toLowerCase() + "|"+ produit.nom.trim().toLowerCase();
-            if (seen.has(key)) return false;
-            seen.add(key);
-            return true;
+    try {
+        const params = new URLSearchParams({
+            limit: BY_PAGE,
+            offset: start,
+            search: currentSearch
         });
+        const response = await fetch("/api/catalogue?" + params);
+        if (!response.ok) throw new Error("Error " + response.status);
+        const data = await response.json();
 
-        // sort by the first letter of the name, ignoring accents and case
-        uniques.sort((a, b) => {
-            const letterA = a.nom.match(/\p{L}/u)?.[0] || "";
-            const letterB = b.nom.match(/\p{L}/u)?.[0] || "";
+        if (id !== requestId) return;   // a newer request has started
 
-            return letterA.localeCompare(letterB, "fr", { sensitivity: "base" })
-                || a.nom.localeCompare(b.nom, "fr", { sensitivity: "base" });
-        });
+        if (reset) catalogue.replaceChildren();
+        data.produits.forEach(produit => catalogue.appendChild(creerPlat(produit)));
 
-        // display the cards
-        uniques.forEach(produit => {
-            catalogue.appendChild(creerPlat(produit));
-        });
+        offset = start + data.produits.length;
+        total = data.total;
 
-        catalogue.appendChild(empty);
-        update();   // initial display
-    })
-    .catch(err => {
+        if (total === 0) catalogue.replaceChildren(empty);
+        counter.textContent = offset + " / " + total + " dishes displayed";
+        seeMore.hidden = offset >= total;
+    } catch (err) {
+        if (id !== requestId) return;
         console.error("Error :", err);
         catalogue.textContent = "Unable to load the dishes";
         counter.textContent = "";
-    });
- 
+        seeMore.hidden = true;
+    } finally {
+        if (id === requestId) seeMore.disabled = false;
+    }
+}
+
+// a new search starts again from the first page (after a short pause in typing)
+let timer;
+research.addEventListener("input", () => {
+    clearTimeout(timer);
+    timer = setTimeout(() => {
+        currentSearch = research.value.trim();
+        loadPage(true);
+    }, 300);
+});
+
+// the next 12 dishes are loaded when "See more" is clicked
+seeMore.addEventListener("click", () => loadPage(false));
+
+// first 12 dishes
+loadPage(true);
 
 // opens a popup with the details of a dish
 function openPopup(produit) {
