@@ -87,3 +87,11 @@ footer p {
     padding-top: 16px;
     font-size: 0.9rem;
 }
+
+
+/*responsive styles*/
+@media (max-width: 768px){
+    footer{
+        width: 100%;
+    }
+}

@@ -139,3 +139,29 @@ nav .avatar-profil:hover {
 #nav-menu .LogOut:hover .nav-svg {
     filter: brightness(0) invert(1);
 }
+
+@media (max-width: 768px){
+    #main-nav{
+        font-size: 15px;
+        gap: 2px;
+        width: 100%;
+    }
+
+
+    #nav-logo{
+        width: 75px;
+    }
+
+    .nav-svg{
+        width: 35px;
+    }
+
+    #nav-menu{
+        width: 180px;
+        font-size: 15px;
+    }
+
+    #nav-container{
+        display: none;
+    }
+}
