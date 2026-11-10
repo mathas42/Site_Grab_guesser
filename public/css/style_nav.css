@@ -114,7 +114,7 @@ nav .avatar-profil:hover {
     padding: 0;
     background: none;
     border: none;
-    color: var(--green-dark-grab);
+    color: var(--green-white-grab);
     font: inherit;
     line-height: 1;
     text-align: left;
@@ -132,7 +132,13 @@ nav .avatar-profil:hover {
     height: 22px;
     padding: 0;
     flex-shrink: 0;
-    filter: brightness(0);
+    filter: brightness(0) saturate(100%)
+        invert(76%) 
+        sepia(4%) 
+        saturate(1655%) 
+        hue-rotate(93deg) 
+        brightness(117%) 
+        contrast(92%);
 }
 
 #nav-menu a:hover .nav-svg,
