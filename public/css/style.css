@@ -74,11 +74,12 @@ button {
     border-radius: var(--radius);
     font-size: 50px;
     color: var(--text-on-dark);
-    background-color: var(--green-dark-grab);
+    background-color: var(--green-grab);
 }
 
 #new2 {
     background-color: rgba(186, 47, 255, 0.8);
+    margin-bottom: 200px;
 }
 
 #new3 {
@@ -102,13 +103,13 @@ button {
 #valider-small:hover {
     box-shadow: var(--glow);
     transform: var(--tilt);
-    background-color: var(--green-dark-grab);
+    background-color: var(--illustration);
 }
 
 .next-class:hover {
     box-shadow: var(--glow);
     transform: var(--tilt);
-    background-color: var(--green-dark-grab);
+    background-color: var(--illustration);
 }
 
 #new2:hover {
@@ -127,7 +128,7 @@ button {
 }
 
 #title {
-    background-color: var(--green-dark-grab);
+    background-color: var(--green-grab);
     color: var(--text-on-dark);
     border-radius: 20px;
     font-size: 100px;
@@ -180,7 +181,7 @@ footer {
     margin: 2px 20px 0 20px;      
     padding: 14px 0px;
     gap: 20px;
-    background-color: var(--green-dark-grab);
+    background-color: var(--green-grab);
     border-radius:  var(--radius);  
 }
 
@@ -915,7 +916,7 @@ footer {
 footer {
     margin-top: auto;
     padding: 36px 20px 16px;
-    background: var(--green-dark-grab);
+    background: var(--green-grab);
     color: var(--green-white-grab);
     text-align: center;
     font-size: 1rem;

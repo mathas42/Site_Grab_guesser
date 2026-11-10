@@ -19,10 +19,6 @@ html(lang="en")
             +button("Learn","new_learn_()","new","")
         div#screen.flex-center
             +button("Hard Mode","new_hard()","new","new2")
-            form(action="/logout", method="post", style="display:contents")
-                +button("Log-out","null","new","new3")
-        div#screen.flex-center
-            button.new#new3(onclick="window.location.href='/profil'") Edit Profile
         include components/notification.pug
         img(src="/images/icons/chinese-food-svgrepo-com.svg", alt="Chinese food").icon
         img(src="/images/icons/food-pack-box-with-handle-svgrepo-com.svg", alt="Food pack").icon

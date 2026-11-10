@@ -3,12 +3,15 @@ body {
 }
 
 #main-nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;         
     display: flex;
     justify-content: space-between;
     align-items: center;
     gap: 20px;
     padding: 10px 20px;
-    background-color: var(--green-dark-grab);
+    background-color: var(--green-grab);
 }
 
 #nav-logo {
@@ -22,7 +25,7 @@ body {
 }
 
 #nav-logo:hover { 
-    border-color: var(--green-white-grab);
+    border-color: var(--green-dark-grab);
 }  
 
 #nav-container {
@@ -46,7 +49,7 @@ body {
 #nav-container a.active {
     color: var(--text-on-dark);
     font-weight: 700;
-    background: var(--green-grab);
+    background: var(--green-dark-grab);
 }
 
 #nav-container2 {               
@@ -68,10 +71,12 @@ body {
 }
 
 #nav-login:hover { 
-    background-color: var(--green-grab); filter: none;
+    background-color: var(--green-dark-grab);
+    filter: none;
 }
 
-#nav-hamburger:hover { filter: brightness(0);
+#nav-hamburger:hover { 
+    filter: brightness(0);
 }
 
 nav .avatar-profil {
@@ -86,16 +91,16 @@ nav #user-name {
 }
 
 nav #user-name:hover {
-    color:var(--green-grab);
+    color:var(--green-dark-grab);
 }
 
 nav .avatar-profil:hover{
-    border: 2px solid var(--green-grab);
+    border: 2px solid var(--green-dark-grab);
 }
 
 #nav-menu {
     position: fixed;
-    top: 5;
+    top: 70px;              
     right: 0;
     z-index: 20;
     width: 240px;
@@ -105,12 +110,12 @@ nav .avatar-profil:hover{
     gap: 14px;
     padding: 20px;
     box-sizing: border-box;
-    background: var(--green-dark-grab);
+    background: var(--green-grab);
 }
 
 #nav-menu a,
 #nav-menu button {
-    color: var(--green-white-grab);
+    color: var(--green-dark-grab);
     text-align: left;
     font: inherit;
     text-decoration: none;
