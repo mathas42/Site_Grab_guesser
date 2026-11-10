@@ -1,11 +1,11 @@
-body { 
-    margin: 0; 
+body {
+    margin: 0;
 }
 
 #main-nav {
     position: sticky;
     top: 0;
-    z-index: 100;         
+    z-index: 100;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -14,36 +14,34 @@ body {
     background-color: var(--green-grab);
 }
 
-#nav-logo {
-    display: block;
-    width: 100px;
-    height: auto;
-    margin: 0;
-    border-radius: var(--radius);
-    border: 2px solid var(--green-grab);
-    transition: border-color 0.2s ease;
-}
-
-#nav-logo:hover { 
-    border-color: var(--green-dark-grab);
-}  
-
-#nav-container {
+#nav-container,
+#nav-container2 {
     display: flex;
     align-items: center;
     gap: 20px;
 }
 
+#nav-logo {
+    width: 100px;
+    border-radius: var(--radius);
+    border: 2px solid var(--green-grab);
+    transition: border-color 0.2s ease;
+}
+
+#nav-logo:hover {
+    border-color: var(--green-dark-grab);
+}
+
 #nav-container a {
+    padding: 10px;
     color: var(--green-white-grab);
     text-decoration: none;
-    padding: 10px 10px 15px 10px;
     border-radius: var(--radius);
     transition: color 0.2s ease;
 }
 
-#nav-container a:hover { 
-    color: var(--text-on-dark); 
+#nav-container a:hover {
+    color: var(--text-on-dark);
 }
 
 #nav-container a.active {
@@ -52,30 +50,25 @@ body {
     background: var(--green-dark-grab);
 }
 
-#nav-container2 {               
-    display: flex;
-    align-items: center;
-    gap: 20px;
-}
-#nav-login, #nav-hamburger {
+.nav-svg {
     width: 50px;
     height: 50px;
-    margin: 0;
     padding: 5px;
     box-sizing: border-box;
     filter: brightness(0) invert(1);
     transition: all 0.2s ease;
 }
-#nav-login { 
-    border-radius: 50%; 
+
+#nav-login {
+    border-radius: 50%;
 }
 
-#nav-login:hover { 
+#nav-login:hover {
     background-color: var(--green-dark-grab);
     filter: none;
 }
 
-#nav-hamburger:hover { 
+#nav-hamburger:hover {
     filter: brightness(0);
 }
 
@@ -86,25 +79,25 @@ nav .avatar-profil {
     border: 2px solid black;
     transition: all 0.2s ease;
 }
-nav #user-name {
-    color:white;
+
+nav .avatar-profil:hover {
+    border-color: var(--green-dark-grab);
 }
 
-nav #user-name:hover {
-    color:var(--green-dark-grab);
+#user-name {
+    color: white;
 }
 
-nav .avatar-profil:hover{
-    border: 2px solid var(--green-dark-grab);
+#user-name:hover {
+    color: var(--green-dark-grab);
 }
 
 #nav-menu {
     position: fixed;
-    top: 100px;              
-    right: 0;
-    z-index: 20;
+    top: 100px;
+    right: 15px;
+    z-index: 200;
     width: 240px;
-    height: auto;
     display: flex;
     flex-direction: column;
     gap: 14px;
@@ -114,20 +107,35 @@ nav .avatar-profil:hover{
 }
 
 #nav-menu a,
-#nav-menu button {
+#nav-menu .LogOut {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 0;
+    background: none;
+    border: none;
     color: var(--green-dark-grab);
-    text-align: left;
     font: inherit;
+    line-height: 1;
+    text-align: left;
     text-decoration: none;
     cursor: pointer;
 }
 
-#nav-menu a{
-    background: none;
-    border: none;
+#nav-menu a:hover,
+#nav-menu .LogOut:hover {
+    color: var(--text-on-dark);
 }
 
-#nav-menu a:hover,
-#nav-menu button:hover {
-    color: var(--text-on-dark);
+#nav-menu .nav-svg {
+    width: 22px;
+    height: 22px;
+    padding: 0;
+    flex-shrink: 0;
+    filter: brightness(0);
+}
+
+#nav-menu a:hover .nav-svg,
+#nav-menu .LogOut:hover .nav-svg {
+    filter: brightness(0) invert(1);
 }

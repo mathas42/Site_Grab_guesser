@@ -15,7 +15,7 @@ nav#main-nav
             span#user-name= user.nickname
         else
             a(href="/login")
-                img#nav-login(src="/images/nav/user-svgrepo-com.svg", alt="Login")
-        img#nav-hamburger(src="/images/nav/hamburger-svgrepo-com.svg", alt="Menu", onclick="toggleNav()")
+                img.nav-svg#nav-login(src="/images/nav/user-svgrepo-com.svg", alt="Login")
+        img.nav-svg#nav-hamburger(src="/images/nav/hamburger-svgrepo-com.svg", alt="Menu", onclick="toggleNav()")
 
     script(src="/js/nav.js" defer)

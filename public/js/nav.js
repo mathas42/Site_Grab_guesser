@@ -26,6 +26,14 @@ function closeOnOutsideClick(event) {
     closeNav();
 }
 
+function createMenuIcon(src) {
+    const img = document.createElement("img");
+    img.src = src;
+    img.className = "nav-svg";
+    img.alt = "";            
+    return img;
+}
+
 function toggleNav() {
     if (document.getElementById("nav-menu")) {
         closeNav();
@@ -36,7 +44,7 @@ function toggleNav() {
 
     const settingsLink = document.createElement("a");
     settingsLink.href = "/profil";
-    settingsLink.textContent = "Settings";
+    settingsLink.append(createMenuIcon("/images/nav/settings-svgrepo-com.svg"), "Settings");
 
     const form = document.createElement("form");
     form.method = "POST";
@@ -44,7 +52,8 @@ function toggleNav() {
 
     const logOutButton = document.createElement("button");
     logOutButton.type = "submit";
-    logOutButton.textContent = "Log Out";
+    logOutButton.className = "LogOut";
+    logOutButton.append(createMenuIcon("/images/nav/exit-svgrepo-com.svg"), "Log Out");
     form.appendChild(logOutButton);
 
     aside.append(settingsLink, form);
