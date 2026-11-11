@@ -53,7 +53,9 @@ button {
 }
 
 .bg-grab {
-    background: linear-gradient(rgba(239, 245, 239, 0.7), rgba(239, 245, 239, 0.7)), url("/images/green_back_index.jpg") center / cover no-repeat fixed;
+    background:
+        linear-gradient(rgba(239, 245, 239, 0.7), rgba(239, 245, 239, 0.7)),
+        url("/images/green_back_index.jpg") center / cover no-repeat fixed;
 }
 
 .flex-center {
@@ -122,7 +124,6 @@ button {
     background-color: #c23367;
 }
 
-
 #home #new {
     width: auto;
     height: auto;
@@ -149,7 +150,7 @@ button {
     font-size: 30px;
 }
 
-#screen-footer{
+#screen-footer {
     margin: 20px;
     gap: 20px;
     font-size: 30px;
@@ -180,12 +181,12 @@ footer {
 #info {
     position: sticky;
     top: 0;
-    z-index: 100; 
-    margin: 2px 20px 0 20px;      
+    z-index: 100;
+    margin: 2px 20px 0 20px;
     padding: 14px 0px;
     gap: 20px;
     background-color: var(--green-grab);
-    border-radius:  var(--radius);  
+    border-radius: var(--radius);
 }
 
 #info h2 {
@@ -323,7 +324,7 @@ footer {
 #sec {
     box-sizing: border-box;
     width: min(700px, 92vw);
-    height: 100px;
+    height: 120px;
     margin: 10px auto;
     padding: 20px;
     background-color: rgb(108, 244, 103);
@@ -698,7 +699,7 @@ footer {
 
 #tutorial p {
     max-width: 650px;
-    margin: 0 auto;         
+    margin: 0 auto;
     text-align: justify;
     hyphens: auto;
 }
@@ -715,10 +716,10 @@ footer {
     display: flex;
     align-items: center;
     justify-content: center;
-    box-sizing: border-box;     
+    box-sizing: border-box;
     width: 50px;
     height: 50px;
-    margin: 20px auto 10px;     
+    margin: 20px auto 10px;
     padding: 0;
     border: 2px solid var(--background-color40);
     border-radius: 50%;
@@ -726,7 +727,7 @@ footer {
     font-size: 1.4rem;
     font-weight: 800;
     line-height: 1;
-    letter-spacing: 0;           
+    letter-spacing: 0;
     color: var(--background-color40);
 }
 
@@ -735,7 +736,6 @@ footer {
     color: var(--background-color60);
     cursor: pointer;
 }
-
 
 /*Responsive styles */
 @media (max-width: 1024px) {
@@ -766,10 +766,9 @@ footer {
         padding-left: 10%;
     }
 
-    #background{
+    #background {
         width: 100%;
     }
-  
 
     #screen {
         flex-direction: column;
@@ -787,16 +786,14 @@ footer {
         align-content: center;
     }
 
-    #tutorial{
+    #tutorial {
         max-width: 100%;
     }
 
-    .icon{
+    .icon {
         display: none;
     }
 }
-
-
 
 @media (max-width: 480px) {
     #new,
