@@ -13,9 +13,9 @@ galerie.querySelectorAll(".avatar-option").forEach((bouton) => {
         avatarChoisi = bouton.dataset.avatar;
         avatarActuel.src = avatarChoisi;
 
-        avatarActuel.addEventListener("click",()=>{
+        avatarActuel.addEventListener("click", () => {
             openPopup();
-        })
+        });
 
         galerie.querySelectorAll(".avatar-option").forEach((element) => {
             element.classList.remove("selectionne");
@@ -51,11 +51,10 @@ form.addEventListener("submit", async (event) => {
 
         window.location.href = "/dashboard?profile=updated";
     } catch (error) {
-        message.textContent = error.message;               
+        message.textContent = error.message;
         boutonEnregistrer.disabled = false;
     }
 });
-
 
 function ProfilePopup() {
     const avatar = document.querySelector(".avatar-profil");
@@ -65,12 +64,11 @@ function ProfilePopup() {
     const popup = document.createElement("div");
     const image = document.createElement("img");
     const title = document.createElement("h2");
-    const description = document.createElement("p");
     const editButton = document.createElement("button");
-    const logOut= document.createElement("button");
+    const logOut = document.createElement("button");
     const closeButton = document.createElement("button");
 
-    overlay.style.background="#007a3d";
+    overlay.style.background = "#007a3d";
 
     image.src = avatar.src;
     image.alt = avatar.alt;
@@ -81,12 +79,10 @@ function ProfilePopup() {
     image.style.alignSelf = "center";
 
     title.textContent = avatar.dataset.nickname;
-    title.style.textAlign="center";
+    title.style.textAlign = "center";
 
-    description.textContent = "Your profile";
-
-    logOut.textContent="Log Out";
-    logOut.type="submit";
+    logOut.textContent = "Log Out";
+    logOut.type = "submit";
 
     editButton.textContent = "Edit profile";
     closeButton.textContent = "X";
@@ -98,7 +94,7 @@ function ProfilePopup() {
     closeButton.classList.add("popup-close");
     closeButton.classList.add("x-close");
 
-    popup.append(image, title, description, editButton,logOut, closeButton);
+    popup.append(image, title, editButton, logOut, closeButton);
     overlay.appendChild(popup);
     document.body.appendChild(overlay);
 
@@ -131,5 +127,3 @@ function ProfilePopup() {
 
     document.addEventListener("keydown", onKey);
 }
-
-
