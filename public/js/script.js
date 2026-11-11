@@ -97,7 +97,7 @@ async function begin() {
     // Vérifie si la partie est terminée
     if (sessionStorage.getItem("terminee") === "true") {
         localStorage.clear();
-        window.location.replace("/index");
+        window.location.replace("/dashboard");
         return;
     }
 
@@ -107,14 +107,14 @@ async function begin() {
         sessionStorage.removeItem("next");
     } else {
         localStorage.clear();
-        window.location.replace("/index");
+        window.location.replace("/dashboard");
         return;
     }
 
     const partieId = localStorage.getItem("partieId");
 
     if (!partieId) {
-        window.location.replace("/index");
+        window.location.replace("/dashboard");
         return;
     }
 
@@ -702,7 +702,7 @@ function getRandomFloat(min, max) {
     return Math.random() * (max - min) + min;
 }
 
-if (["/", "/index", "/admin"].includes(window.location.pathname)) {
+if (["/", "/dashboard", "/admin"].includes(window.location.pathname)) {
     window.addEventListener("load", randomImgPosition);
 }
 
@@ -768,12 +768,12 @@ document.addEventListener("click", iconClickAnimation);
 
 const PAGE_NAMES = {
     "/": "Home",
-    "/index": "Menu",
+    "/dashboard": "Menu",
     "/learn": "Learn",
     "/jeu": "Game",
     "/result": "Result",
     "/hall_of_fame": "Hall of Fame",
-    "/index/profil": "Profile",
+    "/dashboard/profil": "Profile",
     "/login": "Login",
     "/register": "Register",
     "/admin": "Admin"
@@ -788,8 +788,8 @@ function breadcrumb() {
     const trail = [["/", PAGE_NAMES["/"]]];
 
     if (path !== "/") {
-        if (path !== "/index" && !OUTSIDE_MENU.includes(path)) {
-            trail.push(["/index", PAGE_NAMES["/index"]]);
+        if (path !== "/dashboard" && !OUTSIDE_MENU.includes(path)) {
+            trail.push(["/dashboard", PAGE_NAMES["/dashboard"]]);
         }
         trail.push([path, PAGE_NAMES[path] || path.slice(1)]);
     }

@@ -147,7 +147,7 @@ router.post("/register", (req, res) => {
  *             $ref: "#/components/schemas/LoginBody"
  *     responses:
  *       302:
- *         description: "Logged in, session opened and redirects to /index"
+ *         description: "Logged in, session opened and redirects to /dashboard"
  *       401:
  *         description: "Email or password incorrect (JSON if the email is unknown, plain text if the password is wrong)"
  *         content:
