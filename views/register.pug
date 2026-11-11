@@ -7,9 +7,11 @@ html(lang="en")
         link(rel="stylesheet", href="/css/style_profil.css")
         link(rel="stylesheet", href="/css/style_login.css")
         link(rel="icon", type="image/png", href="/images/logo_loupe.png")
+        script(src="/js/notification.js", defer)
         script(src="/js/register.js", defer)
         title Register
     body
+        include components/notification.pug 
         section.wrapper
             div.bubble: img(src="/images/icons/chinese-food-svgrepo-com.svg", alt="Chinese food").icon
             div.bubble: img(src="/images/icons/food-pack-box-with-handle-svgrepo-com.svg", alt="Food pack").icon
@@ -24,7 +26,7 @@ html(lang="en")
 
         div#regist
             h2 Register
-            form#form-profil(action="/register", method="POST")
+            form#form-profil(action="/register", method="POST", novalidate)
                 div 
                     h3 Select your avatar
 
@@ -50,7 +52,7 @@ html(lang="en")
                     input#email.form-text(type="email" name="email" placeholder="ex: mathias@example.com" size="32" minlength="6" maxlength="64" autocomplete="email" required)
                 div
                     label(for="password") Password 
-                    input#password.form-text(type="password" name="password" placeholder="ex: 1234" size="32" minlength="8" maxlength="64" autocomplete="password" required)
+                    input#password.form-text(type="password" name="password" placeholder="ex: 1234" size="32" minlength="8" maxlength="64" autocomplete="new-password" required)
                 div
                     button#valider-small(type="submit") Register 
             p Already a user? #[a#log-in(href="/login") Log-in]

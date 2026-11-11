@@ -1,36 +1,31 @@
+
+function notify(title, text, type = "success") {
+    if (typeof getNotification === "function") {
+        getNotification(title, text, type);
+    }
+}
+
 function isValidEmail(email) {
     const regex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
     return regex.test(email) && email.length >= 6 && email.length <= 64;
 }
 
-function setupEmailCheck() {
+function setupEmailHint() {
     const emailInput = document.getElementById("email");
-    const errorMessage = document.getElementById("error-message");
-    if (!emailInput) return () => true;
+    const hint = document.getElementById("error-message");
+    if (!emailInput || !hint) return;
 
-    function check() {
+    emailInput.addEventListener("input", () => {
         const ok = isValidEmail(emailInput.value);
-        if (errorMessage) {
-            errorMessage.textContent =
-                ok || emailInput.value === ""
-                    ? ""
-                    : "Please enter a valid e-mail address.";
-        }
-        return ok;
-    }
-
-    emailInput.addEventListener("input", check);
-    return check;
+        hint.textContent =
+            ok || emailInput.value === "" ? "" : "Please enter a valid e-mail address.";
+    });
 }
 
-const form = document.getElementById("form-profil");
-const avatarActuel = document.getElementById("avatar-actuel");
-const galerie = document.getElementById("galerie-avatars");
 
-if (form && avatarActuel && galerie) {
+function setupAvatarPicker(avatarActuel, galerie) {
     let avatarChoisi = avatarActuel.getAttribute("src");
 
-    // avatar selection
     galerie.querySelectorAll(".avatar-option").forEach((bouton) => {
         bouton.addEventListener("click", () => {
             avatarChoisi = bouton.dataset.avatar;
@@ -46,75 +41,119 @@ if (form && avatarActuel && galerie) {
         });
     });
 
-    // CASE 1: registration
-    if (form.getAttribute("action") === "/register") {
-        const checkEmail = setupEmailCheck();
+    return () => avatarChoisi;
+}
 
-        form.addEventListener("submit", (event) => {
-            // block the sending if the e-mail is invalid
-            if (!checkEmail()) {
+
+
+function setupRegister(form, getAvatar) {
+    const nickname = document.getElementById("nickname");
+    const email = document.getElementById("email");
+    const password = document.getElementById("password");
+    const confirm = document.getElementById("password-confirm"); // facultatif
+
+    setupEmailHint();
+
+
+    const rules = [
+        [nickname, () => nickname.value.trim().length >= 3 && nickname.value.trim().length <= 30,
+            "The nickname must be between 3 and 30 characters."],
+        [email, () => isValidEmail(email.value),
+            "Please enter a valid e-mail address."],
+        [password, () => password.value.length >= 8,
+            "The password must contain at least 8 characters."],
+        [confirm, () => confirm.value === password.value,
+            "The passwords do not match."]
+    ];
+
+    form.addEventListener("submit", (event) => {
+        for (const [field, isOk, text] of rules) {
+            if (!field) continue;
+
+            if (!isOk()) {
                 event.preventDefault();
-                document.getElementById("email").focus();
+                notify("Register", text, "error");
+                field.focus();
                 return;
             }
+        }
 
-            // send the chosen avatar with the form
-            let inputAvatar = form.querySelector('input[name="avatar"]');
 
-            if (!inputAvatar) {
-                inputAvatar = document.createElement("input");
-                inputAvatar.type = "hidden";
-                inputAvatar.name = "avatar";
-                form.appendChild(inputAvatar);
+        let inputAvatar = form.querySelector('input[name="avatar"]');
+        if (!inputAvatar) {
+            inputAvatar = document.createElement("input");
+            inputAvatar.type = "hidden";
+            inputAvatar.name = "avatar";
+            form.appendChild(inputAvatar);
+        }
+        inputAvatar.value = getAvatar();
+    });
+}
+
+
+function setupProfileEdit(form, avatarActuel, getAvatar) {
+    const nicknameInput = document.getElementById("nickname");
+    const message = document.getElementById("message-profil");
+    const saveButton = document.getElementById("enregistrer-profil");
+    if (!nicknameInput || !message || !saveButton) return;
+
+    form.addEventListener("submit", async (event) => {
+        event.preventDefault();
+
+        saveButton.disabled = true;
+        message.textContent = "Saving...";
+
+        try {
+            const response = await fetch("/api/profil", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    nickname: nicknameInput.value,
+                    avatar: getAvatar()
+                })
+            });
+
+            const data = await response.json();
+
+            if (!response.ok) {
+                throw new Error(data.erreur || "Error while saving.");
             }
 
-            inputAvatar.value = avatarChoisi;
-        });
-    }
-
-    // CASE 2: profile edition
-    else {
-        const nicknameInput = document.getElementById("nickname");
-        const message = document.getElementById("message-profil");
-        const boutonEnregistrer = document.getElementById("enregistrer-profil");
-
-        if (nicknameInput && message && boutonEnregistrer) {
-            form.addEventListener("submit", async (event) => {
-                event.preventDefault();
-
-                boutonEnregistrer.disabled = true;
-                message.textContent = "Saving...";
-
-                try {
-                    const response = await fetch("/api/profil", {
-                        method: "POST",
-                        headers: { "Content-Type": "application/json" },
-                        body: JSON.stringify({
-                            nickname: nicknameInput.value,
-                            avatar: avatarChoisi
-                        })
-                    });
-
-                    const data = await response.json();
-
-                    if (!response.ok) {
-                        throw new Error(data.erreur || "Error while saving.");
-                    }
-
-                    message.textContent = data.message;
-                    nicknameInput.value = data.nickname;
-                    avatarActuel.src = data.avatar;
-                    getNotification('Profile', 'Your profile has been updated.')
-                } catch (error) {
-                    message.textContent = error.message;
-                } finally {
-                    boutonEnregistrer.disabled = false;
-                }
-            });
+            message.textContent = data.message;
+            nicknameInput.value = data.nickname;
+            avatarActuel.src = data.avatar;
+            notify("Profile", "Your profile has been updated.");
+        } catch (error) {
+            message.textContent = error.message;
+            notify("Profile", error.message, "error");
+        } finally {
+            saveButton.disabled = false;
         }
+    });
+}
+
+
+const form = document.getElementById("form-profil");
+const avatarActuel = document.getElementById("avatar-actuel");
+const galerie = document.getElementById("galerie-avatars");
+
+if (form && avatarActuel && galerie) {
+    const getAvatar = setupAvatarPicker(avatarActuel, galerie);
+
+    if (form.getAttribute("action") === "/register") {
+        setupRegister(form, getAvatar);
+    } else {
+        setupProfileEdit(form, avatarActuel, getAvatar);
     }
 }
 
+// Message après une inscription réussie (redirection /login?registered=1)
 if (new URLSearchParams(window.location.search).get("registered") === "1") {
-    getNotification("Register", "Your account has been created.");
+    notify("Register", "Your account has been created.");
+}
+
+
+const serverError = document.getElementById("error-message");
+if (serverError && serverError.textContent.trim() !== "") {
+    notify("Register", serverError.textContent.trim(), "error");
 }

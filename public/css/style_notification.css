@@ -5,7 +5,7 @@
     transform: translate(-50%, -200px);
     background: var(--green-dark-grab);
     width: fit-content;
-    height: 60px;
+    height: auto;
     box-sizing: border-box;
     padding: 8px;
     border-radius: 15mm;
@@ -42,6 +42,7 @@
 .message {
     font-size: 18px;
     color: white;
+    overflow-wrap: anywhere; 
 }
 
 .btn {
@@ -58,7 +59,7 @@
 
 .notification.active {
     animation: showNote 1s ease-in-out;
-    max-width: 350px;
+    max-width: var(--note-w, 350px);
     transform: translate(-50%, 0);
     padding: 8px;
 }
@@ -83,7 +84,7 @@
     }
     100% {
         transform: translate(-50%, 0);
-        max-width: 350px;
+        max-width: var(--note-w, 350px);
         padding: 8px;
     }
 }
@@ -116,10 +117,18 @@
     border: 8px solid var(--green-grab);
 }
 
+.notification.error {
+    background: #b3261e;
+}
+
+.notification.error img {
+    border-color: #ffb4ab;
+}
+
 @keyframes closeNote {
     0% {
         transform: translate(-50%, 0);
-        max-width: 350px;
+        max-width: var(--note-w, 350px);
         padding: 8px;
     }
     65% {
