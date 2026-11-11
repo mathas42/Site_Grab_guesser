@@ -29,6 +29,7 @@ function creerPlat(produit) {
     const restaurant = document.createElement("p");
     restaurant.classList.add("plat-resto");
     restaurant.textContent = produit.nom_restaurant;
+    restaurant.style.color="var(--green-grab)";
 
     corps.append(nom, restaurant);
     plat.append(image, corps);
@@ -112,10 +113,12 @@ function openPopup(produit) {
     image.alt = produit.nom;
     title.textContent = produit.nom;
     restaurant.textContent = produit.nom_restaurant;
+    restaurant.style.color="var(--green-grab)";
     description.textContent = produit.description || "No description available.";
     closeButton.textContent = "Close";
 
-    closeButton.classList.add("popup-close");
+    closeButton.classList.add("new");
+    closeButton.id="new4";
     overlay.classList.add("popup-overlay");
     popup.classList.add("popup");
     restaurant.classList.add("plat-resto");
