@@ -212,7 +212,7 @@ router.post("/login", (req, res) => {
                 else{
                     req.session.isAdmin = false;
                 }
-                return res.redirect("/index");
+                return res.redirect("/dashboard");
             });
         }
     });

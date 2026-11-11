@@ -773,7 +773,7 @@ const PAGE_NAMES = {
     "/jeu": "Game",
     "/result": "Result",
     "/hall_of_fame": "Hall of Fame",
-    "/profil": "Profile",
+    "/index/profil": "Profile",
     "/login": "Login",
     "/register": "Register",
     "/admin": "Admin"

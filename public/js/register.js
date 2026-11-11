@@ -1,4 +1,3 @@
-
 function notify(title, text, type = "success") {
     if (typeof getNotification === "function") {
         getNotification(title, text, type);
@@ -147,7 +146,6 @@ if (form && avatarActuel && galerie) {
     }
 }
 
-// Message après une inscription réussie (redirection /login?registered=1)
 if (new URLSearchParams(window.location.search).get("registered") === "1") {
     notify("Register", "Your account has been created.");
 }

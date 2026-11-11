@@ -49,7 +49,7 @@ form.addEventListener("submit", async (event) => {
             throw new Error(data.erreur || "Erreur lors de la sauvegarde.");
         }
 
-        window.location.href = "/index?profile=updated";
+        window.location.href = "/dashboard?profile=updated";
     } catch (error) {
         message.textContent = error.message;               
         boutonEnregistrer.disabled = false;

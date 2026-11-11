@@ -22,12 +22,16 @@ function requireLoginApi(req, res, next) {
 }
 
 // Display the profile page
-router.get("/profil", requireLoginPage, (req, res) => {
+router.get("/dashboard/profil", requireLoginPage, (req, res) => {
     res.render("profil", {
         nickname: req.session.nickname,
         avatar: req.session.avatar,
         avatars
     });
+});
+
+router.get("/profil", (req, res) => {
+    res.redirect("/dashboard/profil");
 });
 
 /**

@@ -43,7 +43,7 @@ function toggleNav() {
     aside.id = "nav-menu";
 
     const settingsLink = document.createElement("a");
-    settingsLink.href = "/profil";
+    settingsLink.href = "/dashboard/profil";
     settingsLink.append(createMenuIcon("/images/nav/settings-svgrepo-com.svg"), "Settings");
 
     const form = document.createElement("form");

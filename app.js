@@ -71,13 +71,13 @@ app.get("/", (req, res) => {
     res.render("pre_index");
 });
 
-app.get("/index", (req, res) => {
+app.get("/dashboard", (req, res) => {
     // Vérifie que le joueur est connecté
     if (!req.session.userId) {
         return res.redirect("/login");
     }
 
-    res.render("index");
+    res.render("dashboard");
 });
 
 // learn page
@@ -109,7 +109,7 @@ app.get("/admin", (req, res) => {
         return res.redirect("/login");
     }
     if (!req.session.isAdmin) {
-        return res.redirect("/index");
+        return res.redirect("/dashboard");
     }
     res.render("admin");
 });
