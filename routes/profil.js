@@ -2,30 +2,27 @@ const express = require("express");
 const router = express.Router();
 const db = require("../database");
 
-const avatars = [
-    "/images/avatars/avatar1.png",
-    "/images/avatars/avatar2.png",
-    "/images/avatars/avatar3.png",
-    "/images/avatars/avatar4.png",
-    "/images/avatars/avatar5.png",
-    "/images/avatars/avatar6.png",
-    "/images/avatars/avatar7.png",
-    "/images/avatars/avatar8.png",
-    "/images/avatars/avatar9.png",
-    "/images/avatars/avatar10.png",
-    "/images/avatars/avatar11.png",
-    "/images/avatars/avatar12.png",
-    "/images/avatars/avatar13.png",
-    "/images/avatars/avatar14.png"
-];
+// avatar1.png ... avatar14.png
+const avatars = Array.from({ length: 14 }, (_, i) => `/images/avatars/avatar${i + 1}.png`);
 
-
-// Display the profil page
-router.get("/profil", (req, res) => {
+// Page route: not logged in -> go to the login page
+function requireLoginPage(req, res, next) {
     if (!req.session.userId) {
         return res.redirect("/login");
     }
+    next();
+}
 
+// API route: not logged in -> JSON error
+function requireLoginApi(req, res, next) {
+    if (!req.session.userId) {
+        return res.status(401).json({ erreur: "You must be logged in." });
+    }
+    next();
+}
+
+// Display the profile page
+router.get("/profil", requireLoginPage, (req, res) => {
     res.render("profil", {
         nickname: req.session.nickname,
         avatar: req.session.avatar,
@@ -33,7 +30,6 @@ router.get("/profil", (req, res) => {
     });
 });
 
-// Modify the pseudo and avatar
 /**
  * @openapi
  * /api/profil:
@@ -66,7 +62,7 @@ router.get("/profil", (req, res) => {
  *             schema:
  *               type: object
  *               properties:
- *                 message: { type: string, example: "Profil updated" }
+ *                 message: { type: string, example: "Profile updated" }
  *                 nickname: { type: string, description: "Saved nickname", example: "Player1" }
  *                 avatar: { type: string, description: "Saved avatar", example: "/images/avatars/avatar3.png" }
  *       400:
@@ -76,7 +72,7 @@ router.get("/profil", (req, res) => {
  *             schema:
  *               type: object
  *               properties:
- *                 erreur: { type: string, enum: ["Le pseudo doit contenir entre 1 et 30 caractères.", "Avatar invalide."], example: "Avatar invalide." }
+ *                 erreur: { type: string, enum: ["The nickname must be between 1 and 30 characters.", "Invalid avatar."], example: "Invalid avatar." }
  *       401:
  *         description: "Player not logged in"
  *         content:
@@ -84,7 +80,7 @@ router.get("/profil", (req, res) => {
  *             schema:
  *               type: object
  *               properties:
- *                 erreur: { type: string, example: "Vous devez être connecté." }
+ *                 erreur: { type: string, example: "You must be logged in." }
  *       409:
  *         description: "Nickname already taken"
  *         content:
@@ -92,7 +88,7 @@ router.get("/profil", (req, res) => {
  *             schema:
  *               type: object
  *               properties:
- *                 erreur: { type: string, example: "Ce pseudo est déjà utilisé." }
+ *                 erreur: { type: string, example: "This nickname is already taken." }
  *       500:
  *         description: "Database error"
  *         content:
@@ -100,21 +96,15 @@ router.get("/profil", (req, res) => {
  *             schema:
  *               type: object
  *               properties:
- *                 erreur: { type: string, enum: ["Erreur lors de la vérification du pseudo.", "Erreur lors de la sauvegarde du profil."], example: "Erreur lors de la sauvegarde du profil." }
+ *                 erreur: { type: string, enum: ["Error while checking the nickname.", "Error while saving the profile."], example: "Error while saving the profile." }
  */
-router.post("/api/profil", (req, res) => {
-    if (!req.session.userId) {
-        return res.status(401).json({
-            erreur: "You must to be connected."
-        });
-    }
+router.post("/api/profil", requireLoginApi, (req, res) => {
+    const nickname = typeof req.body?.nickname === "string" ? req.body.nickname.trim() : "";
+    const avatar = req.body?.avatar;
 
-    const nickname = req.body.nickname?.trim();
-    const avatar = req.body.avatar;
-
-    if (!nickname || nickname.length > 30) {
+    if (nickname.length < 1 || nickname.length > 30) {
         return res.status(400).json({
-            erreur: "The pseudo must following between 1 and 30 characters."
+            erreur: "The nickname must be between 1 and 30 characters."
         });
     }
 
@@ -124,7 +114,7 @@ router.post("/api/profil", (req, res) => {
         });
     }
 
-    //Verify is the pseudo is not already used
+    // Check that the nickname is not already used by someone else
     db.query(
         "SELECT id FROM users WHERE nickname = ? AND id != ?",
         [nickname, req.session.userId],
@@ -132,25 +122,32 @@ router.post("/api/profil", (req, res) => {
             if (error) {
                 console.error(error);
                 return res.status(500).json({
-                    erreur:"Error while the pseudo verification."
+                    erreur: "Error while checking the nickname."
                 });
             }
 
             if (results.length > 0) {
                 return res.status(409).json({
-                    erreur: "This pseudo is already used."
+                    erreur: "This nickname is already taken."
                 });
             }
 
-            // Register changes in MySQL
+            // Save the changes in MySQL
             db.query(
                 "UPDATE users SET nickname = ?, avatar = ? WHERE id = ?",
                 [nickname, avatar, req.session.userId],
                 (error) => {
                     if (error) {
+                        // Someone took the nickname between the check and the update
+                        if (error.code === "ER_DUP_ENTRY") {
+                            return res.status(409).json({
+                                erreur: "This nickname is already taken."
+                            });
+                        }
+
                         console.error(error);
                         return res.status(500).json({
-                            erreur:"Error while profil saving."
+                            erreur: "Error while saving the profile."
                         });
                     }
 
@@ -159,7 +156,7 @@ router.post("/api/profil", (req, res) => {
                     req.session.avatar = avatar;
 
                     res.json({
-                        message: "Profil updated",
+                        message: "Profile updated",
                         nickname,
                         avatar
                     });
