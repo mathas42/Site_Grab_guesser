@@ -125,13 +125,12 @@ loadUsers();
 
 const uploadForm = document.getElementById("upload-form");
 const fileInput = document.getElementById("myFile");
-const fileList = document.getElementById("file-list");
 
 uploadForm.addEventListener("submit", async (event) => {
     event.preventDefault();
 
     if (fileInput.files.length === 0) {
-        getNotification("Upload", "Select one or more files.", "error");
+        getNotification("Upload", "Select an image.", "error");
         return;
     }
 
@@ -146,7 +145,6 @@ uploadForm.addEventListener("submit", async (event) => {
 
         if (res.ok) {
             uploadForm.reset();
-            fileList.replaceChildren();
         }
     } catch (error) {
         console.error(error);

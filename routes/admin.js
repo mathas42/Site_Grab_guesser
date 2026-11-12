@@ -126,12 +126,11 @@ router.delete("/users/:id", (req, res) => {
 });
 
 router.post("/upload/:category", (req, res) => {
-    upload.array("files", 10)(req, res, (error) => {
+    upload.single("image")(req, res, (error) => {
         if (error) {
             const messages = {
-                LIMIT_FILE_SIZE: "A file is too large (4 MB maximum).",
-                LIMIT_FILE_COUNT: "Too many files (10 maximum).",
-                LIMIT_UNEXPECTED_FILE: "Too many files (10 maximum).",
+                LIMIT_FILE_SIZE: "The image is too large (4 MB maximum).",
+                LIMIT_UNEXPECTED_FILE: "Only one image per dish.",
                 INVALID_TYPE: "Only JPG, PNG or WebP images are allowed.",
                 INVALID_FOLDER: "Unknown destination."
             };
@@ -140,15 +139,43 @@ router.post("/upload/:category", (req, res) => {
             });
         }
 
-        if (!req.files || req.files.length === 0) {
-            return res.status(400).json({ message: "Select one or more files." });
+        if (!req.file) {
+            return res.status(400).json({ message: "Select an image." });
         }
 
-        const folder = FOLDERS[req.params.category];
-        res.json({
-            message: req.files.length + " file(s) uploaded.",
-            files: req.files.map((f) => `/images/${folder}/${f.filename}`)
-        });
+        const nom = String(req.body.nom || "").trim();
+        const nomRestaurant = String(req.body.nom_restaurant || "").trim();
+        const prix = Number(req.body.prix);
+        const description = String(req.body.description || "").trim() || null;
+
+        const fail = (status, message) => {
+            fs.unlink(req.file.path, () => {});
+            res.status(status).json({ message });
+        };
+
+        if (!nom || !nomRestaurant) {
+            return fail(400, "Dish name and restaurant name are required.");
+        }
+        if (nom.length > 255 || nomRestaurant.length > 255) {
+            return fail(400, "Names must be 255 characters maximum.");
+        }
+        if (!Number.isFinite(prix) || prix <= 0) {
+            return fail(400, "Price must be a positive number.");
+        }
+
+        const image = `/images/${FOLDERS[req.params.category]}/${req.file.filename}`;
+
+        db.query(
+            "INSERT INTO produit (nom, nom_restaurant, prix, image, description) VALUES (?, ?, ?, ?, ?)",
+            [nom, nomRestaurant, prix.toFixed(2), image, description],
+            (dbError, result) => {
+                if (dbError) {
+                    console.error(dbError);
+                    return fail(500, "An error occurred while saving the dish.");
+                }
+                res.status(201).json({ message: `"${nom}" added.`, id: result.insertId, image });
+            }
+        );
     });
 });
 
