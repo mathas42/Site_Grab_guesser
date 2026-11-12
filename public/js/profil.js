@@ -131,5 +131,3 @@ function ProfilePopup() {
 
     document.addEventListener("keydown", onKey);
 }
-
-
