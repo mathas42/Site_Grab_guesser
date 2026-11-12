@@ -1,19 +1,19 @@
 const form = document.getElementById("form-profil");
 const nicknameInput = document.getElementById("nickname");
-const avatarActuel = document.getElementById("avatar-actuel");
+const currentAvatar = document.getElementById("avatar-actuel");
 const galerie = document.getElementById("galerie-avatars");
 const message = document.getElementById("message-profil");
 const boutonEnregistrer = document.getElementById("enregistrer-profil");
 
-let avatarChoisi = avatarActuel.getAttribute("src");
+let avatarChoisi = currentAvatar.getAttribute("src");
 
-// Sélectionner un avatar
+//Choose a avatar
 galerie.querySelectorAll(".avatar-option").forEach((bouton) => {
     bouton.addEventListener("click", () => {
         avatarChoisi = bouton.dataset.avatar;
-        avatarActuel.src = avatarChoisi;
+        currentAvatar.src = avatarChoisi;
 
-        avatarActuel.addEventListener("click",()=>{
+        currentAvatar.addEventListener("click",()=>{
             openPopup();
         })
 

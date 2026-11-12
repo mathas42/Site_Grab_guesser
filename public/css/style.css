@@ -641,7 +641,7 @@ footer {
 
 #close-modal:hover,
 .modal-btn:hover {
-    background-color: var(--action-button);
+    background-color: var(--illustration);
 }
 
 .form-text:focus {

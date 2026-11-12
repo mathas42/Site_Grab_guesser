@@ -11,37 +11,37 @@ let currentSearch = "";
 let requestId = 0;       // ignores outdated responses
 
 // creates a dish element from the product data
-function creerPlat(produit) {
-    const plat = document.createElement("article");
-    plat.classList.add("plat");
+function DishCreate(product) {
+    const dish = document.createElement("article");
+    dish.classList.add("plat");
 
     const image = document.createElement("img");
-    image.src = produit.image;
-    image.alt = produit.nom;
+    image.src = product.image;
+    image.alt = product.nom;
     image.loading = "lazy";
 
     const corps = document.createElement("div");
     corps.classList.add("plat-body");
 
-    const nom = document.createElement("h3");
-    nom.textContent = produit.nom;
+    const name = document.createElement("h3");
+    name.textContent = product.nom;
 
     const restaurant = document.createElement("p");
     restaurant.classList.add("plat-resto");
-    restaurant.textContent = produit.nom_restaurant;
+    restaurant.textContent = product.nom_restaurant;
     restaurant.style.color="var(--green-grab)";
 
-    corps.append(nom, restaurant);
-    plat.append(image, corps);
+    corps.append(name, restaurant);
+    dish.append(image, corps);
 
-    plat.addEventListener("click", () => openPopup(produit));
+    dish.addEventListener("click", () => openPopup(product));
 
-    return plat;
+    return dish;
 }
 
 // message displayed when no dishes match the search
 const empty = document.createElement("p");
-empty.id = "aucun-resultat";
+empty.id = "none-result";
 empty.textContent = "No dishes found";
 
 // loads one page of dishes from the server
@@ -64,7 +64,7 @@ async function loadPage(reset = false) {
         if (id !== requestId) return;   // a newer request has started
 
         if (reset) catalogue.replaceChildren();
-        data.produits.forEach(produit => catalogue.appendChild(creerPlat(produit)));
+        data.produits.forEach(produit => catalogue.appendChild(DishCreate(produit)));
 
         offset = start + data.produits.length;
         total = data.total;
@@ -100,7 +100,7 @@ seeMore.addEventListener("click", () => loadPage(false));
 loadPage(true);
 
 // opens a popup with the details of a dish
-function openPopup(produit) {
+function openPopup(product) {
     const overlay = document.createElement("div");
     const popup = document.createElement("div");
     const image = document.createElement("img");
@@ -109,12 +109,12 @@ function openPopup(produit) {
     const description = document.createElement("p");
     const closeButton = document.createElement("button");
 
-    image.src = produit.image;
-    image.alt = produit.nom;
-    title.textContent = produit.nom;
-    restaurant.textContent = produit.nom_restaurant;
+    image.src = product.image;
+    image.alt = product.nom;
+    title.textContent = product.nom;
+    restaurant.textContent = product.nom_restaurant;
     restaurant.style.color="var(--green-grab)";
-    description.textContent = produit.description || "No description available.";
+    description.textContent = product.description || "No description available.";
     closeButton.textContent = "Close";
 
     closeButton.classList.add("new");
