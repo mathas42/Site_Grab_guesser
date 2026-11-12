@@ -8,6 +8,7 @@ body {
     z-index: 100;
     display: flex;
     justify-content: space-between;
+    box-sizing: border-box;
     align-items: center;
     gap: 20px;
     padding: 10px 20px;
@@ -150,7 +151,6 @@ nav .avatar-profil:hover {
     #main-nav{
         font-size: 15px;
         gap: 2px;
-        width: 100%;
     }
 
 
@@ -160,11 +160,14 @@ nav .avatar-profil:hover {
 
     .nav-svg{
         width: 35px;
+        height: 35px;
     }
 
     #nav-menu{
-        width: 180px;
+        width: 130px;
         font-size: 15px;
+        top:100px;
+        right:50px;
     }
 
     #nav-container{

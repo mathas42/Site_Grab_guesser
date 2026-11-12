@@ -39,8 +39,19 @@ function toggleNav() {
         closeNav();
         return;
     }
+
     const aside = document.createElement("aside");
     aside.id = "nav-menu";
+
+    const mediaQuery= window.matchMedia("(max-width: 768px)");
+    if(mediaQuery.matches){
+        document.querySelectorAll("#nav-container a").forEach((link) => {
+            const copy = link.cloneNode(true);
+            copy.classList.remove("active");
+            copy.classList.add("mobile-only");
+            aside.append(copy);
+        });
+    }
 
     const settingsLink = document.createElement("a");
     settingsLink.href = "/dashboard/profil";
@@ -59,6 +70,12 @@ function toggleNav() {
     aside.append(settingsLink, form);
     document.body.appendChild(aside);
     document.addEventListener("click", closeOnOutsideClick);
+
+    document.addEventListener("keydown", function onEsc(e) {
+    if (e.key !== "Escape") return;
+    closeNav();
+    document.removeEventListener("keydown", onEsc);
+    });
 }
 
 backgroundColorNava();
