@@ -2,8 +2,8 @@ const express = require("express");
 const expressSession = require("express-session");
 
 //swagger ui
-const swaggerUi = require('swagger-ui-express');
-const swaggerSpec = require('./swagger');
+const swaggerUi = require("swagger-ui-express");
+const swaggerSpec = require("./swagger");
 
 const app = express();
 
@@ -28,8 +28,8 @@ const avatars = [
     "/images/avatars/avatar14.png"
 ];
 
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
-app.get('/api-docs.json', (req, res) => res.json(swaggerSpec));
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+app.get("/api-docs.json", (req, res) => res.json(swaggerSpec));
 
 // Pug
 app.set("view engine", "pug");
@@ -476,8 +476,6 @@ app.post("/api/temperature", (req, res) => {
         );
     });
 });
-
-
 
 /**
  * @openapi
@@ -1188,11 +1186,12 @@ app.get("/hall_of_fame", (req, res) => {
     );
 });
 
-
 app.get("/api/catalogue", (req, res) => {
     const limit = Math.min(Math.max(parseInt(req.query.limit, 10) || 12, 1), 50);
     const offset = Math.max(parseInt(req.query.offset, 10) || 0, 0);
-    const search = String(req.query.search || "").trim().slice(0, 100);
+    const search = String(req.query.search || "")
+        .trim()
+        .slice(0, 100);
     const like = "%" + search.replace(/[\\%_]/g, "\\$&") + "%";
 
     // un seul plat par (nom + restaurant), sans tenir compte de la casse ni des espaces
