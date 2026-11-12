@@ -121,3 +121,35 @@ searchForm.addEventListener("submit", (event) => {
 });
 
 loadUsers();
+
+
+const uploadForm = document.getElementById("upload-form");
+const fileInput = document.getElementById("myFile");
+const fileList = document.getElementById("file-list");
+
+uploadForm.addEventListener("submit", async (event) => {
+    event.preventDefault();
+
+    if (fileInput.files.length === 0) {
+        getNotification("Upload", "Select one or more files.", "error");
+        return;
+    }
+
+    const data = new FormData(uploadForm);
+    const category = uploadForm.dataset.category;      
+
+    try {
+        const res = await fetch("/admin/upload/" + category, { method: "POST", body: data });
+        const result = await res.json();
+
+        getNotification(res.ok ? "Success" : "Error", result.message, res.ok ? "success" : "error");
+
+        if (res.ok) {
+            uploadForm.reset();
+            fileList.replaceChildren();
+        }
+    } catch (error) {
+        console.error(error);
+        getNotification("Error", "Network error.", "error");
+    }
+});
