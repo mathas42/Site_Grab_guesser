@@ -10,7 +10,7 @@ nav#main-nav
             a(href="/admin") Admin
     div#nav-container2
         if user
-            img.avatar-profil(src=user.avatar, alt="Avatar de " + user.nickname, data-nickname=user.nickname, onclick="ProfilePopup()")
+            img.avatar-profil(src=user.avatar, alt="Avatar de " + user.nickname, data-nickname=user.nickname, onclick="window.location.href = '/dashboard/profil'")
             span#user-name= user.nickname
         else
             a(href="/login")

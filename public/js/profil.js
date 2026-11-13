@@ -57,77 +57,75 @@ form.addEventListener("submit", async (event) => {
 });
 
 
-function ProfilePopup() {
-    const avatar = document.querySelector(".avatar-profil");
-    if (!avatar) return;
+function setupProfileEdit(form, avatarActuel, getAvatar) {
+    const nicknameInput = document.getElementById("nickname");
+    const message = document.getElementById("message-profil");
+    const saveButton = document.getElementById("enregistrer-profil");
+    if (!nicknameInput || !message || !saveButton) return;
 
-    const overlay = document.createElement("div");
-    const popup = document.createElement("div");
-    const image = document.createElement("img");
-    const title = document.createElement("h2");
-    const description = document.createElement("p");
-    const editButton = document.createElement("button");
-    const logOut= document.createElement("button");
-    const closeButton = document.createElement("button");
+    const currentInput = document.getElementById("current-password");
+    const newInput = document.getElementById("new-password");
+    const confirmInput = document.getElementById("confirm-password");
 
-    overlay.style.background="#007a3d";
-
-    image.src = avatar.src;
-    image.alt = avatar.alt;
-    image.style.width = "30%";
-    image.style.aspectRatio = "1 / 1";
-    image.style.objectFit = "cover";
-    image.style.borderRadius = "50%";
-    image.style.alignSelf = "center";
-
-    title.textContent = avatar.dataset.nickname;
-    title.style.textAlign="center";
-
-    description.textContent = "Your profile";
-
-    logOut.textContent="Log Out";
-    logOut.type="submit";
-
-    editButton.textContent = "Edit profile";
-    closeButton.textContent = "X";
-
-    overlay.classList.add("popup-overlay");
-    popup.classList.add("popup");
-    logOut.classList.add("popup-close");
-    editButton.classList.add("popup-close");
-    closeButton.classList.add("popup-close");
-    closeButton.classList.add("x-close");
-
-    popup.append(image, title, description, editButton,logOut, closeButton);
-    overlay.appendChild(popup);
-    document.body.appendChild(overlay);
-
-    function close() {
-        overlay.remove();
-        document.removeEventListener("keydown", onKey);
+    function fail(text, field) {
+        message.textContent = text;
+        notify("Profile", text, "error");
+        if (field) field.focus();
     }
 
-    function onKey(e) {
-        if (e.key === "Escape") close();
-    }
+    form.addEventListener("submit", async (event) => {
+        event.preventDefault();
 
-    logOut.addEventListener("click", () => {
-        const logoutForm = document.createElement("form");
-        logoutForm.method = "POST";
-        logoutForm.action = "/logout";
-        document.body.appendChild(logoutForm);
-        logoutForm.submit();
+        const body = { nickname: nicknameInput.value, avatar: getAvatar() };
+
+        const wantsPassword = currentInput && (currentInput.value !== "" || newInput.value !== "" || confirmInput.value !== "");
+
+        if (wantsPassword) {
+            if (currentInput.value === "") return fail("Enter your current password.", currentInput);
+            if (newInput.value.length < 8) return fail("The new password must contain at least 8 characters.", newInput);
+            if (newInput.value === currentInput.value) return fail("The new password must be different from the current one.", newInput);
+            if (confirmInput.value !== newInput.value) return fail("The passwords do not match.", confirmInput);
+
+            body.currentPassword = currentInput.value;
+            body.newPassword = newInput.value;
+        }
+
+        saveButton.disabled = true;
+        message.textContent = "Saving...";
+
+        try {
+            const response = await fetch("/api/profil", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(body)
+            });
+
+            const data = await response.json();
+
+            if (!response.ok) {
+                throw new Error(data.erreur || "Error while saving.");
+            }
+
+            message.textContent = data.message;
+            nicknameInput.value = data.nickname;
+            avatarActuel.src = data.avatar;
+
+            const navName = document.getElementById("user-name");
+            if (navName) navName.textContent = data.nickname;
+            document.querySelectorAll("nav .avatar-profil").forEach((img) => { img.src = data.avatar; });
+
+            if (wantsPassword) {
+                currentInput.value = "";
+                newInput.value = "";
+                confirmInput.value = "";
+            }
+
+            notify("Profile", data.message + ".");
+        } catch (error) {
+            message.textContent = error.message;
+            notify("Profile", error.message, "error");
+        } finally {
+            saveButton.disabled = false;
+        }
     });
-
-    editButton.addEventListener("click", () => {
-        window.location.href = "/profil";
-    });
-    closeButton.addEventListener("click", close);
-
-    // clicking outside the popup closes it
-    overlay.addEventListener("click", (e) => {
-        if (e.target === overlay) close();
-    });
-
-    document.addEventListener("keydown", onKey);
 }
