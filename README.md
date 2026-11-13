@@ -132,6 +132,10 @@ The web application should now be accessible locally.
 
 Use fenced SQL code blocks for CREATE TABLE statements. Include constraints, defaults, and CHECK clauses inline so the full structure is visible at a glance:
 
+### Column Reference Tables
+
+#### Dish table
+
 ```sql
 CREATE TABLE IF NOT EXISTS produit (
     id INT AUTO_INCREMENT PRIMARY KEY,
@@ -140,6 +144,19 @@ CREATE TABLE IF NOT EXISTS produit (
     prix DECIMAL(10, 2) NOT NULL,
     image VARCHAR(255)
 );
+```
+
+| Column         | Type           | Nullable | Default | Description                               |
+| -------------- | -------------- | -------- | ------- | ----------------------------------------- |
+| id             | UUID           | No       | -       | Primary key, auto-generated server-side   |
+| nom            | VARCHAR(255)   | No       | -       | The name of the dish                      |
+| nom_restaurant | VARCHAR(255)   | No       | -       | Display the restaurant name from the dish |
+| prix           | DECIMAL(10, 2) | No       | -       | The dish price                            |
+| image          | VARCHAR(255)   | Yes      | -       | The variable keep the image path          |
+
+#### Game table
+
+```sql
 CREATE TABLE IF NOT EXISTS partie (
     id INT AUTO_INCREMENT PRIMARY KEY,
     score DECIMAL(10, 2) DEFAULT 0,
@@ -149,28 +166,45 @@ CREATE TABLE IF NOT EXISTS partie (
     produit_actuel INT,
     FOREIGN KEY (produit_actuel) REFERENCES produit(id)
 );
+
+```
+
+| Column         | Type                                               | Nullable | Default | Description                                                                |
+| -------------- | -------------------------------------------------- | -------- | ------- | -------------------------------------------------------------------------- |
+| id             | UUID                                               | No       | -       | Primary key, auto-generated server-side                                    |
+| score          | DECIMAL(10, 2)                                     | No       | 0       | Keep the player score in the data                                          |
+| round          | INT                                                | No       | 1       | Count the number of the round                                              |
+| hint_count     | INT                                                | No       | 2       | Count the remaining hints (in this case more or less)                      |
+| temp_count     | INT                                                | No       | 2       | Count the remaining hints (in this case temperature far or near the price) |
+| produit_actuel | OREIGN KEY (produit_actuel) REFERENCES produit(id) | No       | -       | Retrieve the actuel dish that would be guess by the player                 |
+
+#### User table
+
+```sql
 CREATE TABLE IF NOT EXISTS users (
     id INT AUTO_INCREMENT PRIMARY KEY,
     nickname VARCHAR(255) NOT NULL UNIQUE,
     email VARCHAR(255) NOT NULL UNIQUE,
     hash_password VARCHAR(255) NOT NULL,
     creation_date datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    user_role ENUM('Admin', 'Player') DEFAULT 'Player' NOT NULL
+    user_role ENUM('Admin', 'Player') DEFAULT 'Player' NOT NULL,
+    best_score DECIMAL(10,2) NULL,
+    best_hard_score DECIMAL(10,2) NULL,
+    avatar VARCHAR(255) DEFAULT '/images/avatars/avatar1.png'
 );
 ```
 
-### Column Reference Tables
-
-Use markdown tables to provide column-by-column documentation with business context. This is where you add the meaning that SQL alone cannot express:
-
-| Column        | Type                    | Nullable | Default           | Description                                             |
-| ------------- | ----------------------- | -------- | ----------------- | ------------------------------------------------------- |
-| id            | UUID                    | No       | -                 | Primary key, auto-generated server-side                 |
-| nickname      | VARCHAR(255)            | No       | -                 | Login email, globally unique, case-insensitive matching |
-| email         | VARCHAR(255)            | No       | -                 | Display name shown in the application UI                |
-| hash_password | VARCHAR(255)            | No       | -                 | Permission level: admin, member, or viewer              |
-| creation_date | datetime                | No       | CURRENT_TIMESTAMP | Account creation time (stored as UTC)                   |
-| user_role     | ENUM('Admin', 'Player') | No       | 'Player'          | Soft delete marker (null = active record)               |
+| Column          | Type                    | Nullable | Default                                                           | Description                                             |
+| --------------- | ----------------------- | -------- | ----------------------------------------------------------------- | ------------------------------------------------------- |
+| id              | UUID                    | No       | -                                                                 | Primary key, auto-generated server-side                 |
+| nickname        | VARCHAR(255)            | No       | -                                                                 | Login email, globally unique, case-insensitive matching |
+| email           | VARCHAR(255)            | No       | -                                                                 | Display name shown in the application UI                |
+| hash_password   | VARCHAR(255)            | No       | -                                                                 | Permission level: admin, member, or viewer              |
+| creation_date   | datetime                | No       | CURRENT_TIMESTAMP                                                 | Account creation time (stored as UTC)                   |
+| user_role       | ENUM('Admin', 'Player') | No       | 'Player'                                                          | Soft delete marker (null = active record)               |
+| best_score      | DECIMAL(10,2)           | Yes      | NULL                                                              | Stock the best score of the player in normal mode       |
+| best_hard_score | DECIMAL(10,2)           | Yes      | NULL                                                              | Stock the best score of the player in hard mode         |
+| avatar          | VARCHAR(255)            | No       | '/images/avatars/avatar1.png' (The first image of avatar galerie) | Keep in memory the avatar patch of the player           |
 
 ### Entity Relationship Diagrams
 
@@ -192,23 +226,6 @@ Use markdown tables to provide column-by-column documentation with business cont
 
 ---
 
-## Markdown Schema vs Other Documentation Tools
-
-| Feature                      | Markdown (.md)        | dbdiagram.io / DrawSQL | Confluence / Notion | pgAdmin / DataGrip  | SchemaSpy / tbls       |
-| ---------------------------- | --------------------- | ---------------------- | ------------------- | ------------------- | ---------------------- |
-| Version controlled in git    | Yes                   | Export only            | No                  | No                  | Re-generate each time  |
-| AI assistants can read it    | Natively              | No                     | Poorly              | No                  | Partially              |
-| Free and open                | Yes                   | Freemium               | Paid                | Varies              | Yes                    |
-| Works offline                | Yes                   | No                     | No                  | Yes                 | Yes (after generation) |
-| Reviewable in pull requests  | Yes                   | No                     | No                  | No                  | Yes (if committed)     |
-| Includes business context    | Yes (authored)        | No (visual only)       | Yes (if maintained) | No (structure only) | No (auto-generated)    |
-| Setup required               | None                  | Account signup         | Account + setup     | Installation        | Installation + config  |
-| Stays in sync with code      | Same PR as migrations | Manual export          | Manual update       | Live connection     | Re-run on each change  |
-| Human-readable without tools | Yes                   | Need browser           | Need browser        | Need application    | Need browser           |
-| Supports query examples      | Yes                   | No                     | Yes                 | No                  | No                     |
-| Documents business rules     | Yes                   | No                     | Yes (if maintained) | No                  | No                     |
-| Migration history tracking   | Yes                   | No                     | Manual              | No                  | No                     |
-
 ---
 
 ```mermaid
@@ -220,64 +237,98 @@ gitGraph
     merge feature
 ```
 
-```mermaid
-stateDiagram-v2
-[*] --> Idle
-Idle --> Running : Start
-Running --> Paused : Pause
-Running --> Finished : End
-Paused --> Running : Resume
-Paused --> Stopped : Stop
-Stopped --> Idle : Reset
-Finished --> Idle : Reset
-Finished --> [*]
-
-    state Running {
-        [*] --> Init
-        Init --> Processing
-        Processing --> Validate
-        Validate --> [*]
-    }
-```
-
 Website Navigational Structure
 
 ```mermaid
 flowchart TD
-    Start([Start]) --> Home[Home Page]
+    %% ENTRY
+    Start([User entry]) --> Home[Home Page]
 
-    Home --> Login[Login Page]
-    Home --> Register[Registration Page]
+    %% AUTHENTICATION
+    subgraph AUTH[Authentication]
+        direction LR
+        Login["Login"]
+        Register["Register"]
+    end
 
-    Login --> Dashboard[Main Dashboard]
+    Home --> Login
+    Home --> Register
+    Login --> Dashboard
     Register --> Dashboard
 
-    Dashboard --> Play[Play]
-    Dashboard --> Learn[Learn]
-    Dashboard --> Profile[Profile]
-    Dashboard --> HallOfFame[Hall of Fame]
+    %% MAIN NAVIGATION
+    subgraph MAIN[Main Navigation]
+        direction TB
+        Dashboard([DASHBOARD])
+        Play[Play]
+        Learn[Learn]
+        Profile[Profile]
+        Hall[ Hall of Fame]
 
-    Profile --> EditUsername[Edit Username]
-    Profile --> EditAvatar[Edit Avatar]
+        Dashboard --> Play
+        Dashboard --> Learn
+        Dashboard --> Profile
+        Dashboard --> Hall
+    end
 
-    Play --> Normal[Normal Mode]
-    Play --> Hardcore[Hardcore Mode]
+    %% GAMEPLAY
+    subgraph GAME[Gameplay]
+        direction LR
+        Normal[Normal Mode]
+        Hardcore[Hardcore Mode]
+        Results([Game Results])
 
-    Normal --> GameResult[Game Results]
-    Hardcore --> GameResult
+        Normal --> Results
+        Hardcore --> Results
+    end
 
-    GameResult --> Dashboard
+    Play --> Normal
+    Play --> Hardcore
+    Results --> Dashboard
 
-    EditUsername --> Profile
-    EditAvatar --> Profile
+    %% PROFILE MANAGEMENT
+    subgraph USER[Profile Management]
+        direction LR
+        Username[Edit Username]
+        Avatar[Edit Avatar]
+        Password[Edit Password]
+    end
 
-    Learn --> Dashboard
-    HallOfFame --> Dashboard
+    Profile --> Username
+    Profile --> Avatar
+    Profile --> Password
 
-    style Start fill:#15803d,color:#fff,stroke:#15803d
-    style Home fill:#166534,color:#fff,stroke:#166534
-    style Dashboard fill:#166534,color:#fff,stroke:#166534
-    style GameResult fill:#d97706,color:#fff,stroke:#d97706
+    Username --> Profile
+    Avatar --> Profile
+    Password --> Profile
+
+    %% NAVIGATION RETURNS
+    Learn -.-> Dashboard
+    Hall -.-> Dashboard
+
+    %% STYLING
+    classDef start fill:#15803d,stroke:#14532d,color:#ffffff,stroke-width:2px
+    classDef home fill:#166534,stroke:#14532d,color:#ffffff,stroke-width:2px
+    classDef dashboard fill:#087C52,stroke:#064E3B,color:#ffffff,stroke-width:4px
+    classDef auth fill:#D1FAE5,stroke:#059669,color:#064E3B,stroke-width:1.5px
+    classDef navigation fill:#ECFDF5,stroke:#10B981,color:#065F46
+    classDef gameplay fill:#FEF3C7,stroke:#D97706,color:#92400E
+    classDef results fill:#D97706,stroke:#92400E,color:#ffffff,stroke-width:2px
+    classDef profile fill:#DBEAFE,stroke:#3B82F6,color:#1E40AF
+
+    class Start start
+    class Home home
+    class Dashboard dashboard
+    class Login,Register auth
+    class Play,Learn,Profile,Hall navigation
+    class Normal,Hardcore gameplay
+    class Results results
+    class Username,Avatar,Password profile
+
+    style AUTH fill:#ECFDF5,stroke:#059669,stroke-width:2px
+    style MAIN fill:#F0FDF4,stroke:#087C52,stroke-width:2px
+    style GAME fill:#FFFBEB,stroke:#D97706,stroke-width:2px
+    style USER fill:#EFF6FF,stroke:#3B82F6,stroke-width:2px
 ```
 
 ## How to Format Database Schemas in Markdown
@@ -308,18 +359,6 @@ For more detail, add a relationship reference table documenting foreign keys and
 | posts  | comments  | post_id   | 1:N         | CASCADE   | Deleting post deletes its comments   |
 | posts  | post_tags | post_id   | 1:N         | CASCADE   | Junction table for many-to-many      |
 | tags   | post_tags | tag_id    | 1:N         | CASCADE   | Junction table for many-to-many      |
-
-### Business Rules
-
-Use bullet lists to document rules enforced in application code, not just database constraints. These are critical for AI assistants and new developers:
-
-**Business Rules**:
-
-- Users cannot delete their account if they have published posts with comments from other users
-- Email addresses are matched case-insensitively (stored as lowercase)
-- The 'admin' role can only be assigned by another admin
-- Soft-deleted records are excluded from all API responses but retained for 90 days
-- Posts with status 'published' cannot be moved back to 'draft'
 
 # Contributing
 
