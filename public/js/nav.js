@@ -44,24 +44,24 @@ function toggleNav() {
     aside.id = "nav-menu";
 
     const mediaQuery= window.matchMedia("(max-width: 480px)");
-    if(mediaQuery.matches){
-         const play = document.createElement("button");
-        play.type = "button";
-        play.className = "mobile-only";
-        play.textContent = "Play";
-        play.className = "LogOut";
-        play.addEventListener("click", () => {
-            closeNav();
-            new_play();          // sans le résultat : on passe par une fonction fléchée
-        });
-        aside.append(play);
-        document.querySelectorAll("#nav-container a").forEach((link) => {
-            const copy = link.cloneNode(true);
-            copy.classList.remove("active");
-            copy.classList.add("mobile-only");
-            aside.append(copy);
-        });
-    }
+    if (mediaQuery.matches) {
+    const play = document.createElement("button");
+    play.type = "button";
+    play.className = "mobile-only LogOut";
+    play.textContent = "Play";
+    play.addEventListener("click", () => {
+        closeNav();
+        new_play();
+    });
+    document.querySelectorAll("#nav-container a").forEach((link) => {
+        const copy = link.cloneNode(true);
+        copy.classList.remove("active");
+        copy.classList.add("mobile-only");
+        aside.append(copy);
+    });
+
+    aside.insertBefore(play, aside.children[1] || null);
+}
 
     const settingsLink = document.createElement("a");
     settingsLink.href = "/dashboard/profil";

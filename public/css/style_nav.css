@@ -7,14 +7,11 @@ body {
     position: sticky;
     top: 0;
     z-index: 100;
-
     display: flex;
     align-items: center;
     justify-content: space-between;
-
     box-sizing: border-box;
     padding: 10px 20px;
-
     background-color: var(--green-grab);
 }
 
@@ -22,7 +19,6 @@ body {
     position: absolute;
     left: 50%;
     transform: translateX(-50%);
-
     display: flex;
     align-items: center;
     gap: 30px;
@@ -179,6 +175,11 @@ nav .avatar-profil:hover {
         width: 75px;
     }
 
+    #nav-container2 .avatar-profil{
+        width: 45px;
+        height: auto;
+    }
+
     .nav-svg {
         width: 35px;
         height: 35px;
@@ -192,7 +193,89 @@ nav .avatar-profil:hover {
         border: 2px solid black;
     }
 
-    #main-nav2{
-        
+     #main-nav2 {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: space-between;
+        position: relative;
+    }
+
+    #main-nav2 #nav-container {
+        order: 1;
+        margin-left: auto;
+    }
+
+    #main-nav2 #nav-container2 {
+        order: 2;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        width: 100%;
+        position: relative;
+    }
+
+    #main-nav2 .avatar-profil {
+        order: 1;
+        padding: 0;
+        margin: 0;
+        margin-bottom: 10px;
+        left: 100%;
+    }
+
+    #main-nav2 #user-name {
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+        text-align: center;
+    }
+
+    #main-nav2 #nav-hamburger {
+        order: 3;
+        margin-left: auto;
+    }
+
+
+    #main-nav2 #research {
+        order: 3;
+        flex-basis: 100%;
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+}
+
+@media (min-width: 481px) and (max-width: 768px) {
+
+    #main-nav {
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        gap: 15px;
+        padding: 10px 15px;
+    }
+
+    #main-nav #nav-logo {
+        padding: 0;
+        flex-shrink: 0;
+    }
+
+    #main-nav #nav-container {
+        position: static;
+        transform: none;
+        margin-left: 35px;
+        margin-right: 35px;
+        gap: 10px;
+        flex-shrink: 0;
+    }
+
+}
+
+@media (max-width: 1048px){
+    #main-nav2 #research {
+        width: 100%;
+        max-width: 100px;
+        flex: 1 1 100%;
+        box-sizing: border-box;
     }
 }
