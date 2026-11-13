@@ -7,13 +7,11 @@ html(lang="en")
         link(rel="stylesheet", href="/css/style.css")
         link(rel="stylesheet", href="/css/style_learn.css")
         link(rel="icon", type="image/png", href="/images/logo_loupe.png")
+        link(rel="stylesheet", href="/css/style_nav.css")
 
     body.bg-grab
-        header#header_learn
-            h1 Learn about Malaysian Food
-            input#research(type="search", placeholder="Search a dish...", aria-label="Search a dish")
-            img#nav-home(src="/images/nav/home-svgrepo-com.svg", alt="Home", onclick="window.location.href='/dashboard'")
 
+        include components/nav2.pug
         main
             div#catalogue
             p#counter 

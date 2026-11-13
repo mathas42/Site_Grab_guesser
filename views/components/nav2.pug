@@ -1,0 +1,20 @@
+link(rel="stylesheet", href="/css/style_nav.css")
+link(rel="stylesheet", href="/css/style_learn.css")
+
+nav#main-nav2
+    input#research(type="search", placeholder="Search a dish...", aria-label="Search a dish")
+    div#nav-container
+        a(href="/dashboard") Home
+        a(href="/learn") Learn
+        if isAdmin
+            a(href="/admin") Admin
+    div#nav-container2
+        if user
+            img.avatar-profil(src=user.avatar, alt="Avatar de " + user.nickname, data-nickname=user.nickname, onclick="window.location.href = '/dashboard/profil'")
+            span#user-name= user.nickname
+        else
+            a(href="/login")
+                img.nav-svg#nav-login(src="/images/nav/user-svgrepo-com.svg", alt="Login")
+        img.nav-svg#nav-hamburger(src="/images/nav/hamburger-svgrepo-com.svg", alt="Menu", onclick="toggleNav()")
+
+    script(src="/js/nav.js" defer)
