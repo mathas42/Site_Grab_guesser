@@ -26,7 +26,19 @@ html(lang="en")
                 input#search-input(type="search", name="search", placeholder="Username or ID")
                 button(type="submit") Search
             
-            table#user-data
+            div#table-wrap
+              table#user-data
+                colgroup
+                    col.col-modify
+                    col.col-id
+                    col.col-role
+                    col.col-username
+                    col.col-email
+                    col.col-created
+                    col.col-change-role
+                    col.col-change-nickname
+                    col.col-delete
+                    col.col-confirm
                 thead
                     tr
                         th Modify

@@ -3,10 +3,37 @@
     align-items: center;
 }
 
+/* Le conteneur prend toute la largeur disponible ; si l'écran est trop étroit,
+   le tableau défile horizontalement au lieu d'écraser les colonnes */
+#table-wrap{
+    width: 75%;                 /* toujours 75 % de la largeur de l'écran, quelle que soit la résolution */
+    overflow-x: auto;
+}
+
 #user-data{
+    width: 100%;
+    min-width: 60rem;           /* en dessous, on défile plutôt que de tout écraser */
+    table-layout: fixed;        /* les largeurs viennent des <col>, pas du contenu */
     text-align: center;
     border: 1px solid black;
-    font-size: 1rem; 
+    font-size: 1rem;
+}
+
+/* Largeur de chaque colonne en % du tableau (total = 100 %) */
+.col-modify{ width: 6%;  }
+.col-id{ width: 5%;  }
+.col-role{ width: 8%;  }
+.col-username{ width: 12%; }
+.col-email{ width: 19%; }
+.col-created{ width: 10%; }
+.col-change-role{ width: 11%; }
+.col-change-nickname{ width: 15%; }
+.col-delete{ width: 7%;  }
+.col-confirm{ width: 7%;  }
+
+/* Un contenu trop long passe à la ligne au lieu d'élargir la colonne */
+#user-data th, #user-data td{
+    overflow-wrap: anywhere;
 }
 
 #user-data thead{
@@ -14,8 +41,7 @@
 }
 
 #user-data thead tr th{
-    min-width: 50px;
-    padding: 8px;
+    padding: 0.5rem;
 }
 
 #users:nth-child(even){
@@ -27,11 +53,11 @@
 }
 
 #users tr td{
-    padding: 10px;
+    padding: 0.625rem;
 }
 
 table th{
-    font-size: 25px;
+    font-size: 1.1rem;          /* 25px fixes débordaient des colonnes étroites */
 }
 
 
@@ -49,13 +75,12 @@ table th{
 }
 
 
-#user-data input[type="text"] {
-    width: 10em;
-    padding: 4px 8px;
-}
-
+/* Les champs remplissent leur cellule au lieu d'imposer leur propre largeur */
+#user-data input[type="text"],
 #user-data select {
-    padding: 4px 8px;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 0.25rem 0.5rem;
 }
 
 #upload-form{
@@ -78,16 +103,73 @@ h3{
     text-align: center;
 }
 
-#add-dish{
-    margin-left: 25%;
-    margin-right: 25%;
-    border-radius: 25px;
-    padding: 25px;
-}
 
 #add-dish:hover{
     background-color: rgba(0, 0, 0, 0.01);
     backdrop-filter: blur(3px);
     transform: scale(1.02);
     transition: all 0.1s ease-out;
+}
+
+@media (max-width: 1070px){
+    #table-wrap{
+        width: 95%;
+    }
+    #user-data{
+        min-width: 0;
+    }
+
+    .col-modify{ width: 5rem; }
+    .col-id{ width: 3rem; }
+    .col-role{ width: 5.5rem; }
+    .col-username{ width: 8rem; }
+    .col-email{ width: 12rem; }
+    .col-created{ width: 7rem; }
+    .col-change-role{ width: 7.5rem; }
+    .col-change-nickname{ width: 9.5rem; }
+    .col-delete{ width: 5rem; }
+    .col-confirm{ width: 6rem; }
+}
+
+@media (max-width: 600px){
+    #table-wrap{
+        width: 100%;
+    }
+
+    /* Compacter */
+    #user-data,
+    table th{
+        font-size: 0.8rem;
+    }
+    #users tr td,
+    #user-data thead tr th{
+        padding: 0.3rem;
+    }
+
+    #user-data :is(th, td):is(:nth-child(2), :nth-child(3), :nth-child(4), :nth-child(6)),
+    .col-id, .col-role, .col-username, .col-created{
+        display: none;
+    }
+
+    .col-modify{ width: 3.5rem; }
+    .col-email{ width: 6.5rem; }
+    .col-change-role{ width: 4.5rem; }
+    .col-change-nickname{ width: 4.5rem; }
+    .col-delete{ width: 3rem; }
+    .col-confirm{ width: 3rem; }
+
+    #user-data :is(th, td):first-child{
+        position: sticky;
+        left: 0;
+        z-index: 1;
+    }
+    #user-data th:first-child{
+        background-color: var(--green-grab);
+    }
+    #users tr td:first-child{
+        background-color: white;
+    }
+    #users tr:nth-child(even) td:first-child{
+        background-color: var(--background-site);
+    }
 }
