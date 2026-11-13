@@ -7,7 +7,6 @@ html(lang="en")
         link(rel="icon", type="image/png", href="/images/logo_loupe.png")
         script(src="/js/notification.js" defer)
         script(src="/js/script.js" defer)
-        script(src="/js/profil.js")
         title Grab Food Guesser
 
     body#index
@@ -25,6 +24,18 @@ html(lang="en")
             img(src="/images/icons/restaurant-paper-svgrepo-com.svg", alt="Restaurant paper").icon
             img(src="/images/icons/food-fruit-fruits-18-svgrepo-com.svg", alt="Fruit").icon
             img(src="/images/icons/food-color-coffee-long-svgrepo-com.svg", alt="Chinese food").icon
+
+            section#stats
+                - const s = locals.stats || {}
+                div.stat-card
+                    span.stat-label Best score
+                    span.stat-value= s.best_score != null ? s.best_score : "–"
+                div.stat-card
+                    span.stat-label Hard mode
+                    span.stat-value= s.best_hard_score != null ? s.best_hard_score : "–"
+                div.stat-card
+                    span.stat-label Rank
+                    span.stat-value= s.best_score != null ? "#" + s.normal_rank : "–"
 
         div#tutorial
             div#tutorial-content

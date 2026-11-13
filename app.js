@@ -7,26 +7,12 @@ const swaggerSpec = require("./swagger");
 
 const app = express();
 
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 
 const db = require("./database");
 
-const avatars = [
-    "/images/avatars/avatar1.png",
-    "/images/avatars/avatar2.png",
-    "/images/avatars/avatar3.png",
-    "/images/avatars/avatar4.png",
-    "/images/avatars/avatar5.png",
-    "/images/avatars/avatar6.png",
-    "/images/avatars/avatar7.png",
-    "/images/avatars/avatar8.png",
-    "/images/avatars/avatar9.png",
-    "/images/avatars/avatar10.png",
-    "/images/avatars/avatar11.png",
-    "/images/avatars/avatar12.png",
-    "/images/avatars/avatar13.png",
-    "/images/avatars/avatar14.png"
-];
+// avatar1.png to avatar14.png
+const avatars = Array.from({ length: 14 }, (_, i) => `/images/avatars/avatar${i + 1}.png`);
 
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 app.get("/api-docs.json", (req, res) => res.json(swaggerSpec));
@@ -35,7 +21,7 @@ app.get("/api-docs.json", (req, res) => res.json(swaggerSpec));
 app.set("view engine", "pug");
 app.set("views", "./views");
 
-// Fichiers CSS, JS, images...
+// Images, Js Files 
 app.use(express.static("public"));
 
 app.use(express.json());
@@ -43,11 +29,12 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use(
     expressSession({
-        secret: "userInfo",
+        secret: process.env.SESSION_SECRET || "userInfo",
         resave: false,
         saveUninitialized: false,
         cookie: {
-            httpOnly: true
+            httpOnly: true,
+            sameSite: "lax"
         }
     })
 );
@@ -65,67 +52,72 @@ app.use((req, res, next) => {
     res.locals.isAdmin = !!req.session.isAdmin;
     next();
 });
+// Pages : if the player is not connected, we send thel to the login page
+function requireLoginPage(req, res, next) {
+    if (!req.session.userId) {
+        return res.redirect("/login");
+    }
+    next();
+}
 
-// Page d'accueil
+// PAGES
+
 app.get("/", (req, res) => {
     res.render("pre_index");
 });
 
-app.get("/dashboard", (req, res) => {
-    // Vérifie que le joueur est connecté
-    if (!req.session.userId) {
-        return res.redirect("/login");
-    }
-
-    res.render("dashboard");
-});
-
-// learn page
-app.get("/learn", (req, res) => {
-    // Vérifie que le joueur est connecté
-    if (!req.session.userId) {
-        return res.redirect("/login");
-    }
-
-    res.render("learn");
-});
-
-// Login page
 app.get("/login", (req, res) => {
     res.render("login");
 });
 
-// Game page
-app.get("/jeu", (req, res) => {
-    // Vérifie que le joueur est connecté
-    if (!req.session.userId) {
-        return res.redirect("/login");
-    }
+app.get("/register", (req, res) => {
+    res.render("register", { avatars });
+});
+
+// Old link /index -> /dashboard
+app.get("/index", (req, res) => {
+    res.redirect("/dashboard");
+});
+
+app.get("/dashboard", requireLoginPage, (req, res) => {
+    db.query(
+        `SELECT best_score, best_hard_score,
+                (SELECT COUNT(*) + 1 FROM users WHERE best_score > u.best_score) AS normal_rank
+         FROM users u WHERE u.id = ?`,
+        [req.session.userId],
+        (error, rows) => {
+            if (error) {
+                console.error(error);
+                return res.status(500).send("Database error");
+            }
+            res.render("dashboard", { stats: rows[0] || {} });
+        }
+    );
+});
+
+app.get("/learn", requireLoginPage, (req, res) => {
+    res.render("learn");
+});
+
+app.get("/jeu", requireLoginPage, (req, res) => {
     res.render("jeu");
 });
 
-app.get("/admin", (req, res) => {
-    if (!req.session.userId) {
-        return res.redirect("/login");
-    }
+app.get("/admin", requireLoginPage, (req, res) => {
     if (!req.session.isAdmin) {
         return res.redirect("/dashboard");
     }
     res.render("admin");
 });
 
+// Login, admin and profile routes
+
 app.use("/", require("./routes/login"));
 app.use("/", require("./routes/profil"));
 
 app.use("/admin", require("./routes/admin"));
 
-// Result page
-app.get("/result", (req, res) => {
-    // Vérifie que le joueur est connecté
-    if (!req.session.userId) {
-        return res.redirect("/login");
-    }
-
+app.get("/result", requireLoginPage, (req, res) => {
     db.query(
         `SELECT nickname, avatar, best_score, best_hard_score
          FROM users`,
@@ -150,6 +142,8 @@ app.get("/result", (req, res) => {
         }
     );
 });
+
+// API with Swagger)
 
 /**
  * @openapi
@@ -255,7 +249,7 @@ app.get("/api/produits", (req, res) => {
 app.post("/api/hint", (req, res) => {
     const { partieId, id, reponse } = req.body;
 
-    // Récupère le prix du produit
+    // Retrieves the product price
     db.query("SELECT prix FROM produit WHERE id = ?", [id], (err, results) => {
         if (err) {
             console.error(err);
@@ -283,7 +277,7 @@ app.post("/api/hint", (req, res) => {
             message = "that's it ! " + reponse_joueur;
         }
 
-        // Retire un indice dans la BDD
+        // Remove one hint in the DB
         db.query(
             `UPDATE partie
                  SET hint_count = hint_count - 1
@@ -297,14 +291,14 @@ app.post("/api/hint", (req, res) => {
                     });
                 }
 
-                // Aucun indice disponible
+                //None hint available
                 if (result.affectedRows === 0) {
                     return res.status(400).json({
                         erreur: "Plus d'indices More or Less"
                     });
                 }
 
-                // Récupère le nombre d'indices restant
+                // Retrieves the remaining hints
                 db.query(
                     "SELECT hint_count FROM partie WHERE id = ?",
                     [partieId],
@@ -397,7 +391,7 @@ app.post("/api/hint", (req, res) => {
 app.post("/api/temperature", (req, res) => {
     const { partieId, id, reponse } = req.body;
 
-    // Récupère le prix
+    //Retrieves the price
     db.query("SELECT prix FROM produit WHERE id = ?", [id], (err, results) => {
         if (err) {
             console.error(err);
@@ -433,7 +427,7 @@ app.post("/api/temperature", (req, res) => {
             couleur = "darkblue";
         }
 
-        // Retire un indice dans la BDD
+        // remove one hint in the DB
         db.query(
             `UPDATE partie
                  SET temp_count = temp_count - 1
@@ -453,7 +447,7 @@ app.post("/api/temperature", (req, res) => {
                     });
                 }
 
-                // Récupère le nombre restant
+                // Retrieves the remaining numbers
                 db.query(
                     "SELECT temp_count FROM partie WHERE id = ?",
                     [partieId],
@@ -539,7 +533,7 @@ app.post("/api/temperature", (req, res) => {
 app.post("/api/verifier", (req, res) => {
     const { partieId, id, reponse } = req.body;
 
-    // Récupère le prix du produit
+    // Retrieves the product price
     db.query("SELECT prix FROM produit WHERE id = ?", [id], (err, results) => {
         if (err) {
             console.error(err);
@@ -557,15 +551,15 @@ app.post("/api/verifier", (req, res) => {
         const prix = Number(results[0].prix);
         const reponse_joueur = Number(reponse);
 
-        // Calcul des points de base
+        // Base points calcul
         let points = 4 - Math.abs((reponse_joueur - prix) / 2.5);
 
         points = Math.max(0, points);
 
-        // Calcul de l'écart
+        // Calculate the gap
         const ecart = Math.abs(Math.round((reponse_joueur - prix) * 100) / 100);
 
-        // Récupère le mode de la partie
+        // Retrieves the game mode
         db.query("SELECT hard FROM partie WHERE id = ?", [partieId], (err, parties) => {
             if (err) {
                 console.error(err);
@@ -580,7 +574,7 @@ app.post("/api/verifier", (req, res) => {
                 });
             }
 
-            // Applique le Hard Mode
+            // Apply the hard mode
             if (Number(parties[0].hard) === 1) {
                 points = 4 - Math.abs((reponse_joueur - prix) / 0.5);
                 if (points < 0) {
@@ -589,7 +583,7 @@ app.post("/api/verifier", (req, res) => {
                 }
             }
 
-            // Ajoute les points et passe à la manche suivante
+            // Add points and pass to the next round
             db.query(
                 `UPDATE partie
                          SET score = score + ?,
@@ -609,8 +603,8 @@ app.post("/api/verifier", (req, res) => {
                             erreur: "Partie introuvable"
                         });
                     }
-
-                    // Récupère le nouveau score et la nouvelle manche
+                    
+                    // Take the new score and the new round
                     db.query(
                         `SELECT score, round
                                  FROM partie
@@ -751,10 +745,10 @@ app.get("/api/partie/:id", (req, res) => {
  *                 erreur: { type: string, example: "Erreur BDD" }
  */
 app.post("/api/new-game", (req, res) => {
-    // Récupère le mode choisi : 1 = Hard, 0 = Normal
+    // Get the player choice : 1 = Hard, 0 = Normal
     const hard = Number(req.body.hard) === 1 ? 1 : 0;
 
-    // Valeurs de départ selon le mode
+    //Start value from type game
     const hintCount = hard ? 1 : 2;
     const tempCount = hard ? 1 : 2;
 
@@ -777,10 +771,6 @@ app.post("/api/new-game", (req, res) => {
             });
         }
     );
-});
-
-app.get("/register", (req, res) => {
-    res.render("register", { avatars });
 });
 
 /**
@@ -833,7 +823,7 @@ app.get("/register", (req, res) => {
  *                 erreur: { type: string, example: "Erreur BDD" }
  */
 app.post("/api/learn", (req, res) => {
-    const { partieId, id, reponse } = req.body;
+    const { id } = req.body;
 
     db.query(
         "SELECT nom, nom_restaurant, image, description FROM produit WHERE id = ?",
@@ -921,7 +911,7 @@ app.post("/api/learn", (req, res) => {
  *                 message: { type: string, example: "Database error" }
  */
 app.post("/api/fin-partie", (req, res) => {
-    // Vérifie que le joueur est connecté
+    //Verify is the player is connected
     if (!req.session.userId) {
         return res.status(401).json({
             message: "You must be logged in"
@@ -931,14 +921,14 @@ app.post("/api/fin-partie", (req, res) => {
     const userId = req.session.userId;
     const { score } = req.body;
 
-    // Vérifie que le score est valide
+    // Verify is the score is valid
     if (typeof score !== "number" || !Number.isFinite(score)) {
         return res.status(400).json({
             message: "Invalid score"
         });
     }
 
-    // Enregistre uniquement le meilleur score
+    //Register only the best score
     db.query(
         `UPDATE users
      SET best_score = CASE
@@ -1017,7 +1007,7 @@ app.post("/api/fin-partie", (req, res) => {
  *                 message: { type: string, example: "Database error" }
  */
 app.post("/api/fin-partie-hard", (req, res) => {
-    // Vérifie que le joueur est connecté
+    //Verify is the player is connected
     if (!req.session.userId) {
         return res.status(401).json({
             message: "You must be logged in"
@@ -1027,14 +1017,14 @@ app.post("/api/fin-partie-hard", (req, res) => {
     const userId = req.session.userId;
     const { score } = req.body;
 
-    // Vérifie que le score est valide
+    //verify is the score is valid
     if (typeof score !== "number" || !Number.isFinite(score)) {
         return res.status(400).json({
             message: "Invalid score"
         });
     }
 
-    // Enregistre uniquement le meilleur score
+    //Register only the best score
     db.query(
         `UPDATE users
      SET best_hard_score = CASE
@@ -1121,7 +1111,7 @@ app.post("/api/avatar", (req, res) => {
 
     const { avatar } = req.body;
 
-    // Autoriser uniquement les avatars disponibles
+    // Autorize only available avatars
     if (!avatars.includes(avatar)) {
         return res.status(400).json({
             erreur: "Avatar invalide."
@@ -1144,12 +1134,7 @@ app.post("/api/avatar", (req, res) => {
     });
 });
 
-app.get("/hall_of_fame", (req, res) => {
-    // Vérifie que le joueur est connecté
-    if (!req.session.userId) {
-        return res.redirect("/login");
-    }
-
+app.get("/hall_of_fame", requireLoginPage, (req, res) => {
     db.query(
         `SELECT nickname,avatar , best_score
          FROM users
@@ -1194,7 +1179,7 @@ app.get("/api/catalogue", (req, res) => {
         .slice(0, 100);
     const like = "%" + search.replace(/[\\%_]/g, "\\$&") + "%";
 
-    // un seul plat par (nom + restaurant), sans tenir compte de la casse ni des espaces
+    //one dish by(name + restaurant), with so sensitive cases or spaces
     const base = `
         FROM produit p
         JOIN (
@@ -1225,6 +1210,15 @@ app.get("/api/catalogue", (req, res) => {
             }
         );
     });
+});
+
+
+//erro 404
+app.use((req, res) => {
+    if (req.path.startsWith("/api/")) {
+        return res.status(404).json({ erreur: "Route introuvable" });
+    }
+    res.status(404).send("Page not found");
 });
 
 app.listen(PORT, () => {
