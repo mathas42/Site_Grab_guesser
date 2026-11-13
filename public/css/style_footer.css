@@ -28,6 +28,7 @@
 }
 
 footer {
+    box-sizing: border-box;
     margin-top: auto;
     padding: 36px 20px 16px;
     background: var(--green-grab);
@@ -94,4 +95,25 @@ footer p {
     footer{
         width: 100%;
     }
+
+    .title p {
+    text-align: center;
+    }
+
+    #footer-content{
+        text-align: center;
+    }
+
+    footer p {
+    font-size: 0.7rem;
+    }
+
+    .title {
+    font-size: 1rem;
+    }
+
+    #footer-content {
+    gap: 30px;
+    }
+
 }

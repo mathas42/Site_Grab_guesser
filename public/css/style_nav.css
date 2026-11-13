@@ -148,11 +148,25 @@ nav .avatar-profil:hover {
 }
 
 @media (max-width: 768px){
+
+    #nav-menu{
+        width: 180px;
+        font-size: 18px;
+        top:100px;
+        right:20px;
+    }
+
+}
+
+@media (max-width: 480px){
+    #nav-container{
+        display: none;
+    }
+
     #main-nav{
         font-size: 15px;
         gap: 2px;
     }
-
 
     #nav-logo{
         width: 75px;
@@ -167,10 +181,7 @@ nav .avatar-profil:hover {
         width: 130px;
         font-size: 15px;
         top:100px;
-        right:50px;
-    }
-
-    #nav-container{
-        display: none;
+        right: 5px;
+        border: 2px solid black;
     }
 }

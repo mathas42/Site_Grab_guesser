@@ -43,7 +43,7 @@ function toggleNav() {
     const aside = document.createElement("aside");
     aside.id = "nav-menu";
 
-    const mediaQuery= window.matchMedia("(max-width: 768px)");
+    const mediaQuery= window.matchMedia("(max-width: 480px)");
     if(mediaQuery.matches){
         document.querySelectorAll("#nav-container a").forEach((link) => {
             const copy = link.cloneNode(true);

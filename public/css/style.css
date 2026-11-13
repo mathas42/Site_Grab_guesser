@@ -91,7 +91,7 @@ button {
 
 #new2 {
     background-color: var(--complementary);
-    margin-bottom: 200px;
+    margin-bottom: 40px;
 }
 
 .new,
@@ -671,6 +671,7 @@ footer {
 
 #tutorial {
     display: flex;
+    box-sizing: border-box;
     flex-direction: column;
     margin: 0px auto;
     padding: 0px 20px;
@@ -769,74 +770,29 @@ footer {
     color: var(--green-dark-grab);
 }
 
-/*Responsive styles */
-@media (max-width: 1024px) {
-    #screen {
-        flex-direction: column;
-        gap: 50px;
-        padding-top: 10%;
-        padding-bottom: 10%;
-    }
-
-    #new {
-        width: 400px;
-        font-size: 90px;
-        height: 100px;
-        font-size: 70px;
-    }
+.stat-value:hover, .stat-label:hover{
+    color: var(--green-grab);
 }
 
-@media (max-width: 768px) {
+/*Responsive styles */
+@media (max-width: 480px) {
+
     #title {
-        font-size: 60px;
+        font-size: 40px;
         text-align: center;
     }
-    #title_div {
-        align-items: center;
-        align-content: center;
-        width: 90%;
-        padding-left: 10%;
-    }
 
-    #background {
-        width: 100%;
-    }
-
-    #screen {
+    #screen{
         flex-direction: column;
-        gap: 50px;
     }
 
     #new,
-    #new2,
-    #new3 {
-        width: 400px;
-        max-width: 90vw;
-        height: 100px;
-        font-size: 70px;
-        align-items: center;
-        align-content: center;
+    #new2{
+        font-size: 30px;
     }
 
-    #tutorial {
-        max-width: 100%;
-    }
-
-    .icon {
+    .icon{
         display: none;
     }
-}
 
-@media (max-width: 480px) {
-    #new,
-    #new2,
-    #new3 {
-        width: 200px;
-        height: 80px;
-        font-size: 50px;
-    }
-
-    #screen {
-        padding-top: 50px;
-    }
 }
