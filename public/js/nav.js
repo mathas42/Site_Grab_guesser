@@ -45,6 +45,16 @@ function toggleNav() {
 
     const mediaQuery= window.matchMedia("(max-width: 480px)");
     if(mediaQuery.matches){
+         const play = document.createElement("button");
+        play.type = "button";
+        play.className = "mobile-only";
+        play.textContent = "Play";
+        play.className = "LogOut";
+        play.addEventListener("click", () => {
+            closeNav();
+            new_play();          // sans le résultat : on passe par une fonction fléchée
+        });
+        aside.append(play);
         document.querySelectorAll("#nav-container a").forEach((link) => {
             const copy = link.cloneNode(true);
             copy.classList.remove("active");
