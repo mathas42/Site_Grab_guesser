@@ -42,6 +42,19 @@ html(lang="fr")
                         )
                             img(src=image, alt="Choisir cet avatar")
 
+                details#password-section
+                    summary Change my password (optional)
+                    div
+                        label(for="current-password") Current password
+                        input#current-password.form-text(type="password", autocomplete="current-password")
+                    div
+                        label(for="new-password") New password
+                        input#new-password.form-text(type="password", autocomplete="new-password", minlength="8", maxlength="64")
+                    div
+                        label(for="confirm-password") Confirm new password
+                        input#confirm-password.form-text(type="password", autocomplete="new-password")
+
+                
                 
                 button.new#enregistrer-profil(type="submit") Apply
                 p#message-profil(aria-live="polite")

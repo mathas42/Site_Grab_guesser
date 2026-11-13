@@ -102,68 +102,100 @@ router.get("/profil", (req, res) => {
  *               properties:
  *                 erreur: { type: string, enum: ["Error while checking the nickname.", "Error while saving the profile."], example: "Error while saving the profile." }
  */
+
 router.post("/api/profil", requireLoginApi, (req, res) => {
     const nickname = typeof req.body?.nickname === "string" ? req.body.nickname.trim() : "";
     const avatar = req.body?.avatar;
+    const currentPassword = req.body?.currentPassword ?? "";
+    const newPassword = req.body?.newPassword ?? "";
+    const changePassword = currentPassword !== "" || newPassword !== "";
 
     if (nickname.length < 1 || nickname.length > 30) {
-        return res.status(400).json({
-            erreur: "The nickname must be between 1 and 30 characters."
-        });
+        return res.status(400).json({ erreur: "The nickname must be between 1 and 30 characters." });
     }
 
     if (!avatars.includes(avatar)) {
-        return res.status(400).json({
-            erreur: "Invalid avatar."
-        });
+        return res.status(400).json({ erreur: "Invalid avatar." });
     }
 
-    // Check that the nickname is not already used by someone else
+    if (changePassword) {
+        if (typeof currentPassword !== "string" || typeof newPassword !== "string" || currentPassword === "") {
+            return res.status(400).json({ erreur: "Enter your current password to change it." });
+        }
+        if (newPassword.length < 8 || newPassword.length > 64) {
+            return res.status(400).json({ erreur: "The new password must contain between 8 and 64 characters." });
+        }
+        if (newPassword === currentPassword) {
+            return res.status(400).json({ erreur: "The new password must be different from the current one." });
+        }
+    }
+
+    const saveProfile = (hash) => {
+        const sql = hash
+            ? "UPDATE users SET nickname = ?, avatar = ?, password = ? WHERE id = ?"
+            : "UPDATE users SET nickname = ?, avatar = ? WHERE id = ?";
+        const params = hash
+            ? [nickname, avatar, hash, req.session.userId]
+            : [nickname, avatar, req.session.userId];
+
+        db.query(sql, params, (error) => {
+            if (error) {
+                if (error.code === "ER_DUP_ENTRY") {
+                    return res.status(409).json({ erreur: "This nickname is already taken." });
+                }
+                console.error(error);
+                return res.status(500).json({ erreur: "Error while saving the profile." });
+            }
+
+            req.session.nickname = nickname;
+            req.session.avatar = avatar;
+
+            res.json({
+                message: hash ? "Profile and password updated" : "Profile updated",
+                nickname,
+                avatar
+            });
+        });
+    };
+
     db.query(
         "SELECT id FROM users WHERE nickname = ? AND id != ?",
         [nickname, req.session.userId],
         (error, results) => {
             if (error) {
                 console.error(error);
-                return res.status(500).json({
-                    erreur: "Error while checking the nickname."
-                });
+                return res.status(500).json({ erreur: "Error while checking the nickname." });
             }
 
             if (results.length > 0) {
-                return res.status(409).json({
-                    erreur: "This nickname is already taken."
-                });
+                return res.status(409).json({ erreur: "This nickname is already taken." });
             }
 
-            // Save the changes in MySQL
-            db.query(
-                "UPDATE users SET nickname = ?, avatar = ? WHERE id = ?",
-                [nickname, avatar, req.session.userId],
-                (error) => {
-                    if (error) {
-                        // Someone took the nickname between the check and the update
-                        if (error.code === "ER_DUP_ENTRY") {
-                            return res.status(409).json({
-                                erreur: "This nickname is already taken."
-                            });
-                        }
+            if (!changePassword) return saveProfile(null);
 
-                        console.error(error);
-                        return res.status(500).json({
-                            erreur: "Error while saving the profile."
-                        });
+            db.query(
+                "SELECT password FROM users WHERE id = ?",
+                [req.session.userId],
+                async (error2, rows) => {
+                    if (error2) {
+                        console.error(error2);
+                        return res.status(500).json({ erreur: "Error while checking the password." });
                     }
 
-                    // Refresh the session
-                    req.session.nickname = nickname;
-                    req.session.avatar = avatar;
+                    if (rows.length === 0) {
+                        return res.status(404).json({ erreur: "User not found." });
+                    }
 
-                    res.json({
-                        message: "Profile updated",
-                        nickname,
-                        avatar
-                    });
+                    try {
+                        const isCorrect = await bcrypt.compare(currentPassword, rows[0].password);
+                        if (!isCorrect) {
+                            return res.status(403).json({ erreur: "The current password is incorrect." });
+                        }
+                        saveProfile(await bcrypt.hash(newPassword, 10));
+                    } catch (err) {
+                        console.error(err);
+                        res.status(500).json({ erreur: "Error while saving the profile." });
+                    }
                 }
             );
         }
