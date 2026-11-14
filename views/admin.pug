@@ -14,21 +14,18 @@ html(lang="en")
     body#admin.bg-grab
         include components/nav.pug
         include components/notification.pug
+        include components/mixin.pug
         div#title_div.flex-center
-            h1#title Grab Food Guesser !
-        if user
-            div.flex-line
-                h2#welcome.small-margin Welcome #{user.nickname}  
-                img.avatar-profil(src=user.avatar, alt="Avatar de " + user.nickname, data-nickname=user.nickname, onclick="window.location.href = '/dashboard/profil'")  
+            h1#title Admin panel
+        +welcome(user.nickname, false)
         div#screen.flex-center
-            h2.small-margin Admin panel
             details#user-data-section(open)
                 summary
                     h3.small-margin User Data
                 
                 form#search
                     input#search-input(type="search", name="search", placeholder="Username or ID")
-                    button(type="submit") Search
+                    button#search-button(type="submit") Search
 
                 div#table-wrap
                     table#user-data
@@ -61,11 +58,29 @@ html(lang="en")
                 summary
                     h3 Add a Dish
                 div#add-dish
-                    form#upload-form.flex-center(data-category="dishes")
-                        input(type="text", name="nom", placeholder="Dish name", maxlength="255", required)
-                        input(type="text", name="nom_restaurant", placeholder="Restaurant name", maxlength="255", required)
-                        input(type="number", name="prix", placeholder="Price", min="0.01", step="0.01", required)
-                        textarea(name="description", placeholder="Description (optional)", rows="3")
-                        input#myFile(type="file", name="image", accept="image/png,image/jpeg,image/webp", required)
-                        button(type="submit") Add dish
+                    form#upload-form(data-category="dishes")
+                        label.field
+                            span.label Dish name
+                            input(type="text", name="nom", placeholder="e.g. Chicken Rice", maxlength="255", required)
+
+                        label.field
+                            span.label Restaurant
+                            input(type="text", name="nom_restaurant", placeholder="e.g. Nasi Kandar Pelita", maxlength="255", required)
+
+                        label.field
+                            span.label Price
+                            span.input-prefix
+                                span.prefix RM
+                                input(type="number", name="prix", placeholder="0.00", min="0.01", step="0.01", required)
+
+                        label.field
+                            span.label Image
+                            input#myFile(type="file", name="image", accept="image/png,image/jpeg,image/webp", required)
+
+                        label.field.full
+                            span.label Description
+                                span.optional  (optional)
+                            textarea(name="description", placeholder="A few words about the dish...", rows="3")
+
+                        button.new#submit-dish.full(type="submit") Add dish
         include components/footer.pug

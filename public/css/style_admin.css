@@ -3,74 +3,119 @@
     align-items: center;
 }
 
-/* Le conteneur prend toute la largeur disponible ; si l'écran est trop étroit,
-   le tableau défile horizontalement au lieu d'écraser les colonnes */
-#table-wrap{
-    width: 75%;                 /* toujours 75 % de la largeur de l'écran, quelle que soit la résolution */
-    overflow-x: auto;
-}
-
-#user-data{
-    width: 100%;
-    min-width: 60rem;           /* en dessous, on défile plutôt que de tout écraser */
-    table-layout: fixed;        /* les largeurs viennent des <col>, pas du contenu */
+h3 {
     text-align: center;
-    border: 1px solid black;
-    font-size: 1rem;
 }
 
-/* Largeur de chaque colonne en % du tableau (total = 100 %) */
-.col-modify{ width: 6%;  }
-.col-id{ width: 5%;  }
-.col-role{ width: 8%;  }
-.col-username{ width: 12%; }
-.col-email{ width: 19%; }
-.col-created{ width: 10%; }
-.col-change-role{ width: 11%; }
-.col-change-nickname{ width: 15%; }
-.col-delete{ width: 7%;  }
-.col-confirm{ width: 7%;  }
+.small-margin {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+}
 
-.flex-line{
+.flex-line {
     display: flex;
     flex-direction: row;
     justify-content: center;
     align-items: center;
 }
 
-.flex-line > *{
+.flex-line > * {
     margin: 15px;
 }
 
-/* Un contenu trop long passe à la ligne au lieu d'élargir la colonne */
-#user-data th, #user-data td{
+details {
+    interpolate-size: allow-keywords;
+}
+
+details::details-content {
+    height: 0;
+    overflow: hidden;
+    transition: height 0.5s ease, content-visibility 0.5s allow-discrete;
+}
+
+details[open]::details-content {
+    height: auto;
+}
+
+details > summary {
+    text-align: center;
+    cursor: pointer;
+}
+
+details > summary > h3 {
+    display: inline-block;
+}
+
+#user-data-section,
+#add-dish-section {
+    width: 100%;
+}
+
+#search {
+    display: flex;
+    justify-content: center;
+    gap: 50px;
+    padding: 10px 0 30px;
+}
+
+#search-button {
+    padding: 10px 20px;
+    background-color: var(--green-grab);
+    color: var(--card);
+    border-radius: var(--radius);
+}
+
+#search-button:hover {
+    background-color: var(--green-dark-grab);
+}
+
+#table-wrap {
+    width: 80%;
+    margin-inline: auto;
+    overflow-x: auto;
+}
+
+#user-data {
+    width: 100%;
+    min-width: 60rem;
+    table-layout: fixed;
+    border: 1px solid black;
+    font-size: 1rem;
+    text-align: center;
+}
+
+#user-data th,
+#user-data td {
     overflow-wrap: anywhere;
 }
 
-#user-data thead{
+#user-data thead {
     background-color: var(--green-grab);
 }
 
-#user-data thead tr th{
+#user-data th {
     padding: 0.5rem;
+    font-size: 1.1rem;
 }
 
-#users:nth-child(even){
-    background-color: var(--background-color60);
-}
-
-#users tr:nth-child(odd) {
-    background-color: white;
-}
-
-#users tr td{
+#user-data td {
     padding: 0.625rem;
 }
 
-table th{
-    font-size: 1.1rem;          /* 25px fixes débordaient des colonnes étroites */
-}
 
+.col-modify { width: 7%; }
+.col-id { width: 5%; }
+.col-role { width: 8%; }
+.col-username { width: 9%; }
+.col-email { width: 19%; }
+.col-created { width: 10%; }
+.col-change-role { width: 11%; }
+.col-change-nickname { width: 15%; }
+.col-delete { width: 7%; }
+.col-confirm { width: 9%; }
+
+#users tr:nth-child(odd)  { background-color: white; }
+#users tr:nth-child(even) { background-color: var(--background-color60); }
 
 #user-data input,
 #user-data select,
@@ -78,159 +123,223 @@ table th{
     font: inherit;
 }
 
-
 #user-data input[type="checkbox"] {
     width: 1.1em;
     height: 1.1em;
     cursor: pointer;
 }
 
-
-/* Les champs remplissent leur cellule au lieu d'imposer leur propre largeur */
 #user-data input[type="text"],
 #user-data select {
-    width: 100%;
     box-sizing: border-box;
+    width: 100%;
     padding: 0.25rem 0.5rem;
 }
 
-#upload-form{
+#add-dish {
+    box-sizing: border-box;
+    width: min(100% - 32px, 640px);
+    margin: 12px auto 0;
+    padding: clamp(16px, 4vw, 28px);
+    background: var(--card);
+    border: 1px solid var(--green-white-grab);
+    border-radius: 16px;
+    box-shadow: 0 6px 20px rgb(0 0 0 / 0.06);
+}
+
+#upload-form {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px 20px;
+    width: 100%;
+}
+
+#upload-form .full {
+    grid-column: 1 / -1;
+}
+
+.field {
+    display: flex;
     flex-direction: column;
-    align-items: center;
-    gap: 10px;
+    gap: 6px;
+    min-width: 0;               
+}
+
+.field .label {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--background-color40);
+}
+
+.field .optional {
+    font-weight: 400;
+    opacity: 0.6;
 }
 
 #upload-form input[type="text"],
 #upload-form input[type="number"],
-#upload-form textarea{
-    width: 100%;
-    max-width: 400px;
+#upload-form textarea {
     box-sizing: border-box;
-    padding: 6px 10px;
-    font-family: inherit;
+    width: 100%;
+    padding: 10px 12px;
+    font: inherit;
+    background: #fff;
+    border: 1px solid var(--green-white-grab);
+    border-radius: 10px;
+    transition: border-color 0.15s, box-shadow 0.15s;
 }
 
-h3{
-    text-align: center;
+#upload-form textarea {
+    min-height: 80px;
+    resize: vertical;
 }
 
-#add-dish{
-    min-width: 50%;
-    max-width: 75%;
-    margin-left: auto;
-    margin-right: auto;
-    transition: transform 0.1s ease-out;
+#upload-form input:focus,
+#upload-form textarea:focus {
+    outline: none;
+    border-color: var(--green-grab);
+    box-shadow: 0 0 0 3px rgb(0 177 79 / 0.2);
 }
 
-.small-margin{
-    margin-top: 1rem;
-    margin-bottom: 1rem;
+.input-prefix {
+    display: flex;
+    align-items: stretch;
 }
 
-
-#add-dish:hover{
-    background-color: rgba(0, 0, 0, 0.01);
-    backdrop-filter: blur(3px);
-    transform: scale(1.02);
+.input-prefix .prefix {
+    display: flex;
+    align-items: center;
+    padding: 0 12px;
+    font-weight: 700;
+    color: var(--card);
+    background: var(--green-grab);
+    border-radius: 10px 0 0 10px;
 }
 
-details > summary{
-    text-align: center;         /* centre la ligne triangle + titre */
+#upload-form .input-prefix input[type="number"] {
+    border-radius: 0 10px 10px 0;
+}
+
+#upload-form input[type="file"] {
+    width: 100%;
+    padding: 6px;
+    font: inherit;
+    font-size: 0.9rem;
+    background: #fff;
+    border: 1px dashed var(--green-grab);
+    border-radius: 10px;
     cursor: pointer;
 }
 
-details > summary > h3{
-    display: inline-block;
+#upload-form input[type="file"]::file-selector-button {
+    margin-right: 12px;
+    padding: 6px 14px;
+    font: inherit;
+    font-weight: 700;
+    color: var(--card);
+    background: var(--green-grab);
+    border: 0;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.15s;
 }
 
-#user-data-section, #add-dish-section{
-    width: 100%;
+#upload-form input[type="file"]::file-selector-button:hover {
+    background: var(--green-dark-grab);
 }
 
-
-details{
-    interpolate-size: allow-keywords;
+#upload-form input::placeholder,
+#upload-form textarea::placeholder {
+    font-size: 0.95rem;
+    opacity: 0.6;      /* optionnel : un peu plus discret */
 }
 
-details::details-content{
-    height: 0;
-    overflow: hidden;
-    transition: height 0.5s ease, content-visibility 0.5s allow-discrete;
+#submit-dish {
+    justify-self: center;
+    min-width: 200px;
+    margin-bottom: 0;
 }
 
-details[open]::details-content{
-    height: auto;
+#users tr.selected td,
+#users tr.selected td:first-child {
+    background-color: #d8f3dc;
+    transition: background-color 0.2s;
 }
 
+/*Responsive style*/
 
-#search{
-    display: flex;
-    justify-content: center;
-}
-
-#table-wrap{
-    margin-inline: auto;
-}
-
-@media (max-width: 1070px){
-    #table-wrap{
+@media (max-width: 1070px) {
+    #table-wrap {
         width: 95%;
     }
-    #user-data{
+
+    #user-data {
         min-width: 0;
     }
 
-    .col-modify{ width: 5rem; }
-    .col-id{ width: 3rem; }
-    .col-role{ width: 5.5rem; }
-    .col-username{ width: 8rem; }
-    .col-email{ width: 12rem; }
-    .col-created{ width: 7rem; }
-    .col-change-role{ width: 7.5rem; }
-    .col-change-nickname{ width: 9.5rem; }
-    .col-delete{ width: 5rem; }
-    .col-confirm{ width: 6rem; }
+    .col-modify { width: 5rem; }
+    .col-id { width: 3rem; }
+    .col-role { width: 5.5rem; }
+    .col-username { width: 8rem; }
+    .col-email { width: 12rem; }
+    .col-created { width: 7rem; }
+    .col-change-role { width: 7.5rem; }
+    .col-change-nickname { width: 9.5rem; }
+    .col-delete { width: 5rem; }
+    .col-confirm { width: 6rem; }
 }
 
-@media (max-width: 600px){
-    #table-wrap{
+@media (max-width: 600px) {
+    #table-wrap {
         width: 100%;
     }
 
-    /* Compacter */
     #user-data,
-    table th{
+    #user-data th {
         font-size: 0.8rem;
     }
-    #users tr td,
-    #user-data thead tr th{
+
+    #user-data th,
+    #user-data td {
         padding: 0.3rem;
     }
 
     #user-data :is(th, td):is(:nth-child(2), :nth-child(3), :nth-child(4), :nth-child(6)),
-    .col-id, .col-role, .col-username, .col-created{
+    .col-id,
+    .col-role,
+    .col-username,
+    .col-created {
         display: none;
     }
 
-    .col-modify{ width: 3.5rem; }
-    .col-email{ width: 6.5rem; }
-    .col-change-role{ width: 4.5rem; }
-    .col-change-nickname{ width: 4.5rem; }
-    .col-delete{ width: 3rem; }
-    .col-confirm{ width: 3rem; }
+    .col-modify { width: 3.5rem; }
+    .col-email { width: 6.5rem; }
+    .col-change-role { width: 4.5rem; }
+    .col-change-nickname { width: 4.5rem; }
+    .col-delete { width: 3rem; }
+    .col-confirm { width: 3rem; }
 
-    #user-data :is(th, td):first-child{
+    #user-data :is(th, td):first-child {
         position: sticky;
         left: 0;
         z-index: 1;
     }
-    #user-data th:first-child{
-        background-color: var(--green-grab);
+
+    #user-data th:first-child { background-color: var(--green-grab); }
+    #users tr:nth-child(odd)  td:first-child { background-color: white; }
+    #users tr:nth-child(even) td:first-child { background-color: var(--background-color60); }
+
+    #upload-form {
+        grid-template-columns: 1fr;
     }
-    #users tr td:first-child{
-        background-color: white;
+
+    #search{
+        gap: 20px;
     }
-    #users tr:nth-child(even) td:first-child{
-        background-color: var(--background-site);
+
+    #submit-dish {
+        width: 100%;
     }
 }
+
+
