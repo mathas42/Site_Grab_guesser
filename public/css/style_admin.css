@@ -31,6 +31,17 @@
 .col-delete{ width: 7%;  }
 .col-confirm{ width: 7%;  }
 
+.flex-line{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.flex-line > *{
+    margin: 15px;
+}
+
 /* Un contenu trop long passe à la ligne au lieu d'élargir la colonne */
 #user-data th, #user-data td{
     overflow-wrap: anywhere;
@@ -103,12 +114,62 @@ h3{
     text-align: center;
 }
 
+#add-dish{
+    min-width: 50%;
+    max-width: 75%;
+    margin-left: auto;
+    margin-right: auto;
+    transition: transform 0.1s ease-out;
+}
+
+.small-margin{
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+}
+
 
 #add-dish:hover{
     background-color: rgba(0, 0, 0, 0.01);
     backdrop-filter: blur(3px);
     transform: scale(1.02);
-    transition: all 0.1s ease-out;
+}
+
+details > summary{
+    text-align: center;         /* centre la ligne triangle + titre */
+    cursor: pointer;
+}
+
+details > summary > h3{
+    display: inline-block;
+}
+
+#user-data-section, #add-dish-section{
+    width: 100%;
+}
+
+
+details{
+    interpolate-size: allow-keywords;
+}
+
+details::details-content{
+    height: 0;
+    overflow: hidden;
+    transition: height 0.5s ease, content-visibility 0.5s allow-discrete;
+}
+
+details[open]::details-content{
+    height: auto;
+}
+
+
+#search{
+    display: flex;
+    justify-content: center;
+}
+
+#table-wrap{
+    margin-inline: auto;
 }
 
 @media (max-width: 1070px){

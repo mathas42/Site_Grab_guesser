@@ -17,49 +17,55 @@ html(lang="en")
         div#title_div.flex-center
             h1#title Grab Food Guesser !
         if user
-            h2#welcome Welcome #{user.nickname}    
+            div.flex-line
+                h2#welcome.small-margin Welcome #{user.nickname}  
+                img.avatar-profil(src=user.avatar, alt="Avatar de " + user.nickname, data-nickname=user.nickname, onclick="window.location.href = '/dashboard/profil'")  
         div#screen.flex-center
-            h2 Admin panel
-            h3 User Data
-            div 
-            form#search
-                input#search-input(type="search", name="search", placeholder="Username or ID")
-                button(type="submit") Search
-            
-            div#table-wrap
-              table#user-data
-                colgroup
-                    col.col-modify
-                    col.col-id
-                    col.col-role
-                    col.col-username
-                    col.col-email
-                    col.col-created
-                    col.col-change-role
-                    col.col-change-nickname
-                    col.col-delete
-                    col.col-confirm
-                thead
-                    tr
-                        th Modify
-                        th ID
-                        th Role
-                        th Username
-                        th Email
-                        th Created
-                        th Change Role
-                        th Change nickname 
-                        th Delete User
-                        th Confirm changes
-                tbody#users
-        h3 Add a Dish
-        div#add-dish 
+            h2.small-margin Admin panel
+            details#user-data-section(open)
+                summary
+                    h3.small-margin User Data
+                
+                form#search
+                    input#search-input(type="search", name="search", placeholder="Username or ID")
+                    button(type="submit") Search
 
-            form#upload-form.flex-center(data-category="dishes")
-                input(type="text", name="nom", placeholder="Dish name", maxlength="255", required)
-                input(type="text", name="nom_restaurant", placeholder="Restaurant name", maxlength="255", required)
-                input(type="number", name="prix", placeholder="Price", min="0.01", step="0.01", required)
-                textarea(name="description", placeholder="Description (optional)", rows="3")
-                input#myFile(type="file", name="image", accept="image/png,image/jpeg,image/webp", required)
-                button(type="submit") Add dish
+                div#table-wrap
+                    table#user-data
+                        colgroup
+                            col.col-modify
+                            col.col-id
+                            col.col-role
+                            col.col-username
+                            col.col-email
+                            col.col-created
+                            col.col-change-role
+                            col.col-change-nickname
+                            col.col-delete
+                            col.col-confirm
+                        thead
+                            tr
+                                th Modify
+                                th ID
+                                th Role
+                                th Username
+                                th Email
+                                th Created
+                                th Change Role
+                                th Change nickname 
+                                th Delete User
+                                th Confirm changes
+                        tbody#users
+
+            details#add-dish-section
+                summary
+                    h3 Add a Dish
+                div#add-dish
+                    form#upload-form.flex-center(data-category="dishes")
+                        input(type="text", name="nom", placeholder="Dish name", maxlength="255", required)
+                        input(type="text", name="nom_restaurant", placeholder="Restaurant name", maxlength="255", required)
+                        input(type="number", name="prix", placeholder="Price", min="0.01", step="0.01", required)
+                        textarea(name="description", placeholder="Description (optional)", rows="3")
+                        input#myFile(type="file", name="image", accept="image/png,image/jpeg,image/webp", required)
+                        button(type="submit") Add dish
         include components/footer.pug
