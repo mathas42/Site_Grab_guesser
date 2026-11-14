@@ -325,15 +325,15 @@ footer {
 #sec {
     box-sizing: border-box;
     width: min(700px, 92vw);
-    height: 120px;
-    margin: 10px auto;
-    padding: 20px;
+    height: 100px;
+    margin: 5px auto;
+    padding: 5px 10px;
     background-color: rgb(108, 244, 103);
     border-radius: var(--radius);
 }
 
 #sec legend {
-    padding: 0 10px;
+    padding: 0 5px;
     font-weight: bold;
     text-align: center;
 }
