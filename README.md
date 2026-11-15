@@ -61,29 +61,53 @@ Each dish is presented with a description to help users learn more about Malaysi
 
 Through this game, users can explore local specialties, discover new dishes, and learn more about Malaysian cuisine in an entertaining and engaging way.
 
+##### Our website offers five main functionalities:
+
+- **User Authentication**: A login and registration interface that allows users to create an account and securely access their personal profile.
+
+- **Admin Panel**: An administration interface that allows administrators to manage the website and its content.
+
+- **Price Guessing Game**: The main feature of our application. Players must guess the correct price of different Malaysian dishes. Two game modes are available: Normal Mode and Hardcore Mode, offering different levels of difficulty.
+
+- **Dish Gallery (Learn Page)**: A gallery displaying the different Malaysian dishes available in the game, along with their descriptions and additional information to help users discover Malaysian cuisine.
+
+- **Hall of Fame**: A leaderboard displaying the players results and scores, allowing users to compare their performance with other players.
+
 ---
 
 ## Installation and Setup
 
 Follow these steps to install and run the project locally.
 
+### Prerequisites
+
+Before starting, make sure you have installed the following software:
+
+- **[Node.js](https://nodejs.org/)** – Required to run the application and manage its dependencies.
+- **[MySQL Server](https://dev.mysql.com/downloads/mysql/)** – Required to host the project database.
+
 ### 1. Download the project
 
-- Download the project ZIP file.
+- Download the project ZIP file or clone the Git repository.
 - Extract its contents into a folder.
 - Open the project folder in your preferred IDE.
+- Make sure you are in the project's root directory before running the following commands.
 
 ### 2. Configure environment variables
 
 - Create a `.env` file in the root directory of the project.
-- Copy paste the `.env.exemple`
-- Add your local MySQL database password:
+- Copy the contents of `.env.example` into your new `.env` file.
+- Configure your local MySQL database credentials.
+
+Example:
 
 ```env
 DATABASE_PASSWORD='your_password'
 ```
 
 Replace `your_password` with your actual MySQL password.
+
+Make sure to keep your `.env` file private and never commit it to Git.
 
 ### 3. Set up the database
 
@@ -92,9 +116,9 @@ Replace `your_password` with your actual MySQL password.
 - Open the SQL scripts provided in the project.
 - Execute the scripts to create and initialize the database.
 
-### 4. Install dependencies
+Make sure the database is correctly configured before starting the application.
 
-Make sure [Node.js](https://nodejs.org/) is installed on your computer.
+### 4. Install project dependencies
 
 Open a terminal in the project's root directory and run:
 
@@ -102,33 +126,56 @@ Open a terminal in the project's root directory and run:
 npm install
 ```
 
-If Express is not already listed as a dependency, install it with:
+This command automatically installs all the dependencies listed in `package.json`, including:
 
-```bash
-npm install express
-```
+- **Express** – Web server framework.
+- **Pug** – Template engine used to generate web pages.
+- **MySQL2** – Database connection.
+- **Bcrypt** – Password hashing.
+- **Dotenv** – Environment variable management.
+- **Express-session** – User session management.
+- **Multer** – File upload management.
+- **Swagger-jsdoc and Swagger-ui-express** – API documentation.
+
+No additional package installation is required.
 
 ### 5. Start the application
 
-Run the following command in your terminal:
+Once the database is configured and all dependencies are installed, start the application by running:
 
 ```bash
 node app.js
 ```
 
+This command launches the Node.js server.
+
 ### 6. Access the application
 
 Once the server has started successfully, open your browser and navigate to:
 
-[http://localhost:3000/](http://localhost:3000/)
+```text
+http://localhost:3000
+```
 
-The web application should now be accessible locally.
+The application should now be running locally.
 
 ---
 
 ## Project Design
 
 ### Entity Relationship Diagram (ERD)
+
+The three tables in our database are connected through the Game (partie) table, which acts as the central element of our database structure.
+
+Each game is associated with one user and one dish. The relationship between the User and Game tables allows us to keep track of the games played by each user. A user can have multiple game sessions, while each game belongs to a single user.
+
+The relationship between the Game and Dish tables allows the application to retrieve the dish that the player has to guess during the current round. A dish can be reused in multiple games, while each game references one current dish at a time.
+
+This database structure allows us to manage user accounts, track game sessions and retrieve dish information efficiently.
+
+<div align="center">
+  <img src="public/images/ERD/ERD.png" alt="Entity Relationship Diagram (ERD)" width="300" height="auto">
+</div>
 
 ### Table Definitions
 
@@ -321,8 +368,6 @@ flowchart TD
     style USER fill:#EFF6FF,stroke:#3B82F6,stroke-width:2px
 ```
 
-### Entity Relationship Diagrams
-
 ---
 
 ## Wireframes
@@ -399,20 +444,16 @@ This section complements the game by allowing users to learn more about the dish
 
 ---
 
+#### Future enhancements
+
+- favorites dishes
+- dish tier list
+- customs games
+- pre-settings learn ( type of meat , vegeterian options etc)
+
 ## References
 
 ---
-
----
-
-```mermaid
-gitGraph
-    commit id: "Init"
-    branch feature
-    commit id: "Feature work"
-    checkout main
-    merge feature
-```
 
 ## How to Format Database Schemas in Markdown
 
