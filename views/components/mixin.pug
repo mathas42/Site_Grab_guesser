@@ -12,3 +12,10 @@ mixin question(number, className, title, content)
     div.question
         h2.title= title
         p= content
+
+mixin welcome(userName = user && user.nickname, showAvatar = true)
+    if user
+        div.flex-line
+            h2.welcome.small-margin Welcome #{userName}
+            if showAvatar
+                img.avatar-profil(src=user.avatar, alt="Avatar de " + userName, onclick="window.location.href = '/dashboard/profil'")

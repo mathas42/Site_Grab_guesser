@@ -20,6 +20,9 @@ function addCheckboxCell(row, name, label, id) {
     checkbox.setAttribute("form", id);
     checkbox.setAttribute("aria-label", label);
     row.insertCell().append(checkbox);
+    checkbox.addEventListener("change", () => {
+        row.classList.toggle("selected", checkbox.checked);
+    });
     return checkbox;
 }
 

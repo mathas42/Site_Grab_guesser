@@ -130,10 +130,6 @@ The web application should now be accessible locally.
 
 ### Table Definitions
 
-Use fenced SQL code blocks for CREATE TABLE statements. Include constraints, defaults, and CHECK clauses inline so the full structure is visible at a glance:
-
-### Column Reference Tables
-
 #### Dish table
 
 ```sql
@@ -206,7 +202,71 @@ CREATE TABLE IF NOT EXISTS users (
 | best_hard_score | DECIMAL(10,2)           | Yes      | NULL                                                              | Stock the best score of the player in hard mode         |
 | avatar          | VARCHAR(255)            | No       | '/images/avatars/avatar1.png' (The first image of avatar galerie) | Keep in memory the avatar patch of the player           |
 
+---
+
 ### Entity Relationship Diagrams
+
+---
+
+## Wireframes
+
+We designed our website wireframes using **Figma**. You can access our designs through the following link:
+
+[Figma](https://www.figma.com/design/9DfsoZ4DDwyEWT69YZjyab/Untitled?node-id=14-95&t=hTyXFCZIWmZ8ebrY-1)
+
+### Design and Colour Choices
+
+For the visual identity of our website, we chose Grab's signature green (`#00B14F`) as our primary colour. We then selected complementary colours using a colour wheel to create a consistent and visually appealing colour palette.
+
+Colour palette reference: [HTML Colour Wheel](https://www.htmlcouleur.com/cercle-chromatique#00b14f)
+
+Our main objective was to create a **simple, intuitive and user-friendly website**. We wanted the interface to be easy to understand and accessible to all players, while keeping a playful design inspired by Grab's visual identity.
+
+### Home Page
+
+The home page serves as the main entry point to the application. It provides access to the different sections of the website through the navigation bar: Home, Learn, Hall of Fame and the Admin Panel (available only to administrators).
+
+A hamburger menu icon allows users to open a sidebar containing additional options, such as settings and logout. Users can also access their profile page by clicking on their avatar.
+
+The central part of the page displays the website's name and two main buttons, allowing players to choose between the two available game modes: **Normal Mode** and **Hardcore Mode**.
+
+Finally, the home page includes a player statistics section, displaying important information such as their highest score, ranking and best Hardcore Mode score.
+
+<div align="center">
+  <img src="public/images/frameworks/home_frame.png" alt="Home Page wireframe" width="300">
+</div>
+
+### Game Page
+
+The game page was designed to provide a straightforward and intuitive gaming experience.
+
+Players can adjust their price estimate using a slider controlled with their mouse or through adjustment buttons. These buttons allow them to increase or decrease their guess with different increments, making price adjustments more precise.
+
+At the top of the page, a game summary displays the current round, the player's total score and their score for each round. This allows players to keep track of their progress throughout the game.
+
+<div align="center">
+  <img src="public/images/frameworks/game_frame.png" alt="Game Page wireframe" width="300">
+</div>
+
+### Tutorial and Footer
+
+The tutorial section is designed to help new players understand the rules and mechanics of the game before starting their first round.
+
+The footer provides additional navigation links and useful information, allowing users to easily access the different sections of the website.
+
+<div align="center">
+  <img src="public/images/frameworks/foot_tut_frame.png" alt="Tutorial and Footer wireframe" width="300">
+</div>
+
+### Learn Page
+
+The Learn page is dedicated to discovering Malaysian food. It provides players with information about different Malaysian dishes, helping them become more familiar with the country's culinary culture.
+
+This section complements the game by allowing users to learn more about the dishes they may encounter while playing.
+
+<div align="center">
+  <img src="public/images/frameworks/learn_frame.png" alt="Learn Page wireframe" width="300">
+</div>
 
 ---
 
