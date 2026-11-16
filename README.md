@@ -274,7 +274,19 @@ CREATE TABLE IF NOT EXISTS users (
 
 ### Website Navigational Structure
 
-We can see the navigitioanl structure of the website.
+The following diagram illustrates the navigational structure of our website.
+
+When users first access the website, they have two options to reach the dashboard: log in if they already have an account or register to create a new one.
+
+Once authenticated, users gain access to the main features of the application:
+
+- _Play_: Access the price guessing game and choose between Normal Mode and Hardcore Mode.
+
+- _Learn_: Discover Malaysian dishes through a gallery containing descriptions and information about each dish.
+
+- _Hall of Fame_: Compare their scores and rankings with other players and friends.
+
+Users can also access their profile to manage their personal information and account settings.
 
 ```mermaid
 flowchart TD
@@ -442,14 +454,19 @@ This section complements the game by allowing users to learn more about the dish
 
 ## Conclusion
 
----
-
 #### Future enhancements
 
-- favorites dishes
-- dish tier list
-- customs games
-- pre-settings learn ( type of meat , vegeterian options etc)
+The following features could be added in future updates to improve the user experience and expand the possibilities of Grab Food Guesser:
+
+- Favorite Dishes: Allow users to save their favorite Malaysian dishes and easily find them later.
+
+- Dish Tier List: Enable users to rank dishes according to their personal preferences.
+
+- Custom Games: Allow users to create personalized games with their own settings (numbers of rounds, numbers of hints, gap points sensibility etc) and selected dishes.
+
+- Advanced Learning Filters: Add filters to the Learn page to help users discover dishes based on their preferences, such as meat type or vegetarian options.
+
+---
 
 ## References
 
@@ -486,6 +503,8 @@ For more detail, add a relationship reference table documenting foreign keys and
 
 # Contributing
 
-- [Mathias](https://github.com/mathas42) :
-- [ Matthieu](https://github.com/MatthieuGalland) :
-- [Timothée](https://github.com/Elfvelour) :
+Each team member contributed to both the backend and frontend development of Grab Food Guesser.
+
+- [Mathias](https://github.com/mathas42) -Backend / Frontend: Game feature, Learn feature, database management, routing, and Profile feature.
+- [Matthieu](https://github.com/MatthieuGalland) – Backend / Frontend: Admin feature, routing, and Game feature.
+- [Timothée](https://github.com/Elfvelour) - Backend / Frontend: Navigation bar and Footer, global CSS, button styling, and Profile feature.

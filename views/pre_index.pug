@@ -4,13 +4,39 @@ html(lang="en")
         meta(charset="UTF-8")
         meta(name="viewport", content="width=device-width, initial-scale=1.0")
         link(rel="stylesheet", href="/css/style.css")
+        link(rel="stylesheet", href="/css/style_pre_index.css")
         link(rel="icon", type="image/png", href="/images/logo_loupe.png")
         title Grab Food Guesser
 
     include components/nav.pug
     body#index.bg-grab
-        div#title_div.flex-center
-            h1#title Grab Food Guesser !
+        div#block_index
+            div#title_pre_index
+                h1 How well do you know
+                h1#green_title Malaysian Food?
+            p#block_text Discover Malaysia's rich food culture, test your knowledge and guess the price of iconic local dishes!
+            div#button_block
+                button.green_button(type="button",onclick="window.location.href='/dashboard'") Start Playing
+                button.white_button(type="button",onclick="window.location.href='/learn'") Discover dishes
+            
+        div#game
+            div.tutorial_title
+            section#stats
+                div.stat-card
+                    div.number 1
+                    span.stat-label Discover
+                    span.stat-value Discover traditional Malaysian dishes.
+
+                div.stat-card
+                    div.number 2
+                    span.stat-label Guess
+                    span.stat-value Estimate the price of each dish.
+
+                div.stat-card
+                    div.number 3
+                    span.stat-label Compete
+                    span.stat-value Earn points and climb the leaderboard.
+        
         div#screen-footer.flex-center
             button.new(type="button",onclick="window.location.href='/login'") Login
             button.new(type="button",onclick="window.location.href='/register'") Register

@@ -150,6 +150,20 @@ nav .avatar-profil:hover {
     filter: brightness(0) invert(1);
 }
 
+#register{
+    border-radius: var(--radius);
+    border : 2 px solid var(--green-dark-grab);
+    background-color : var(--card);
+    color: var(--green-grab);
+    font-size: 15px;
+    text-align: center;
+    padding: 5px 10px;
+}
+
+#register:hover{
+    background-color: var(--green-dark-grab);
+}
+
 @media (max-width: 768px){
 
     #nav-menu{

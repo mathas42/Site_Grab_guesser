@@ -1,4 +1,5 @@
 link(rel="stylesheet", href="/css/style_nav.css")
+link(rel="stylesheet", href="/css/style_pre_index.css")
 nav#main-nav
     a#nav-logo-link(href="/")
         img#nav-logo(src="/images/grab_logo.png", alt="Grab logo")
@@ -12,9 +13,10 @@ nav#main-nav
         if user
             img.avatar-profil(src=user.avatar, alt="Avatar de " + user.nickname, data-nickname=user.nickname, onclick="window.location.href = '/dashboard/profil'")
             span#user-name= user.nickname
+            img.nav-svg#nav-hamburger(src="/images/nav/hamburger-svgrepo-com.svg", alt="Menu", onclick="toggleNav()")
         else
             a(href="/login")
                 img.nav-svg#nav-login(src="/images/nav/user-svgrepo-com.svg", alt="Login")
-        img.nav-svg#nav-hamburger(src="/images/nav/hamburger-svgrepo-com.svg", alt="Menu", onclick="toggleNav()")
+            button.white_button#register(onclick="window.location.href = '/register'") Register
 
     script(src="/js/nav.js" defer)
