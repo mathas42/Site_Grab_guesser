@@ -15,19 +15,18 @@ body {
     background-color: var(--green-grab);
 }
 
-#nav-container {
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
-    display: flex;
-    align-items: center;
-    gap: 30px;
-}
 #nav-container,
 #nav-container2 {
     display: flex;
     align-items: center;
     gap: 20px;
+}
+
+/* Liens centrés dans la barre (grands écrans) */
+#nav-container {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
 }
 
 #nav-logo {
@@ -101,6 +100,12 @@ nav .avatar-profil:hover {
     color: var(--green-dark-grab);
 }
 
+#main-nav2 #research {
+    min-width: 0;
+    box-sizing: border-box;
+}
+
+
 #nav-menu {
     position: fixed;
     top: 100px;
@@ -150,46 +155,85 @@ nav .avatar-profil:hover {
     filter: brightness(0) invert(1);
 }
 
-#register{
+#register {
     border-radius: var(--radius);
-    border : 2 px solid var(--green-dark-grab);
-    background-color : var(--card);
+    border: 2px solid var(--green-dark-grab);   
+    background-color: var(--card);
     color: var(--green-grab);
     font-size: 15px;
     text-align: center;
     padding: 5px 10px;
 }
 
-#register:hover{
+#register:hover {
     background-color: var(--green-dark-grab);
 }
 
-@media (max-width: 768px){
-
-    #nav-menu{
-        width: 180px;
-        font-size: 18px;
-        top:100px;
-        right:20px;
+@media (min-width: 769px) and (max-width: 1048px) {
+    #main-nav2 #research {
+        width: 100%;
+        max-width: 100px;
     }
-
 }
 
-@media (max-width: 480px){
-    #nav-container{
+@media (max-width: 768px) {
+
+    #nav-menu {
+        width: 180px;
+        font-size: 18px;
+        top: 100px;
+        right: 20px;
+    }
+
+    #main-nav2 {
+        flex-wrap: wrap;
+        gap: 8px 12px;
+        padding: 10px 15px;
+    }
+
+    #main-nav2 #nav-container {
+        position: static;
+        transform: none;
+        order: 1;
+        gap: 10px;
+    }
+
+    #main-nav2 #nav-container2 {
+        order: 2;
+        margin-left: auto;
+        gap: 12px;
+    }
+
+    #main-nav2 #research {
+        order: 3;
+        flex: 1 1 100%;
+        width: 100%;
+        max-width: none;
+    }
+}
+
+@media (min-width: 481px) and (max-width: 599px) {
+    #main-nav2 #user-name {
+        display: none;
+    }
+}
+
+@media (max-width: 480px) {
+
+    #nav-container {
         display: none;
     }
 
-    #main-nav{
+    #main-nav {
         font-size: 15px;
         gap: 2px;
     }
 
-    #nav-logo{
+    #nav-logo {
         width: 75px;
     }
 
-    #nav-container2 .avatar-profil{
+    #nav-container2 .avatar-profil {
         width: 45px;
         height: auto;
     }
@@ -202,39 +246,21 @@ nav .avatar-profil:hover {
     #nav-menu {
         width: 130px;
         font-size: 15px;
-        top:100px;
+        top: 100px;
         right: 5px;
         border: 2px solid black;
     }
 
-     #main-nav2 {
-        display: flex;
-        flex-wrap: wrap;
-        align-items: center;
-        justify-content: space-between;
-        position: relative;
-    }
-
-    #main-nav2 #nav-container {
-        order: 1;
-        margin-left: auto;
-    }
-
     #main-nav2 #nav-container2 {
-        order: 2;
-        display: flex;
-        align-items: center;
+        position: relative;
         justify-content: space-between;
         width: 100%;
-        position: relative;
+        margin-left: 0;
     }
 
     #main-nav2 .avatar-profil {
-        order: 1;
         padding: 0;
         margin: 0;
-        margin-bottom: 10px;
-        left: 100%;
     }
 
     #main-nav2 #user-name {
@@ -245,51 +271,6 @@ nav .avatar-profil:hover {
     }
 
     #main-nav2 #nav-hamburger {
-        order: 3;
         margin-left: auto;
-    }
-
-
-    #main-nav2 #research {
-        order: 3;
-        flex-basis: 100%;
-        width: 100%;
-        box-sizing: border-box;
-    }
-
-}
-
-@media (min-width: 481px) and (max-width: 768px) {
-
-    #main-nav {
-        display: flex;
-        justify-content: flex-start;
-        align-items: center;
-        gap: 15px;
-        padding: 10px 15px;
-    }
-
-    #main-nav #nav-logo {
-        padding: 0;
-        flex-shrink: 0;
-    }
-
-    #main-nav #nav-container {
-        position: static;
-        transform: none;
-        margin-left: 35px;
-        margin-right: 35px;
-        gap: 10px;
-        flex-shrink: 0;
-    }
-
-}
-
-@media (max-width: 1048px){
-    #main-nav2 #research {
-        width: 100%;
-        max-width: 100px;
-        flex: 1 1 100%;
-        box-sizing: border-box;
     }
 }

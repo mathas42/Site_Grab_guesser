@@ -27,15 +27,12 @@ html(lang="en")
 
             section#stats
                 - const s = locals.stats || {}
-                div.stat-card
-                    span.stat-label Best score
-                    span.stat-value= s.best_score != null ? s.best_score : "–"
-                div.stat-card
-                    span.stat-label Hard mode
-                    span.stat-value= s.best_hard_score != null ? s.best_hard_score : "–"
-                div.stat-card
-                    span.stat-label Rank
-                    span.stat-value= s.best_score != null ? "#" + s.normal_rank : "–"
+                - const card1 = s.best_score != null ? s.best_score : "–"
+                +card("","Best score",card1,"")
+                - const card2 =s.best_hard_score != null ? s.best_hard_score : "–"
+                +card("","Hard mode",card2,"")
+                - const card3 = s.best_score != null ? "#" + s.normal_rank : "–"
+                +card("", "Rank", card3, "")
 
         div#tutorial
             div#tutorial-content

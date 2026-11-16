@@ -7,38 +7,51 @@ html(lang="en")
         link(rel="stylesheet", href="/css/style_pre_index.css")
         link(rel="icon", type="image/png", href="/images/logo_loupe.png")
         title Grab Food Guesser
-
-    include components/nav.pug
     body#index.bg-grab
-        div#block_index
-            div#title_pre_index
-                h1 How well do you know
-                h1#green_title Malaysian Food?
-            p#block_text Discover Malaysia's rich food culture, test your knowledge and guess the price of iconic local dishes!
-            div#button_block
-                button.green_button(type="button",onclick="window.location.href='/dashboard'") Start Playing
-                button.white_button(type="button",onclick="window.location.href='/learn'") Discover dishes
-            
+        include components/mixin.pug
+        include components/nav.pug
+        div#hero
+            div#block_index
+                div#title_pre_index
+                    h1 How well do you know
+                    h1#green_title Malaysian Food?
+                p#block_text Discover Malaysia's rich food culture, test your knowledge and guess the price of iconic local dishes!
+                div#button_block
+                    button.green_button(type="button",onclick="window.location.href='/dashboard'") Start Playing
+                    button.white_button(type="button",onclick="window.location.href='/learn'") Discover dishes
+            img#hero_img(src="images/tut/kl.jpg", alt="Petronas Twin Towers and a hibiscus flower")
+        div.border-bottom    
         div#game
-            div.tutorial_title
+            div.flex-center 
+                h2.tutorial_title How to play ?
             section#stats
-                div.stat-card
-                    div.number 1
-                    span.stat-label Discover
-                    span.stat-value Discover traditional Malaysian dishes.
-
-                div.stat-card
-                    div.number 2
-                    span.stat-label Guess
-                    span.stat-value Estimate the price of each dish.
-
-                div.stat-card
-                    div.number 3
-                    span.stat-label Compete
-                    span.stat-value Earn points and climb the leaderboard.
+                +card("1","Discover","Discover traditional Malaysian dishes.","/images/tut/nasi-lemak.jpg")
+                +card("2","Guess","Estimate the price of each dish.","/images/tut/guess.png")
+                +card("3","Compete","Earn points and climb the leaderboard","/images/tut/podium.jpeg")
+        div.border-bottom  
+        div#game_mode
+            div.flex-center
+                h2.tutorial_title Choose your challenge
+            div#mode_list
+                +game_mode("/images/tut/tofu-soup.jpg", "Enjoy the game with hints to help you guess the correct prices!", "normal_mode", "Play Normal","new_play()")
+                +game_mode("/images/tut/mapo-tofu.jpg", "No hints, no help! Test your knowledge and prove your skills.", "hardcore_mode", "Play Hardcore","new_hard()")
+        div.border-bottom  
         
-        div#screen-footer.flex-center
-            button.new(type="button",onclick="window.location.href='/login'") Login
-            button.new(type="button",onclick="window.location.href='/register'") Register
+        div#leaderboard
+            div.flex-center
+                h2.tutorial_title Hall of Fame
+
+            p.leaderboard-description Compete with other players and climb the rankings!
+
+            div#leaderboard_modes
+                div.leaderboard-card.normal-leaderboard
+                    h3 Normal Mode
+                    p Test your knowledge, use your hints and compete for the highest score!
+
+            div.flex-center
+                button.green_button(type="button", onclick="window.location.href='/hall_of_fame'") Explore the Leaderboard
+
+        div.border-bottom   
+  
         include components/footer.pug
         script(src="/js/script.js")
