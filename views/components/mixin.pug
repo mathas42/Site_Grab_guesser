@@ -35,3 +35,12 @@ mixin game_mode(path, text, id, buttonText,gamePath)
         div.collum
             p= text
             button.green_button(type="button", id=id, onclick=gamePath)= buttonText
+
+mixin bubble()
+    - const foods = ["/images/icons/chinese-food-svgrepo-com.svg", "/images/icons/food-color-coffee-long-svgrepo-com.svg", "/images/icons/food-fruit-fruits-18-svgrepo-com.svg", "/images/icons/food-pack-box-with-handle-svgrepo-com.svg", "/images/icons/restaurant-paper-svgrepo-com.svg"]
+    - const all = foods.concat(foods.slice().reverse())
+    div.wrapper(aria-hidden="true")
+        each food in all
+            div.bubble
+                img.icon(src=food, alt="")
+                span.dot
