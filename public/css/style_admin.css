@@ -54,8 +54,23 @@ details > summary > h3 {
 #search {
     display: flex;
     justify-content: center;
+    align-items: center;
     gap: 50px;
     padding: 10px 0 30px;
+}
+
+#search-input{
+    padding: 15px;
+    font-size: 1rem;
+    transition: all 0.1s ease-in;
+    border-radius: 0.5rem;
+}
+
+#search-input:focus{
+    border-radius: 1rem;
+    transition: all 0.1s ease-in;
+    border: 5px var(--green-grab) solid;
+    border-color: var(--green-grab);
 }
 
 #search-button {
@@ -70,7 +85,7 @@ details > summary > h3 {
 }
 
 #table-wrap {
-    width: 80%;
+    width: 100%;
     margin-inline: auto;
     overflow-x: auto;
 }
@@ -136,7 +151,8 @@ details > summary > h3 {
     padding: 0.25rem 0.5rem;
 }
 
-#add-dish {
+#add-dish,
+#user-data-card {
     box-sizing: border-box;
     width: min(100% - 32px, 640px);
     margin: 12px auto 0;
@@ -145,6 +161,12 @@ details > summary > h3 {
     border: 1px solid var(--green-white-grab);
     border-radius: 16px;
     box-shadow: 0 6px 20px rgb(0 0 0 / 0.06);
+    font-size: 1rem;
+}
+
+/* Le tableau a besoin de plus de place que le formulaire */
+#user-data-card {
+    width: min(100% - 32px, 1200px);
 }
 
 #upload-form {
@@ -187,6 +209,7 @@ details > summary > h3 {
     border: 1px solid var(--green-white-grab);
     border-radius: 10px;
     transition: border-color 0.15s, box-shadow 0.15s;
+    font-size: 1rem;
 }
 
 #upload-form textarea {
@@ -266,6 +289,10 @@ details > summary > h3 {
     transition: background-color 0.2s;
 }
 
+.field .prefix{
+    font-size: 1rem;
+}
+
 /*Responsive style*/
 
 @media (max-width: 1070px) {
@@ -340,6 +367,12 @@ details > summary > h3 {
     #submit-dish {
         width: 100%;
     }
+
+    #search-input{
+        font-size: 0.7rem;
+    }
+
+    
 }
 
 

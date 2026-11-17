@@ -21,38 +21,38 @@ html(lang="en")
         div#screen.flex-center
             details#user-data-section(open)
                 summary
-                    h3.small-margin User Data
-                
-                form#search
-                    input#search-input(type="search", name="search", placeholder="Username or ID")
-                    button#search-button(type="submit") Search
+                    h3 User Data
+                div#user-data-card
+                    form#search
+                        input#search-input(type="search", name="search", placeholder="Username or ID")
+                        button#search-button(type="submit") Search
 
-                div#table-wrap
-                    table#user-data
-                        colgroup
-                            col.col-modify
-                            col.col-id
-                            col.col-role
-                            col.col-username
-                            col.col-email
-                            col.col-created
-                            col.col-change-role
-                            col.col-change-nickname
-                            col.col-delete
-                            col.col-confirm
-                        thead
-                            tr
-                                th Modify
-                                th ID
-                                th Role
-                                th Username
-                                th Email
-                                th Created
-                                th Change Role
-                                th Change nickname 
-                                th Delete User
-                                th Confirm changes
-                        tbody#users
+                    div#table-wrap
+                        table#user-data
+                            colgroup
+                                col.col-modify
+                                col.col-id
+                                col.col-role
+                                col.col-username
+                                col.col-email
+                                col.col-created
+                                col.col-change-role
+                                col.col-change-nickname
+                                col.col-delete
+                                col.col-confirm
+                            thead
+                                tr
+                                    th Modify
+                                    th ID
+                                    th Role
+                                    th Username
+                                    th Email
+                                    th Created
+                                    th Change Role
+                                    th Change nickname
+                                    th Delete User
+                                    th Confirm changes
+                            tbody#users
 
             details#add-dish-section
                 summary
