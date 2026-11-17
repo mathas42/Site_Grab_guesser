@@ -10,16 +10,15 @@ html(lang="en")
     body#index.bg-grab
         include components/mixin.pug
         include components/nav.pug
-        div#hero
-            div#block_index
-                div#title_pre_index
-                    h1 How well do you know
-                    h1#green_title Malaysian Food?
-                p#block_text Discover Malaysia's rich food culture, test your knowledge and guess the price of iconic local dishes!
-                div#button_block
-                    button.green_button(type="button",onclick="window.location.href='/dashboard'") Start Playing
-                    button.white_button(type="button",onclick="window.location.href='/learn'") Discover dishes
-            img#hero_img(src="images/tut/kl.jpg", alt="Petronas Twin Towers and a hibiscus flower")
+        div.flex-center
+            h1#title Grab Food Guesser !
+        div#block_index
+            div#title_pre_index
+                h1#title_pre_index How well do you know #[span#green_title Malaysian Food?]
+            p#block_text Discover Malaysia's rich food culture, test your knowledge and guess the price of iconic local dishes!
+            div#button_block
+                button.green_button(type="button",onclick="window.location.href='/dashboard'") Start Playing
+                button.white_button(type="button",onclick="window.location.href='/learn'") Discover dishes
         div.border-bottom    
         div#game
             div.flex-center 
