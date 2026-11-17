@@ -22,23 +22,21 @@ html(lang="en")
    
         div#game
             div.flex-center 
-                h2.tutorial_title How to play ?
+                h1.tutorial_title How to play ?
             section#stats
                 +card("1","Discover","Discover traditional Malaysian dishes.","/images/tut/nasi-lemak.jpg")
                 +card("2","Guess","Estimate the price of each dish.","/images/tut/guess.png")
                 +card("3","Compete","Earn points and climb the leaderboard","/images/tut/podium.jpeg")
-        div.border-bottom  
         div#game_mode
             div.flex-center
-                h2.tutorial_title Choose your challenge
+                h1.tutorial_title Choose your challenge
             div#mode_list
                 +game_mode("/images/tut/tofu-soup.jpg", "Enjoy the game with hints to help you guess the correct prices!", "normal_mode", "Play Normal","new_play()")
                 +game_mode("/images/tut/mapo-tofu.jpg", "No hints, no help! Test your knowledge and prove your skills.", "hardcore_mode", "Play Hardcore","new_hard()")
-        div.border-bottom  
         
         div#leaderboard
             div.flex-center
-                h2.tutorial_title Hall of Fame
+                h1.tutorial_title Hall of Fame
 
             p.leaderboard-description Compete with other players and climb the rankings!
 
