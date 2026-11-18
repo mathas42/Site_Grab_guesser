@@ -1,9 +1,6 @@
 const form = document.getElementById("form-profil");
-const nicknameInput = document.getElementById("nickname");
 const currentAvatar = document.getElementById("avatar-actuel");
 const galerie = document.getElementById("galerie-avatars");
-const message = document.getElementById("message-profil");
-const boutonEnregistrer = document.getElementById("enregistrer-profil");
 
 let avatarChoisi = currentAvatar.getAttribute("src");
 
@@ -22,54 +19,24 @@ galerie.querySelectorAll(".avatar-option").forEach((bouton) => {
         });
 
         bouton.classList.add("selectionne");
-        message.textContent = "";
     });
 });
 
-// Enregistrer le profil
-form.addEventListener("submit", async (event) => {
-    event.preventDefault();
-
-    boutonEnregistrer.disabled = true;
-    message.textContent = "Enregistrement...";
-
-    try {
-        const response = await fetch("/api/profil", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-                nickname: nicknameInput.value,
-                avatar: avatarChoisi
-            })
-        });
-
-        const data = await response.json();
-
-        if (!response.ok) {
-            throw new Error(data.erreur || "Erreur lors de la sauvegarde.");
-        }
-
-        window.location.href = "/dashboard?profile=updated";
-    } catch (error) {
-        message.textContent = error.message;               
-        boutonEnregistrer.disabled = false;
-    }
-});
+// Save the profile (nickname, avatar and optionally the password)
+setupProfileEdit(form, currentAvatar, () => avatarChoisi);
 
 
 function setupProfileEdit(form, avatarActuel, getAvatar) {
     const nicknameInput = document.getElementById("nickname");
-    const message = document.getElementById("message-profil");
     const saveButton = document.getElementById("enregistrer-profil");
-    if (!nicknameInput || !message || !saveButton) return;
+    if (!nicknameInput || !saveButton) return;
 
     const currentInput = document.getElementById("current-password");
     const newInput = document.getElementById("new-password");
     const confirmInput = document.getElementById("confirm-password");
 
     function fail(text, field) {
-        message.textContent = text;
-        notify("Profile", text, "error");
+        getNotification("Profile", text, "error");
         if (field) field.focus();
     }
 
@@ -91,7 +58,6 @@ function setupProfileEdit(form, avatarActuel, getAvatar) {
         }
 
         saveButton.disabled = true;
-        message.textContent = "Saving...";
 
         try {
             const response = await fetch("/api/profil", {
@@ -106,7 +72,6 @@ function setupProfileEdit(form, avatarActuel, getAvatar) {
                 throw new Error(data.erreur || "Error while saving.");
             }
 
-            message.textContent = data.message;
             nicknameInput.value = data.nickname;
             avatarActuel.src = data.avatar;
 
@@ -120,10 +85,9 @@ function setupProfileEdit(form, avatarActuel, getAvatar) {
                 confirmInput.value = "";
             }
 
-            notify("Profile", data.message + ".");
+            getNotification("Profile", data.message + ".");
         } catch (error) {
-            message.textContent = error.message;
-            notify("Profile", error.message, "error");
+            getNotification("Profile", error.message, "error");
         } finally {
             saveButton.disabled = false;
         }

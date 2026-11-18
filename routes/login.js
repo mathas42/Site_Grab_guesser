@@ -104,7 +104,7 @@ router.post("/register", (req, res) => {
                     .then((hash) => {
                         db.query(
                             "INSERT INTO users (nickname,email,hash_password,avatar) VALUES (?,?,?,?)",
-                            [name, email, hash, avatar],
+                            [name, email, hash, avatarChoisi],
                             (error) => {
                                 if (error) {
                                     console.error(error);

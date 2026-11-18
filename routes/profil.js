@@ -1,11 +1,12 @@
 const express = require("express");
 const router = express.Router();
 const db = require("../database");
+const bcrypt = require("bcrypt");
 
 // avatar1.png ... avatar14.png
 const avatars = Array.from({ length: 14 }, (_, i) => `/images/avatars/avatar${i + 1}.png`);
 
-// Page route: not logged in -> go to the login page
+
 function requireLoginPage(req, res, next) {
     if (!req.session.userId) {
         return res.redirect("/login");
@@ -13,7 +14,7 @@ function requireLoginPage(req, res, next) {
     next();
 }
 
-// API route: not logged in -> JSON error
+
 function requireLoginApi(req, res, next) {
     if (!req.session.userId) {
         return res.status(401).json({ erreur: "You must be logged in." });
@@ -132,7 +133,7 @@ router.post("/api/profil", requireLoginApi, (req, res) => {
 
     const saveProfile = (hash) => {
         const sql = hash
-            ? "UPDATE users SET nickname = ?, avatar = ?, password = ? WHERE id = ?"
+            ? "UPDATE users SET nickname = ?, avatar = ?, hash_password = ? WHERE id = ?"
             : "UPDATE users SET nickname = ?, avatar = ? WHERE id = ?";
         const params = hash
             ? [nickname, avatar, hash, req.session.userId]
@@ -174,7 +175,7 @@ router.post("/api/profil", requireLoginApi, (req, res) => {
             if (!changePassword) return saveProfile(null);
 
             db.query(
-                "SELECT password FROM users WHERE id = ?",
+                "SELECT hash_password FROM users WHERE id = ?",
                 [req.session.userId],
                 async (error2, rows) => {
                     if (error2) {
@@ -187,7 +188,7 @@ router.post("/api/profil", requireLoginApi, (req, res) => {
                     }
 
                     try {
-                        const isCorrect = await bcrypt.compare(currentPassword, rows[0].password);
+                        const isCorrect = await bcrypt.compare(currentPassword, rows[0].hash_password);
                         if (!isCorrect) {
                             return res.status(403).json({ erreur: "The current password is incorrect." });
                         }
