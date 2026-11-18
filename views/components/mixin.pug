@@ -34,7 +34,7 @@ mixin game_mode(path, text, id, buttonText,gamePath)
         img(src=path)
         div.collum
             p= text
-            button.green_button(type="button", id=id, onclick=gamePath)= buttonText
+            button.next-class(type="button", id=id, onclick=gamePath)= buttonText
 
 mixin bubble()
     - const foods = ["/images/icons/chinese-food-svgrepo-com.svg", "/images/icons/food-color-coffee-long-svgrepo-com.svg", "/images/icons/food-fruit-fruits-18-svgrepo-com.svg", "/images/icons/food-pack-box-with-handle-svgrepo-com.svg", "/images/icons/restaurant-paper-svgrepo-com.svg"]

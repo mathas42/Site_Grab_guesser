@@ -17,8 +17,8 @@ html(lang="en")
                 h1 How well do you know #[span#green_title Malaysian Food?]
             p#block_text Discover Malaysia's rich food culture, test your knowledge and guess the price of iconic local dishes!
             div#button_block
-                button.green_button(type="button",onclick="window.location.href='/dashboard'") Start Playing
-                button.white_button(type="button",onclick="window.location.href='/learn'") Discover dishes
+                button.next-class(type="button",onclick="window.location.href='/dashboard'") Start Playing
+                button.next-class#white-button(type="button",onclick="window.location.href='/learn'") Discover dishes
    
         div#game
             div.flex-center 
@@ -32,7 +32,7 @@ html(lang="en")
                 h1.tutorial_title Choose your challenge
             div#mode_list
                 +game_mode("/images/tut/tofu-soup.jpg", "Enjoy the game with hints to help you guess the correct prices!", "normal_mode", "Play Normal","new_play()")
-                +game_mode("/images/tut/mapo-tofu.jpg", "No hints, no help! Test your knowledge and prove your skills.", "hardcore_mode", "Play Hardcore","new_hard()")
+                +game_mode("/images/tut/mapo-tofu.jpg", "No hints, no help! Test your knowledge and prove your skills.", "hardcore_mode", "Play Hardmode","new_hard()")
         
         div#leaderboard
             div.flex-center
@@ -41,7 +41,7 @@ html(lang="en")
             p.leaderboard-description Compete with other players and climb the rankings!
 
             div.flex-center
-                button.green_button(type="button", onclick="window.location.href='/hall_of_fame'") Explore the Leaderboard
+                button.next-class(type="button", onclick="window.location.href='/hall_of_fame'") Explore the Leaderboard
 
         div.border-bottom   
   

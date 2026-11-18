@@ -117,7 +117,7 @@ function openPopup(product) {
     description.textContent = product.description || "No description available.";
     closeButton.textContent = "Close";
 
-    closeButton.classList.add("new");
+    closeButton.classList.add("next-class");
     closeButton.id="new4";
     overlay.classList.add("popup-overlay");
     popup.classList.add("popup");
