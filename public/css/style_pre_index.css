@@ -132,6 +132,10 @@
     text-align: center;
 }
 
+.tutorial_title:hover {
+    color: var(--card);
+}
+
 #game_mode .tutorial_title {
     margin-bottom: 30px;
 }
@@ -263,8 +267,6 @@
     transform: var(--tilt);
     
 }
-
-
 
 
 .leaderboard-description {
