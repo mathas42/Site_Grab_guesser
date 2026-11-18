@@ -22,6 +22,23 @@ galerie.querySelectorAll(".avatar-option").forEach((bouton) => {
     });
 });
 
+
+const phone = window.matchMedia("(max-width: 600px)");
+const sections = document.querySelectorAll(".profil-section");
+
+function updateSections() {
+    if (!phone.matches) sections.forEach((section) => { section.open = true; });
+}
+
+sections.forEach((section) => {
+    section.querySelector("summary").addEventListener("click", (event) => {
+        if (!phone.matches) event.preventDefault();
+    });
+});
+
+updateSections();
+phone.addEventListener("change", updateSections);
+
 // Save the profile (nickname, avatar and optionally the password)
 setupProfileEdit(form, currentAvatar, () => avatarChoisi);
 
@@ -74,6 +91,9 @@ function setupProfileEdit(form, avatarActuel, getAvatar) {
 
             nicknameInput.value = data.nickname;
             avatarActuel.src = data.avatar;
+
+            const nicknameAffiche = document.getElementById("nickname-affiche");
+            if (nicknameAffiche) nicknameAffiche.textContent = data.nickname + " !";
 
             const navName = document.getElementById("user-name");
             if (navName) navName.textContent = data.nickname;

@@ -16,35 +16,40 @@ html(lang="fr")
         a.x-close#x(href="/dashboard" aria-label="Close") x
         main.profil-container
             h1 My profile
+            p Welcome 
+                span#nickname-affiche= nickname +' !'
 
-            form#form-profil
-                label(for="nickname") My nickname
-                input#nickname(
-                    type="text"
-                    name="nickname"
-                    value=nickname
-                    maxlength="30"
-                    required
-                )
-
-                h2 Select my avatar
-                div#avatar-div-actuel
-                    img#avatar-actuel(
-                        src=avatar
-                        alt="Avatar actuel"
+            form#form-profil.stat-card
+                details.profil-section(open)
+                    summary Change nickname
+                    label(for="nickname")
+                    input#nickname.form-text(
+                        type="text"
+                        name="nickname"
+                        value=nickname
+                        maxlength="30"
+                        required
                     )
 
-                #galerie-avatars
-                    each image in avatars
-                        button.avatar-option(
-                            type="button"
-                            data-avatar=image
-                            class= image === avatar ? "selectionne" : ""
+                details.profil-section
+                    summary Select my avatar
+                    div#avatar-div-actuel
+                        img#avatar-actuel(
+                            src=avatar
+                            alt="Avatar actuel"
                         )
-                            img(src=image, alt="Choisir cet avatar")
 
-                details#password-section
-                    summary Change my password (optional)
+                    #galerie-avatars
+                        each image in avatars
+                            button.avatar-option(
+                                type="button"
+                                data-avatar=image
+                                class= image === avatar ? "selectionne" : ""
+                            )
+                                img(src=image, alt="Choisir cet avatar")
+
+                details#password-section.profil-section
+                    summary Change my password
                     div
                         label(for="current-password") Current password
                         input#current-password.form-text(type="password", autocomplete="current-password")
