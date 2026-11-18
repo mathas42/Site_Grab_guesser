@@ -1,39 +1,23 @@
+/* ==========================================================
+   login.css : pages Login et Register + fond de bulles
+   ========================================================== */
 
-@keyframes tilt_easter_egg {
-    0% {
-        transform: rotate(0deg);
-    }
-    15% {
-        transform: rotate(-4deg);
-    }
-    35% {
-        transform: rotate(4deg);
-    }
-    55% {
-        transform: rotate(-3deg);
-    }
-    75% {
-        transform: rotate(2deg);
-    }
-    90% {
-        transform: rotate(-1deg);
-    }
-    100% {
-        transform: rotate(0deg);
-    }
-}
+/* ---------- Easter egg ---------- */
 
 body.secret_mode {
     transform-origin: 50% 0;
     animation: tilt_easter_egg 1.2s ease-in-out;
 }
 
-@media (prefers-reduced-motion: reduce) {
-    body.secret_mode {
-        animation: none;
-    }
+@keyframes tilt_easter_egg {
+    0%   { transform: rotate(0deg); }
+    15%  { transform: rotate(-4deg); }
+    35%  { transform: rotate(4deg); }
+    55%  { transform: rotate(-3deg); }
+    75%  { transform: rotate(2deg); }
+    90%  { transform: rotate(-1deg); }
+    100% { transform: rotate(0deg); }
 }
-
 .wrapper {
     position: fixed;
     inset: 0;
@@ -44,11 +28,12 @@ body.secret_mode {
 }
 
 .bubble {
-    --x: 10%;         
-    --size: 60px;      
+    --x: 10%;          
+    --size: 60px;     
     --dur: 14s;        
-    --delay: 0s;      
-    --sway: 30px;      
+    --delay: 0s;       
+    --sway: 30px;     
+
     position: absolute;
     bottom: calc(var(--size) * -1.5);
     left: var(--x);
@@ -67,31 +52,27 @@ body.secret_mode {
         bubble-sway calc(var(--dur) / 4) ease-in-out var(--delay) infinite alternate;
 }
 
+
 .bubble .dot {
     position: absolute;
     top: 16%;
     left: 20%;
+    z-index: 1;
     width: 24%;
     height: 14%;
     border-radius: 50%;
     background: rgb(255 255 255 / 0.65);
     transform: rotate(-35deg);
-    z-index: 1;               
 }
 
 .bubble img.icon {
     position: absolute;
     inset: 0;
-    margin: auto;                  
-    width: var(--icon, 58%);          
+    margin: auto;
+    width: var(--icon, 58%);
     height: var(--icon, 58%);
     object-fit: contain;
     animation: icon-wobble 4s ease-in-out infinite alternate;
-}
-
-@keyframes icon-wobble {
-    from { transform: rotate(-12deg); }
-    to   { transform: rotate(12deg); }
 }
 
 @keyframes bubble-rise {
@@ -106,6 +87,10 @@ body.secret_mode {
     to   { translate: var(--sway) 0; }
 }
 
+@keyframes icon-wobble {
+    from { transform: rotate(-12deg); }
+    to   { transform: rotate(12deg); }
+}
 
 .bubble:nth-child(1)  { --x:  8%; --size:  60px; --dur: 14s; --delay:  -2s; --sway: 30px; }
 .bubble:nth-child(2)  { --x: 18%; --size:  44px; --dur: 10s; --delay:  -6s; --sway: 20px; }
@@ -118,14 +103,116 @@ body.secret_mode {
 .bubble:nth-child(9)  { --x: 84%; --size:  44px; --dur: 10s; --delay:  -9s; --sway: 20px; }
 .bubble:nth-child(10) { --x: 92%; --size:  60px; --dur: 15s; --delay: -12s; --sway: 30px; }
 
+body:has(#login),
+body:has(#regist) {
+    gap: 24px;
+}
+
+#login,
+#regist {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: min(100% - 32px, 420px);
+    margin: auto;              
+    padding: clamp(16px, 4vw, 28px);
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 8px;
+    text-align: center;
+}
+
+#regist {
+    width: min(100% - 32px, 620px);
+}
+
+#login h2,
+#regist h2 {
+    margin: 0 0 12px;
+}
+
+
+#login form,
+#regist form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 14px;
+    width: 100%;
+}
+
+:is(#login, #regist) form > div:has(label) {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 6px 10px;
+    width: 100%;
+}
+
+:is(#login, #regist) label {
+    width: 90px;
+    text-align: right;
+}
+
+.form-text {
+    width: min(250px, 100%);
+    height: 25px;
+    margin: 3px;
+    padding: 2px;
+    border: 1px var(--green-grab) solid;
+    border-radius: 3px;
+    font-size: inherit;
+}
+
+
+#regist form > div:not(:has(label)) {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+}
+
+#galerie-avatars {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 8px;
+    max-width: 100%;
+}
+
+#account,
+#log-in {
+    text-decoration: none;
+}
+
+#account:hover,
+#log-in:hover {
+    text-decoration: underline;
+    color: var(--green-dark-grab, var(--dark-green));
+}
 
 @media (max-width: 600px) {
     .bubble:nth-child(n + 8) { display: none; }
     .bubble { --sway: 14px; }
 }
 
+@media (max-width: 480px) {
+    :is(#login, #regist) label {
+        width: 100%;
+        text-align: left;
+    }
+
+    .form-text {
+        width: 100%;
+        margin: 0;
+    }
+}
 
 @media (prefers-reduced-motion: reduce) {
+    body.secret_mode,
     .bubble img.icon {
         animation: none;
     }
