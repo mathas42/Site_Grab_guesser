@@ -14,7 +14,7 @@ html(lang="en")
             h1#title Grab Food Guesser !
         div#block_index
             div#title_pre_index
-                h1 How well do you know #[span#green_title Malaysian Food?]
+                h1 How well do you know Malaysian Food?
             p#block_text Discover Malaysia's rich food culture, test your knowledge and guess the price of iconic local dishes!
             div#button_block
                 button.next-class(type="button",onclick="window.location.href='/dashboard'") Start Playing
@@ -32,7 +32,7 @@ html(lang="en")
                 h1.tutorial_title Choose your challenge
             div#mode_list
                 +game_mode("/images/tut/tofu-soup.jpg", "Enjoy the game with hints to help you guess the correct prices!", "normal_mode", "Play Normal","new_play()")
-                +game_mode("/images/tut/mapo-tofu.jpg", "No hints, no help! Test your knowledge and prove your skills.", "hardcore_mode", "Play Hardmode","new_hard()")
+                +game_mode("/images/tut/mapo-tofu.jpg", "No hints, no help! Test your knowledge and prove your skills.", "hardcore_mode", "Play Hard mode","new_hard()")
         
         div#leaderboard
             div.flex-center

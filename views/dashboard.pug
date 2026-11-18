@@ -37,7 +37,9 @@ html(lang="en")
         div#tutorial
             div#tutorial-content
                 div#tutorial-body
-                    +question("","", "Welcome to Grab Food Guesser!", "The aim of our project is to help you discover Malaysian cuisine through a price-guessing game. Guess each dish's price, compare it with the real one, and learn about local specialties along the way.")
+                    +question("","", "Welcome to Grab Food Guesser!", "Our project is to help you discover Malaysian cuisine through a price-guessing game. Guess each dish's price, compare it with the real one, and learn about local specialties along the way.")
                     +question("1","number", "Tips and Tricks", "Use the More or Less and Temperature hints wisely: you only get a few per round.")
                     +question("2","number", "Scoring and Rewards", "You earn up to 4 points per round. The more points you accumulate, the higher your score will be.")
+                    div.flex-center
+                        button.next-class(type="button", onclick="window.location.href='/hall_of_fame'") Explore the Leaderboard
         include components/footer.pug
