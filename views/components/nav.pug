@@ -7,7 +7,7 @@ nav#main-nav
         a(href="/learn") Learn
         a(href="/Hall_of_Fame") Results
         if isAdmin
-            a(href="/admin") Admin
+            a#nav-admin(href="/admin") Admin
     div#nav-container2
         if user
             img.avatar-profil(src=user.avatar, alt="Avatar de " + user.nickname, data-nickname=user.nickname, onclick="window.location.href = '/dashboard/profil'")
