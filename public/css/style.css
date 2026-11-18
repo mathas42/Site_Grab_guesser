@@ -44,6 +44,12 @@ button {
     border: none;
     font: inherit;
     cursor: pointer;
+    transition: all 0.1s ease;
+}
+
+button:active{
+    transform: scale(0.95) !important;
+    transition: all 0.1s ease;
 }
 
 #background {
@@ -182,7 +188,7 @@ footer {
     position: sticky;
     top: 0;
     z-index: 100;
-    margin: 2px 20px 0 20px;
+    margin: 20px 20px 0 20px;
     padding: 14px 0px;
     gap: 20px;
     background-color: var(--green-grab);

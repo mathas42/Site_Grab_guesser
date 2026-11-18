@@ -138,6 +138,36 @@ body.secret_mode {
     }
 }
 
+/* Lien maison en haut à gauche */
+#home-link {
+    position: fixed;
+    top: 15px;
+    left: 15px;
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+    padding: 8px 10px;
+    border-radius: var(--radius);
+    color: var(--text-on-dark);
+    font-weight: 700;
+    font-size: 14px;
+    text-decoration: none;
+    transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+#home-link img {
+    width: 34px;
+    height: 34px;
+    filter: brightness(0) invert(1);
+}
+
+#home-link:hover {
+    background-color: var(--green-dark-grab);
+    transform: scale(1.1);
+}
+
 #login {
     position: relative;
     z-index: 1;

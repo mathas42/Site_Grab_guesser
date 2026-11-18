@@ -105,6 +105,20 @@ nav .avatar-profil:hover {
     box-sizing: border-box;
 }
 
+/* Lien Admin mis en valeur */
+#nav-container a#nav-admin {
+    color: var(--text-on-dark);
+    font-weight: 700;
+    background-color:coral;
+    box-shadow: black 0 0 3px;
+    transition: all 0.2s ease;
+}
+
+#nav-container a#nav-admin.active {
+    box-shadow: black 0 3px 10px;
+    transition: all 0.2S ease;
+}
+
 
 #nav-menu {
     position: fixed;
