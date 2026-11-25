@@ -107,18 +107,14 @@ nav .avatar-profil:hover {
 
 /* Lien Admin mis en valeur */
 #nav-container a#nav-admin {
-    color: var(--text-on-dark);
-    font-weight: 700;
-    background-color:coral;
-    box-shadow: black 0 0 3px;
-    transition: all 0.2s ease;
+    color: rgb(255, 204, 108);
 }
 
 #nav-container a#nav-admin.active {
+    color: rgb(255, 204, 108);
     box-shadow: black 0 3px 10px;
-    transition: all 0.2S ease;
+    transition: all 0.2s ease;
 }
-
 
 #nav-menu {
     position: fixed;
@@ -171,7 +167,7 @@ nav .avatar-profil:hover {
 
 #register {
     border-radius: var(--radius);
-    border: 2px solid var(--green-dark-grab);   
+    border: 2px solid var(--green-dark-grab);
     background-color: var(--card);
     color: var(--green-grab);
     font-size: 15px;
@@ -191,7 +187,6 @@ nav .avatar-profil:hover {
 }
 
 @media (max-width: 768px) {
-
     #nav-menu {
         width: 180px;
         font-size: 18px;
@@ -233,7 +228,6 @@ nav .avatar-profil:hover {
 }
 
 @media (max-width: 480px) {
-
     #nav-container {
         display: none;
     }

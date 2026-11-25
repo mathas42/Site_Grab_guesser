@@ -3,6 +3,7 @@ html(lang="en")
     head
         meta(charset="UTF-8")
         meta(name="viewport", content="width=device-width, initial-scale=1.0")
+        link(rel="stylesheet", href="/css/style_pre_index.css")
         link(rel="stylesheet", href="/css/style.css")
         link(rel="icon", type="image/png", href="/images/logo_loupe.png")
         script(src="/js/notification.js" defer)
@@ -17,8 +18,8 @@ html(lang="en")
             div.flex-center
                 h1#title Grab Food Guesser !
             div#screen.flex-center
-                +button("Play","new_play()","new","")
-                +button("Hard Mode","new_hard()","new","new2")
+                +game_mode("/images/tut/tofu-soup.jpg", "Enjoy the game peacefully.", "5 Rounds  4 Hints", "normal_mode", "Play Normal","new_play()")
+                +game_mode("/images/tut/mapo-tofu.jpg", "Only for trained players !", "7 Rounds  2 Hints and Malus points", "hardcore_mode", "Play Hard mode","new_hard()")
             img(src="/images/icons/chinese-food-svgrepo-com.svg", alt="Chinese food").icon
             img(src="/images/icons/food-pack-box-with-handle-svgrepo-com.svg", alt="Food pack").icon
             img(src="/images/icons/restaurant-paper-svgrepo-com.svg", alt="Restaurant paper").icon
