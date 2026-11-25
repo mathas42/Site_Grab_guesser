@@ -13,7 +13,7 @@
     border-radius: 5px;
     transition: width 0.2s ease;
 }
-#Table h1{
+#Table h1 {
     color: var(--green-grab);
 }
 
@@ -62,7 +62,6 @@
     margin: 20px 0;
 }
 
-
 .scoreboard {
     width: 100%;
     max-width: 700px;
@@ -73,7 +72,7 @@
     overflow: hidden;
 }
 
-.scoreboard th{
+.scoreboard th {
     background: var(--green-grab);
     color: white;
 }
@@ -84,7 +83,6 @@
     text-align: center;
     border-bottom: 1px solid #ddd;
 }
-
 
 .scoreboard thead:hover {
     background: var(--green);
@@ -193,4 +191,10 @@
     max-width: 600px;
     margin: 20px 0;
     text-align: center;
+}
+
+@media (max-width: 480px) {
+    #result h1 {
+        font-size: 24px;
+    }
 }

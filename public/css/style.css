@@ -904,3 +904,75 @@ footer {
         margin: 5px;
     }
 }
+
+/*Responsive styles */
+@media (max-width: 480px) {
+    .produit {
+        font-size: small;
+    }
+
+    .produit img {
+        height: 200px;
+    }
+
+    .next3-class {
+        width: 70px;
+        height: 30px;
+    }
+
+    #info {
+        font-size: small;
+    }
+
+    #rep {
+        display: flex;
+        flex-wrap: wrap;
+    }
+
+    #sec {
+        box-sizing: border-box;
+        flex-direction: column;
+        width: min(700px, 92vw);
+        height: 120px;
+        margin: 5px auto;
+    }
+
+    #secret_center {
+        height: 10px;
+        display: flex;
+    }
+
+    #hint {
+        width: 140px;
+        font-size: 16px;
+    }
+
+    #temperature {
+        width: 140px;
+        font-size: 16px;
+    }
+
+    #barre,
+    #reponse {
+        width: max(450px, 90vw);
+        height: 30px;
+    }
+
+    #more,
+    #moremore,
+    #moremoremore,
+    #less,
+    #lessless,
+    #lesslessless {
+        width: 130px;
+        height: 40px;
+        color: var(--text-on-dark);
+        padding-bottom: 30px;
+        border-radius: var(--radius);
+    }
+
+    #reveal {
+        display: flex;
+        flex-wrap: wrap;
+    }
+}
