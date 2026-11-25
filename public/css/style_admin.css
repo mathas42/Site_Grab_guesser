@@ -376,3 +376,17 @@ details > summary > h3 {
 }
 
 
+
+/* link to the learn page, where admins can modify the dishes */
+#modify-dishes-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 24px auto 0;
+    font-size: 24px;
+    text-decoration: none;
+}
+
+#modify-dishes-link:hover {
+    background-color: var(--illustration);
+}

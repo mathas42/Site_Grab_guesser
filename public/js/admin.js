@@ -154,3 +154,14 @@ uploadForm.addEventListener("submit", async (event) => {
         getNotification("Error", "Network error.", "error");
     }
 });
+// opens the section targeted by the url hash (ex: /admin#add-dish-section from the learn page)
+function openSectionFromHash() {
+    const section = document.getElementById(location.hash.slice(1));
+    if (section instanceof HTMLDetailsElement) {
+        section.open = true;
+        section.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+}
+
+openSectionFromHash();
+window.addEventListener("hashchange", openSectionFromHash);

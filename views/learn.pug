@@ -13,7 +13,9 @@ html(lang="en")
 
         include components/nav2.pug
         main
-            div#catalogue
+            if isAdmin
+                a#add-dish-link.next-class(href="/admin#add-dish-section") Add dish
+            div#catalogue(data-admin=isAdmin ? "true" : "false")
             p#counter 
             button#see-more.next-class(type="button" hidden) More
 

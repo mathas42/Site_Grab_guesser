@@ -111,7 +111,7 @@ nav .avatar-profil:hover {
 }
 
 #nav-container a#nav-admin.active {
-    color: rgb(255, 204, 108);
+    color: rgb(247, 161, 0);
     box-shadow: black 0 3px 10px;
     transition: all 0.2s ease;
 }
