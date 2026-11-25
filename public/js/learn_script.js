@@ -4,6 +4,7 @@ const catalogue = document.getElementById("catalogue");
 const research = document.getElementById("research");
 const counter = document.getElementById("counter");
 const seeMore = document.getElementById("see-more");
+const IS_ADMIN = catalogue.dataset.admin === "true";
 
 let offset = 0;          // number of dishes already displayed
 let total = 0;           // number of dishes matching the search
@@ -32,20 +33,28 @@ function DishCreate(product) {
     restaurant.style.color="var(--green-grab)";
 
     corps.append(name, restaurant);
+
+    // only admins can edit a dish
+    if (IS_ADMIN) {
+        const bouton = document.createElement("button");
+        bouton.type = "button";
+        bouton.classList.add("modify-dish");
+        bouton.textContent = "Modify dish";
+        bouton.addEventListener("click", (e) => {
+            e.stopPropagation();
+            openEditPopup(product, dish);
+        });
+        corps.append(bouton);
+    }
     dish.append(image, corps);
-
     dish.addEventListener("click", () => openPopup(product));
-
     return dish;
 }
 
-// message displayed when no dishes match the search
 const empty = document.createElement("p");
 empty.id = "none-result";
 empty.textContent = "No dishes found";
 
-// loads one page of dishes from the server
-// reset = true : new search, we start again from the first dish
 async function loadPage(reset = false) {
     const start = reset ? 0 : offset;
     const id = ++requestId;
@@ -83,7 +92,6 @@ async function loadPage(reset = false) {
     }
 }
 
-// a new search starts again from the first page (after a short pause in typing)
 let timer;
 research.addEventListener("input", () => {
     clearTimeout(timer);
@@ -93,13 +101,10 @@ research.addEventListener("input", () => {
     }, 300);
 });
 
-// the next 12 dishes are loaded when "See more" is clicked
 seeMore.addEventListener("click", () => loadPage(false));
 
-// first 12 dishes
 loadPage(true);
 
-// opens a popup with the details of a dish
 function openPopup(product) {
     const overlay = document.createElement("div");
     const popup = document.createElement("div");
@@ -147,4 +152,131 @@ function openPopup(product) {
     });
 
     document.addEventListener("keydown", onKey);
+}
+
+
+function openEditPopup(product, dish) {
+    const overlay = document.createElement("div");
+    const popup = document.createElement("form");
+    overlay.classList.add("popup-overlay");
+    popup.classList.add("popup", "edit-form");
+    popup.noValidate = true;
+
+    const title = document.createElement("h2");
+    title.textContent = "Modify dish";
+    const preview = document.createElement("img");
+    preview.src = product.image;
+    preview.alt = product.nom;
+    const imageInput = document.createElement("input");
+    imageInput.type = "file";
+    imageInput.name = "image";
+    imageInput.accept = "image/jpeg,image/png,image/webp";
+    imageInput.addEventListener("change", () => {
+        const file = imageInput.files[0];
+        if (file) preview.src = URL.createObjectURL(file);
+    });
+
+    // creates a label + field pair
+    function field(labelText, element) {
+        const label = document.createElement("label");
+        label.textContent = labelText;
+        label.append(element);
+        return label;
+    }
+
+    const nameInput = document.createElement("input");
+    nameInput.name = "nom";
+    nameInput.maxLength = 255;
+    nameInput.value = product.nom;
+
+    const restaurantInput = document.createElement("input");
+    restaurantInput.name = "nom_restaurant";
+    restaurantInput.maxLength = 255;
+    restaurantInput.value = product.nom_restaurant;
+
+    const priceInput = document.createElement("input");
+    priceInput.name = "prix";
+    priceInput.type = "number";
+    priceInput.min = "0.01";
+    priceInput.step = "0.01";
+    priceInput.value = product.prix;
+
+    const descriptionInput = document.createElement("textarea");
+    descriptionInput.name = "description";
+    descriptionInput.rows = 4;
+    descriptionInput.value = product.description || "";
+
+    const errorMessage = document.createElement("p");
+    errorMessage.classList.add("edit-error");
+
+    const buttons = document.createElement("div");
+    buttons.classList.add("edit-buttons");
+    const cancelButton = document.createElement("button");
+    cancelButton.type = "button";
+    cancelButton.classList.add("next-class");
+    cancelButton.textContent = "Cancel";
+    const saveButton = document.createElement("button");
+    saveButton.type = "submit";
+    saveButton.classList.add("next-class");
+    saveButton.textContent = "Save";
+    buttons.append(cancelButton, saveButton);
+
+    popup.append(
+        title,
+        preview,
+        field("Image", imageInput),
+        field("Dish name", nameInput),
+        field("Restaurant", restaurantInput),
+        field("Price", priceInput),
+        field("Description", descriptionInput),
+        errorMessage,
+        buttons
+    );
+    overlay.appendChild(popup);
+    document.body.appendChild(overlay);
+    nameInput.focus();
+
+    function close() {
+        overlay.remove();
+        document.removeEventListener("keydown", onKey);
+    }
+    function onKey(e) {
+        if (e.key === "Escape") close();
+    }
+    cancelButton.addEventListener("click", close);
+    overlay.addEventListener("click", (e) => {
+        if (e.target === overlay) close();
+    });
+    document.addEventListener("keydown", onKey);
+
+    popup.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        errorMessage.textContent = "";
+
+        if (!nameInput.value.trim() || !restaurantInput.value.trim()) {
+            errorMessage.textContent = "Dish name and restaurant name are required.";
+            return;
+        }
+        if (!(Number(priceInput.value) > 0)) {
+            errorMessage.textContent = "Price must be a positive number.";
+            return;
+        }
+
+        saveButton.disabled = true;
+        try {
+            // FormData sends the text fields and the image (if one was chosen)
+            const response = await fetch("/admin/dishes/" + product.id, {
+                method: "PATCH",
+                body: new FormData(popup)
+            });
+            const data = await response.json();
+            if (!response.ok) throw new Error(data.message || "Error " + response.status);
+
+            dish.replaceWith(DishCreate(data.produit));   // refreshes the card
+            close();
+        } catch (err) {
+            errorMessage.textContent = err.message;
+            saveButton.disabled = false;
+        }
+    });
 }

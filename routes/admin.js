@@ -16,7 +16,8 @@ const FOLDERS = {
 const upload = multer({
     storage: multer.diskStorage({
         destination: (req, file, cb) => {
-            const folder = FOLDERS[req.params.category];
+            // dish edits (/dishes/:id) have no category: they go to the dishes folder
+            const folder = FOLDERS[req.params.category || "dishes"];
             if (!folder) return cb(new Error("INVALID_FOLDER"));
 
             const dir = path.join(IMAGES_DIR, folder);
@@ -174,6 +175,86 @@ router.post("/upload/:category", (req, res) => {
                     return fail(500, "An error occurred while saving the dish.");
                 }
                 res.status(201).json({ message: `"${nom}" added.`, id: result.insertId, image });
+            }
+        );
+    });
+});
+
+// edits a dish; the image is optional (the current one is kept if none is sent)
+router.patch("/dishes/:id", (req, res) => {
+    if (!/^\d+$/.test(req.params.id)) {
+        return res.status(400).json({ message: "Invalid dish ID" });
+    }
+    const id = Number(req.params.id);
+
+    upload.single("image")(req, res, (error) => {
+        if (error) {
+            const messages = {
+                LIMIT_FILE_SIZE: "The image is too large (4 MB maximum).",
+                LIMIT_UNEXPECTED_FILE: "Only one image per dish.",
+                INVALID_TYPE: "Only JPG, PNG or WebP images are allowed."
+            };
+            return res.status(400).json({
+                message: messages[error.code] || messages[error.message] || "Upload failed."
+            });
+        }
+
+        const nom = String(req.body.nom || "").trim();
+        const nomRestaurant = String(req.body.nom_restaurant || "").trim();
+        const prix = Number(req.body.prix);
+        const description = String(req.body.description || "").trim() || null;
+
+        const fail = (status, message) => {
+            if (req.file) fs.unlink(req.file.path, () => {});
+            res.status(status).json({ message });
+        };
+
+        if (!nom || !nomRestaurant) {
+            return fail(400, "Dish name and restaurant name are required.");
+        }
+        if (nom.length > 255 || nomRestaurant.length > 255) {
+            return fail(400, "Names must be 255 characters maximum.");
+        }
+        if (!Number.isFinite(prix) || prix <= 0) {
+            return fail(400, "Price must be a positive number.");
+        }
+
+        // the catalogue merges duplicates (same name + restaurant): all of them are updated,
+        // otherwise an old duplicate would show up again after the edit
+        db.query(
+            `SELECT p.id, p.image FROM produit p
+             JOIN produit ref ON ref.id = ?
+             WHERE LOWER(TRIM(p.nom)) = LOWER(TRIM(ref.nom))
+               AND LOWER(TRIM(p.nom_restaurant)) = LOWER(TRIM(ref.nom_restaurant))`,
+            [id],
+            (selectError, rows) => {
+                if (selectError) {
+                    console.error(selectError);
+                    return fail(500, "An error occurred while saving the dish.");
+                }
+                if (rows.length === 0) {
+                    return fail(404, "Dish not found");
+                }
+
+                const ids = rows.map((row) => row.id);
+                const image = req.file
+                    ? `/images/${FOLDERS.dishes}/${req.file.filename}`
+                    : rows.find((row) => row.id === id).image;
+
+                db.query(
+                    "UPDATE produit SET nom = ?, nom_restaurant = ?, prix = ?, description = ?, image = ? WHERE id IN (?)",
+                    [nom, nomRestaurant, prix.toFixed(2), description, image, ids],
+                    (updateError) => {
+                        if (updateError) {
+                            console.error(updateError);
+                            return fail(500, "An error occurred while saving the dish.");
+                        }
+                        res.json({
+                            message: `"${nom}" updated.`,
+                            produit: { id, nom, nom_restaurant: nomRestaurant, prix: prix.toFixed(2), description, image }
+                        });
+                    }
+                );
             }
         );
     });

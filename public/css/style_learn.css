@@ -203,6 +203,60 @@ body {
     filter: brightness(0);
 }
 
+/* edit dish popup */
+.modify-dish {
+    margin-top: 8px;
+    padding: 6px 12px;
+    border: 2px solid black;
+    border-radius: 6px;
+    background: white;
+    cursor: pointer;
+}
+
+.modify-dish:hover {
+    background: var(--green-grab);
+    color: white;
+}
+
+.edit-form{
+    border: 1px solid var(--green-grab);
+    box-shadow: 0 0 40px var(--green-grab);
+}
+
+.edit-form label {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    margin-top: 10px;
+    font-weight: bold;
+}
+
+.edit-form input,
+.edit-form textarea {
+    padding: 8px;
+    border: 1px solid black;
+    border-radius: 6px;
+    font: inherit;
+    font-weight: normal;
+}
+
+.edit-form textarea {
+    resize: vertical;
+}
+
+.edit-error {
+    min-height: 1.2em;
+    margin: 10px 0 0;
+    color: #c0392b;
+}
+
+.edit-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    margin-top: 12px;
+}
+
 @media (max-width: 600px) {
     #header_learn {
         justify-content: center;
