@@ -12,6 +12,7 @@ html(lang="en")
     body.bg-grab
 
         include components/nav2.pug
+        include components/notification.pug
         main
             if isAdmin
                 a#add-dish-link.next-class(href="/admin#add-dish-section") Add dish
@@ -22,5 +23,6 @@ html(lang="en")
         include components/footer.pug
 
         script(src="/js/change.js" defer)
+        script(src="/js/notification.js" defer)
         script(src="/js/learn_script.js" defer)
         script(src="/js/script.js" defer)

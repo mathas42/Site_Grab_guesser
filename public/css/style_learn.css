@@ -271,6 +271,14 @@ body {
     margin-top: 12px;
 }
 
+.delete-btn, .delete-btn:hover{
+    background-color: #c0392b;
+}
+
+.delete-btn:hover{
+    box-shadow: red 0 0 50px;
+}
+
 @media (max-width: 600px) {
     #header_learn {
         justify-content: center;

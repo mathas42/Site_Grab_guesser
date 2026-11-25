@@ -215,11 +215,18 @@ function openEditPopup(product, dish) {
     cancelButton.type = "button";
     cancelButton.classList.add("next-class");
     cancelButton.textContent = "Cancel";
+
+    const deleteButton = document.createElement("button");
+    deleteButton.type = "button";   // "submit" would also save the form (PATCH)
+    deleteButton.classList.add("next-class");
+    deleteButton.classList.add("delete-btn");
+    deleteButton.textContent = "Delete"
+
     const saveButton = document.createElement("button");
     saveButton.type = "submit";
     saveButton.classList.add("next-class");
     saveButton.textContent = "Save";
-    buttons.append(cancelButton, saveButton);
+    buttons.append(cancelButton, saveButton, deleteButton);
 
     popup.append(
         title,
@@ -247,6 +254,7 @@ function openEditPopup(product, dish) {
     overlay.addEventListener("click", (e) => {
         if (e.target === overlay) close();
     });
+    deleteButton.addEventListener("click", ()=> deleteDish(product.id, dish, close));
     document.addEventListener("keydown", onKey);
 
     popup.addEventListener("submit", async (e) => {
@@ -279,4 +287,31 @@ function openEditPopup(product, dish) {
             saveButton.disabled = false;
         }
     });
+}
+
+
+
+async function deleteDish(id, dish, closePopup) {
+    if (!confirm("Delete this dish? This action is permanent.")) return;
+
+    try {
+        const res = await fetch(`/admin/dishes/${id}`, { method: "DELETE" });
+        const data = await res.json();
+
+        if (!res.ok) {
+            getNotification("Error", data.message, "error");
+            return;
+        }
+
+        closePopup();
+        dish.remove();
+        offset--;
+        total--;
+        counter.textContent = offset + " / " + total + " dishes displayed";
+        if (total === 0) catalogue.replaceChildren(empty);
+        getNotification("Success", data.message);
+    } catch (err) {
+        console.error(err);
+        getNotification("Error", "Network error.", "error");
+    }
 }

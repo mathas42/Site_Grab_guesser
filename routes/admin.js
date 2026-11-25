@@ -180,7 +180,6 @@ router.post("/upload/:category", (req, res) => {
     });
 });
 
-// edits a dish; the image is optional (the current one is kept if none is sent)
 router.patch("/dishes/:id", (req, res) => {
     if (!/^\d+$/.test(req.params.id)) {
         return res.status(400).json({ message: "Invalid dish ID" });
@@ -212,52 +211,80 @@ router.patch("/dishes/:id", (req, res) => {
         if (!nom || !nomRestaurant) {
             return fail(400, "Dish name and restaurant name are required.");
         }
-        if (nom.length > 255 || nomRestaurant.length > 255) {
-            return fail(400, "Names must be 255 characters maximum.");
-        }
-        if (!Number.isFinite(prix) || prix <= 0) {
-            return fail(400, "Price must be a positive number.");
-        }
 
-        // the catalogue merges duplicates (same name + restaurant): all of them are updated,
-        // otherwise an old duplicate would show up again after the edit
-        db.query(
-            `SELECT p.id, p.image FROM produit p
-             JOIN produit ref ON ref.id = ?
-             WHERE LOWER(TRIM(p.nom)) = LOWER(TRIM(ref.nom))
-               AND LOWER(TRIM(p.nom_restaurant)) = LOWER(TRIM(ref.nom_restaurant))`,
-            [id],
-            (selectError, rows) => {
-                if (selectError) {
-                    console.error(selectError);
-                    return fail(500, "An error occurred while saving the dish.");
-                }
-                if (rows.length === 0) {
-                    return fail(404, "Dish not found");
-                }
-
-                const ids = rows.map((row) => row.id);
-                const image = req.file
-                    ? `/images/${FOLDERS.dishes}/${req.file.filename}`
-                    : rows.find((row) => row.id === id).image;
-
-                db.query(
-                    "UPDATE produit SET nom = ?, nom_restaurant = ?, prix = ?, description = ?, image = ? WHERE id IN (?)",
-                    [nom, nomRestaurant, prix.toFixed(2), description, image, ids],
-                    (updateError) => {
-                        if (updateError) {
-                            console.error(updateError);
-                            return fail(500, "An error occurred while saving the dish.");
-                        }
-                        res.json({
-                            message: `"${nom}" updated.`,
-                            produit: { id, nom, nom_restaurant: nomRestaurant, prix: prix.toFixed(2), description, image }
-                        });
-                    }
-                );
+        db.query("SELECT nom, nom_restaurant, image FROM produit WHERE id = ?", [id], (selectError, rows) => {
+            if (selectError) {
+                console.error(selectError);
+                return fail(500, "An error occurred while saving the dish.");
             }
-        );
+            if (rows.length === 0) {
+                return fail(404, "Dish not found");
+            }
+
+            const old = rows[0];        
+             const image = req.file ? `/images/${FOLDERS.dishes}/${req.file.filename}` : old.image;
+
+            db.query(
+                `UPDATE produit SET nom = ?, nom_restaurant = ?, prix = ?, description = ?, image = ?
+                 WHERE LOWER(TRIM(nom)) = LOWER(TRIM(?)) AND LOWER(TRIM(nom_restaurant)) = LOWER(TRIM(?))`,
+                [nom, nomRestaurant, prix.toFixed(2), description, image, old.nom, old.nom_restaurant],
+                (updateError) => {
+                    if (updateError) {
+                        console.error(updateError);
+                        return fail(500, "An error occurred while saving the dish.");
+                    }
+                    res.json({
+                        message: `"${nom}" updated.`,
+                        produit: { id, nom, nom_restaurant: nomRestaurant, prix: prix.toFixed(2), description, image }
+                    });
+                }
+            );
+        });
     });
+});
+
+
+router.delete("/dishes/:id", (req, res) => {
+    if (!/^\d+$/.test(req.params.id)) {
+        return res.status(400).json({ message: "Invalid dish ID" });
+    }
+    const id = Number(req.params.id);
+
+    // the catalogue merges duplicates (same name + restaurant): all of them are deleted,
+    // otherwise the next duplicate would show up in place of the deleted dish
+    db.query(
+        `SELECT p.id FROM produit p
+         JOIN produit ref ON ref.id = ?
+         WHERE LOWER(TRIM(p.nom)) = LOWER(TRIM(ref.nom))
+           AND LOWER(TRIM(p.nom_restaurant)) = LOWER(TRIM(ref.nom_restaurant))`,
+        [id],
+        (selectError, rows) => {
+            if (selectError) {
+                console.error(selectError);
+                return res.status(500).json({ message: "An error occurred" });
+            }
+            if (rows.length === 0) {
+                return res.status(404).json({ message: "Dish not found" });
+            }
+            const ids = rows.map((row) => row.id);
+
+            // games currently on this dish must not block the deletion (foreign key)
+            db.query("UPDATE partie SET produit_actuel = NULL WHERE produit_actuel IN (?)", [ids], (updateError) => {
+                if (updateError) {
+                    console.error(updateError);
+                    return res.status(500).json({ message: "An error occurred" });
+                }
+
+                db.query("DELETE FROM produit WHERE id IN (?)", [ids], (deleteError) => {
+                    if (deleteError) {
+                        console.error(deleteError);
+                        return res.status(500).json({ message: "An error occurred" });
+                    }
+                    res.json({ message: "Dish deleted successfully" });
+                });
+            });
+        }
+    );
 });
 
 module.exports = router;
