@@ -8,13 +8,14 @@ html(lang="fr")
         title Jeu
 
     body.bg-grab
-        include components/nav.pug
-        div#info.flex-center.margin-15
-            h2 Score : 
-                span#score 0
-            h2#round-box(data-info="No round played yet") Round : 
-                span#round 1/5
-            div#progress
+        div#info.flex-center
+            div#center
+                h2 Score : 
+                    span#score 0
+                h2#round-box(data-info="No round played yet") Round : 
+                    span#round 1/5
+            div#right
+                button.next3-class(type="button",onclick="window.location.href='/dashboard'") Quit
 
         div#list.flex-center
             #products-list

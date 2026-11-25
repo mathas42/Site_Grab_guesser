@@ -29,11 +29,12 @@ mixin card(number, label, value, path)
         if path
             img.img-card(src=path)
 
-mixin game_mode(path, text, id, buttonText,gamePath)
+mixin game_mode(path, text, text2, id, buttonText,gamePath)
     div.mode-container
         img(src=path)
         div.collum
             p= text
+            p#yellow= text2
             button.next-class(type="button", id=id, onclick=gamePath)= buttonText
 
 mixin bubble()
