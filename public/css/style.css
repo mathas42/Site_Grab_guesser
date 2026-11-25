@@ -63,39 +63,43 @@ button:active {
     content: "";
     position: absolute;
     inset: -20px;
-    z-index: -1;
+    z-index: 0;
+    pointer-events: none;
 
     background: url("/images/green_back_index.jpg") center / cover no-repeat;
 
     animation: moveBackground 10s ease-in-out infinite alternate;
 }
 
-@keyframes moveBackground {
-    from {
-        transform: translateX(0);
-    }
-    to {
-        transform: translateX(-30px);
-    }
+#background > * {
+    position: relative;
+    z-index: 1;
 }
 
 .bg-grab {
     position: relative;
     isolation: isolate;
     overflow: hidden;
+    min-height: 100vh;
 }
 
 .bg-grab::before {
     content: "";
     position: absolute;
     inset: -20px;
-    z-index: -1;
+    z-index: 0;
+    pointer-events: none;
 
     background:
         linear-gradient(rgba(239, 245, 239, 0.7), rgba(239, 245, 239, 0.7)),
         url("/images/green_back_index.jpg") center / cover no-repeat;
 
     animation: moveBackground 10s ease-in-out infinite alternate;
+}
+
+.bg-grab > * {
+    position: relative;
+    z-index: 1;
 }
 
 @keyframes moveBackground {
@@ -529,7 +533,7 @@ footer {
 }
 
 #yellow {
-    color: rgb(45, 152, 92);
+    color: rgb(77, 255, 154);
 }
 
 #valider-small {
