@@ -39,13 +39,16 @@ router.get("/profil", (req, res) => {
  * @openapi
  * /api/profil:
  *   post:
- *     summary: "Update the player's nickname and avatar"
+ *     summary: "Update the player's nickname, avatar and password"
  *     description: |
  *       Updates the nickname and avatar of the logged-in player, then updates the session. The nickname must be unused by other players.
+ *       The password is changed only if `currentPassword` or `newPassword` is filled.
  *
  *       **Body parameters (JSON):**
  *       - `nickname` (string) : new nickname, 1 to 30 characters (spaces around are trimmed)
  *       - `avatar` (string) : path of the chosen avatar, from `/images/avatars/avatar1.png` to `/images/avatars/avatar14.png`
+ *       - `currentPassword` (string, optional) : current password, needed to change it
+ *       - `newPassword` (string, optional) : new password, 8 to 64 characters, different from the current one
  *     tags: ["Utilisateur"]
  *     security:
  *       - cookieAuth: []
@@ -59,6 +62,8 @@ router.get("/profil", (req, res) => {
  *             properties:
  *               nickname: { type: string, minLength: 1, maxLength: 30, description: "New nickname", example: "Player1" }
  *               avatar: { type: string, description: "Path of the chosen avatar", example: "/images/avatars/avatar3.png" }
+ *               currentPassword: { type: string, format: password, description: "Current password (only to change it)", example: "motdepasse" }
+ *               newPassword: { type: string, format: password, description: "New password (only to change it)", example: "nouveaumotdepasse" }
  *     responses:
  *       200:
  *         description: "OK, profile updated"
@@ -67,17 +72,17 @@ router.get("/profil", (req, res) => {
  *             schema:
  *               type: object
  *               properties:
- *                 message: { type: string, example: "Profile updated" }
+ *                 message: { type: string, enum: ["Profile updated", "Profile and password updated"], example: "Profile updated" }
  *                 nickname: { type: string, description: "Saved nickname", example: "Player1" }
  *                 avatar: { type: string, description: "Saved avatar", example: "/images/avatars/avatar3.png" }
  *       400:
- *         description: "Invalid nickname or avatar"
+ *         description: "Invalid nickname, avatar or new password"
  *         content:
  *           application/json:
  *             schema:
  *               type: object
  *               properties:
- *                 erreur: { type: string, enum: ["The nickname must be between 1 and 30 characters.", "Invalid avatar."], example: "Invalid avatar." }
+ *                 erreur: { type: string, example: "Invalid avatar." }
  *       401:
  *         description: "Player not logged in"
  *         content:
@@ -86,6 +91,22 @@ router.get("/profil", (req, res) => {
  *               type: object
  *               properties:
  *                 erreur: { type: string, example: "You must be logged in." }
+ *       403:
+ *         description: "Wrong current password"
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 erreur: { type: string, example: "The current password is incorrect." }
+ *       404:
+ *         description: "User unfindable"
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 erreur: { type: string, example: "User not found." }
  *       409:
  *         description: "Nickname already taken"
  *         content:
@@ -101,7 +122,7 @@ router.get("/profil", (req, res) => {
  *             schema:
  *               type: object
  *               properties:
- *                 erreur: { type: string, enum: ["Error while checking the nickname.", "Error while saving the profile."], example: "Error while saving the profile." }
+ *                 erreur: { type: string, example: "Error while saving the profile." }
  */
 
 router.post("/api/profil", requireLoginApi, (req, res) => {

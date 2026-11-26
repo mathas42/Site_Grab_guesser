@@ -40,6 +40,57 @@ router.use((req, res, next) => {
     next();
 });
 
+/**
+ * @openapi
+ * /admin/users:
+ *   get:
+ *     summary: "Gets the list of users"
+ *     description: |
+ *       Gives the list of all users. Admin only.
+ *
+ *       **Query parameters:**
+ *       - `search` (string, optional) : keeps only the users whose nickname contains this text
+ *     tags: ["Admin"]
+ *     security:
+ *       - cookieAuth: []
+ *     parameters:
+ *       - in: query
+ *         name: search
+ *         required: false
+ *         schema: { type: string, example: "Player" }
+ *         description: "Part of the nickname to search"
+ *     responses:
+ *       200:
+ *         description: "OK"
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 type: object
+ *                 properties:
+ *                   id: { type: integer, description: "User ID", example: 1 }
+ *                   user_role: { type: string, description: "Role of the user", example: "Player" }
+ *                   nickname: { type: string, description: "Nickname of the user", example: "Player1" }
+ *                   email: { type: string, description: "Email of the user", example: "player1@mail.com" }
+ *                   creation_date: { type: string, description: "Account creation date", example: "2026-11-20T10:00:00.000Z" }
+ *       403:
+ *         description: "User is not an admin"
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message: { type: string, example: "Access denied" }
+ *       500:
+ *         description: "Database error"
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message: { type: string, example: "An error occurred" }
+ */
 router.get('/users', (req, res) =>{
     const search = String(req.query.search || "");
 
@@ -64,6 +115,139 @@ router.get('/users', (req, res) =>{
     )
 })
 
+/**
+ * @openapi
+ * /admin/users/{id}:
+ *   patch:
+ *     summary: "Updates a user"
+ *     description: |
+ *       Changes the role and the nickname of a user. Admin only.
+ *
+ *       **Body parameters (JSON):**
+ *       - `role` (string) : "Player" or "Admin"
+ *       - `nickname` (string) : new nickname, 1 to 30 characters
+ *     tags: ["Admin"]
+ *     security:
+ *       - cookieAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema: { type: integer, example: 2 }
+ *         description: "User ID"
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required: [role, nickname]
+ *             properties:
+ *               role: { type: string, enum: ["Player", "Admin"], description: "New role", example: "Admin" }
+ *               nickname: { type: string, description: "New nickname", example: "Player1" }
+ *     responses:
+ *       200:
+ *         description: "OK, user updated"
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message: { type: string, example: "User updated" }
+ *       400:
+ *         description: "Invalid ID, role or nickname"
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message: { type: string, example: "Invalid role" }
+ *       403:
+ *         description: "User is not an admin"
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message: { type: string, example: "Access denied" }
+ *       404:
+ *         description: "User unfindable"
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message: { type: string, example: "User not found" }
+ *       409:
+ *         description: "Nickname already taken"
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message: { type: string, example: "This nickname is already taken" }
+ *       500:
+ *         description: "Database error"
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message: { type: string, example: "An error occurred" }
+ *   delete:
+ *     summary: "Deletes a user"
+ *     description: "Deletes a user account. Admin only. An admin cannot delete their own account."
+ *     tags: ["Admin"]
+ *     security:
+ *       - cookieAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema: { type: integer, example: 2 }
+ *         description: "User ID"
+ *     responses:
+ *       200:
+ *         description: "OK, user deleted"
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message: { type: string, example: "User deleted" }
+ *       400:
+ *         description: "Invalid ID, or admin trying to delete their own account"
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message: { type: string, example: "You cannot delete your own account" }
+ *       403:
+ *         description: "User is not an admin"
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message: { type: string, example: "Access denied" }
+ *       404:
+ *         description: "User unfindable"
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message: { type: string, example: "User not found" }
+ *       500:
+ *         description: "Database error"
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message: { type: string, example: "An error occurred" }
+ */
 router.patch("/users/:id", (req, res) => {
     if (!/^\d+$/.test(req.params.id)) {
         return res.status(400).json({ message: "Invalid user ID" });
@@ -126,6 +310,78 @@ router.delete("/users/:id", (req, res) => {
     });
 });
 
+/**
+ * @openapi
+ * /admin/upload/{category}:
+ *   post:
+ *     summary: "Adds a new dish"
+ *     description: |
+ *       Uploads the image of a dish and adds the dish to the database. Admin only.
+ *
+ *       **Body parameters (form-data):**
+ *       - `image` (file) : image of the dish, JPG, PNG or WebP, 4 MB maximum
+ *       - `nom` (string) : dish name
+ *       - `nom_restaurant` (string) : name of the restaurant
+ *       - `prix` (number) : price of the dish, must be positive
+ *       - `description` (string, optional) : description of the dish
+ *     tags: ["Admin"]
+ *     security:
+ *       - cookieAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: category
+ *         required: true
+ *         schema: { type: string, example: "dishes" }
+ *         description: "Destination folder of the image (only \"dishes\")"
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         multipart/form-data:
+ *           schema:
+ *             type: object
+ *             required: [image, nom, nom_restaurant, prix]
+ *             properties:
+ *               image: { type: string, format: binary, description: "Image of the dish" }
+ *               nom: { type: string, description: "Dish name", example: "Roti Canai" }
+ *               nom_restaurant: { type: string, description: "Name of the restaurant", example: "Restoran Nasi Kandar" }
+ *               prix: { type: number, description: "Price of the dish", example: 4.5 }
+ *               description: { type: string, description: "Description of the dish", example: "Flatbread served with curry." }
+ *     responses:
+ *       201:
+ *         description: "OK, dish added"
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message: { type: string, example: "\"Roti Canai\" added." }
+ *                 id: { type: integer, description: "ID of the new dish", example: 120 }
+ *                 image: { type: string, description: "Path of the saved image", example: "/images/dishes/3f2a9c1e.jpg" }
+ *       400:
+ *         description: "Invalid image or invalid fields"
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message: { type: string, example: "Price must be a positive number." }
+ *       403:
+ *         description: "User is not an admin"
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message: { type: string, example: "Access denied" }
+ *       500:
+ *         description: "Database error"
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message: { type: string, example: "An error occurred while saving the dish." }
+ */
 router.post("/upload/:category", (req, res) => {
     upload.single("image")(req, res, (error) => {
         if (error) {
@@ -180,6 +436,147 @@ router.post("/upload/:category", (req, res) => {
     });
 });
 
+/**
+ * @openapi
+ * /admin/dishes/{id}:
+ *   patch:
+ *     summary: "Updates a dish"
+ *     description: |
+ *       Changes the information of a dish. The duplicates of the dish (same name and restaurant) are updated too. Admin only.
+ *
+ *       **Body parameters (form-data):**
+ *       - `image` (file, optional) : new image, JPG, PNG or WebP, 4 MB maximum. If empty, the old image is kept
+ *       - `nom` (string) : dish name
+ *       - `nom_restaurant` (string) : name of the restaurant
+ *       - `prix` (number) : price of the dish
+ *       - `description` (string, optional) : description of the dish
+ *     tags: ["Admin"]
+ *     security:
+ *       - cookieAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema: { type: integer, example: 3 }
+ *         description: "Dish ID"
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         multipart/form-data:
+ *           schema:
+ *             type: object
+ *             required: [nom, nom_restaurant, prix]
+ *             properties:
+ *               image: { type: string, format: binary, description: "New image of the dish" }
+ *               nom: { type: string, description: "Dish name", example: "Roti Canai" }
+ *               nom_restaurant: { type: string, description: "Name of the restaurant", example: "Restoran Nasi Kandar" }
+ *               prix: { type: number, description: "Price of the dish", example: 4.5 }
+ *               description: { type: string, description: "Description of the dish", example: "Flatbread served with curry." }
+ *     responses:
+ *       200:
+ *         description: "OK, dish updated"
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message: { type: string, example: "\"Roti Canai\" updated." }
+ *                 produit:
+ *                   type: object
+ *                   description: "The updated dish"
+ *                   properties:
+ *                     id: { type: integer, example: 3 }
+ *                     nom: { type: string, example: "Roti Canai" }
+ *                     nom_restaurant: { type: string, example: "Restoran Nasi Kandar" }
+ *                     prix: { type: string, example: "4.50" }
+ *                     description: { type: string, example: "Flatbread served with curry." }
+ *                     image: { type: string, example: "/images/Roti_Canai.jpg" }
+ *       400:
+ *         description: "Invalid ID, image or fields"
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message: { type: string, example: "Dish name and restaurant name are required." }
+ *       403:
+ *         description: "User is not an admin"
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message: { type: string, example: "Access denied" }
+ *       404:
+ *         description: "Dish unfindable"
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message: { type: string, example: "Dish not found" }
+ *       500:
+ *         description: "Database error"
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message: { type: string, example: "An error occurred while saving the dish." }
+ *   delete:
+ *     summary: "Deletes a dish"
+ *     description: "Deletes a dish and its duplicates (same name and restaurant). Admin only."
+ *     tags: ["Admin"]
+ *     security:
+ *       - cookieAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema: { type: integer, example: 3 }
+ *         description: "Dish ID"
+ *     responses:
+ *       200:
+ *         description: "OK, dish deleted"
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message: { type: string, example: "Dish deleted successfully" }
+ *       400:
+ *         description: "Invalid ID"
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message: { type: string, example: "Invalid dish ID" }
+ *       403:
+ *         description: "User is not an admin"
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message: { type: string, example: "Access denied" }
+ *       404:
+ *         description: "Dish unfindable"
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message: { type: string, example: "Dish not found" }
+ *       500:
+ *         description: "Database error"
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message: { type: string, example: "An error occurred" }
+ */
 router.patch("/dishes/:id", (req, res) => {
     if (!/^\d+$/.test(req.params.id)) {
         return res.status(400).json({ message: "Invalid dish ID" });
