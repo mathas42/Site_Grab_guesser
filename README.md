@@ -444,6 +444,22 @@ This section complements the game by allowing users to learn more about the dish
 
 ---
 
+## API Documentation (swagger)
+
+The API documentation is freely accessible on the website with the path /api-docs .
+It was made with Swagger tool.
+It is divided into four parts : 
+
+- Produit (Product) : About dish access and modificaiton.
+
+- Partie (Game) : About game management
+
+- Utilisateur (User) : About User management
+
+- Admin : Administrator actions
+
+---
+
 ## Implementation
 
 ---
