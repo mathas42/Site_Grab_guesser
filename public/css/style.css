@@ -219,6 +219,7 @@ button:active {
     font-size: 100px;
     text-align: center;
     padding: 10px;
+    margin: 60px 0 45px 0;
 }
 
 #welcome {
@@ -533,7 +534,20 @@ footer {
 }
 
 #yellow {
-    color: rgb(77, 255, 154);
+    color: var(--green-grab);
+}
+
+#yellow:hover{
+    color: var(--green-dark-grab);
+}
+
+.bold{
+    font-weight: bold;
+    font-size: large;
+}
+
+.bold:hover{
+    color: var(--green-grab);
 }
 
 #valider-small {
@@ -773,48 +787,55 @@ footer {
 }
 
 #tutorial {
-    display: flex;
     box-sizing: border-box;
-    flex-direction: column;
-    margin: 0px auto;
-    padding: 0px 20px;
+    width: 100%;
+    margin: 0 auto;
+    padding: 0 clamp(16px, 4vw, 32px);
     background: var(--card);
     border: 1px solid var(--green-white-grab);
-    width: 100%;
 }
 
 #tutorial-content {
+    width: 100%;
+    max-width: 700px;
+    margin: 0 auto;
+    padding: clamp(20px, 5vw, 40px) 0;
+}
+
+#tutorial-body {
     display: flex;
-    gap: 20px;
-    margin: 20px auto;
-    padding: 24px 20px;
-    max-width: 900px;
+    flex-direction: column;
+    gap: 28px;                       
+}
+
+#tutorial .question {
+    text-align: center;
 }
 
 #tutorial h2 {
-    margin: 0 0 10px;
-    padding-bottom: 10px;
+    margin: 0 0 8px;
+    padding: 0;
     font-family: var(--font-title);
-    font-size: 1.6rem;
+    font-size: clamp(1.25rem, 3.4vw, 1.6rem);
     font-weight: 800;
+    line-height: 1.2;
     letter-spacing: -0.01em;
-    text-align: center;
+    text-wrap: balance;
     color: var(--background-color40);
 }
 
 #tutorial p {
-    max-width: 650px;
+    max-width: 52ch;                 
     margin: 0 auto;
-    text-align: justify;
-    hyphens: auto;
+    font-size: clamp(0.95rem, 2.4vw, 1.05rem);
+    line-height: 1.6;
+    text-align: center;
+    text-wrap: pretty;
+    color: var(--soft-text);
 }
 
-.question {
-    text-align: left;
-}
-
-#tutorial .title {
-    margin-top: 20px;
+#tutorial .flex-center {
+    margin-top: 8px;
 }
 
 .number {
@@ -881,8 +902,12 @@ footer {
 /*Responsive styles */
 @media (max-width: 480px) {
     #title {
-        font-size: 40px;
+        font-size: clamp(2.5rem, 13vw, 3.75rem); 
+        line-height: 1.05;
         text-align: center;
+        text-wrap: balance;     
+        max-width: 9ch;        
+        margin: 20px auto 0;
     }
 
     #screen {
@@ -974,5 +999,16 @@ footer {
     #reveal {
         display: flex;
         flex-wrap: wrap;
+    }
+
+    #stats {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    #stats .stat-card:first-child {
+        grid-column: 1 / -1;                 
+        justify-self: center;                
+        box-sizing: border-box;              
+        width: calc((100% - 16px) / 2);      
     }
 }

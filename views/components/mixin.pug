@@ -33,7 +33,7 @@ mixin game_mode(path, text, text2, id, buttonText,gamePath)
     div.mode-container
         img(src=path)
         div.collum
-            p= text
+            p.bold= text
             p#yellow= text2
             button.next-class(type="button", id=id, onclick=gamePath)= buttonText
 
