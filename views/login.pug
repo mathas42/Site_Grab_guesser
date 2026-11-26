@@ -6,8 +6,11 @@ html(lang="en")
         link(rel="stylesheet", href="/css/style.css")
         link(rel="stylesheet", href="/css/style_login.css")
         link(rel="icon", type="image/png", href="/images/logo_loupe.png")
+        script(src="/js/notification.js", defer)
+        script(src="/js/flash.js", defer)
         title Login
     body
+        include components/notification.pug
         include components/mixin.pug
         +bubble()
         a#home-link(href="/", aria-label="Back to home")
