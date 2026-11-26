@@ -1,82 +1,67 @@
-function notify(title, text, type = "success") {
-    if (typeof getNotification === "function") {
-        getNotification(title, text, type);
+(() => {
+    const DEFAULT_AVATAR = "/images/avatars/avatar1.png";
+
+    const form = document.getElementById("form-profil2");
+    const avatarActuel = document.getElementById("avatar-actuel");
+    const galerie = document.getElementById("galerie-avatars");
+    if (!form || !avatarActuel || !galerie) return;
+
+
+    function notify(title, text, type = "success") {
+        if (typeof getNotification === "function") {
+            getNotification(title, text, type);
+        } else {
+            console.warn("getNotification n'est pas défini : vérifie /js/notification.js");
+            alert(`${title} : ${text}`);
+        }
     }
-}
 
-function isValidEmail(email) {
-    const regex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-    return regex.test(email) && email.length >= 6 && email.length <= 64;
-}
-
-function setupEmailHint() {
-    const emailInput = document.getElementById("email");
-    const hint = document.getElementById("error-message");
-    if (!emailInput || !hint) return;
-
-    emailInput.addEventListener("input", () => {
-        const ok = isValidEmail(emailInput.value);
-        hint.textContent =
-            ok || emailInput.value === "" ? "" : "Please enter a valid e-mail address.";
-    });
-}
+    function isValidEmail(email) {
+        const regex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+        return regex.test(email) && email.length >= 6 && email.length <= 64;
+    }
 
 
-function setupAvatarPicker(avatarActuel, galerie) {
-    let avatarChoisi = avatarActuel.getAttribute("src");
+    const options = [...galerie.querySelectorAll(".avatar-option")];
+    let avatarChoisi = avatarActuel.getAttribute("src") || DEFAULT_AVATAR;
 
-    galerie.querySelectorAll(".avatar-option").forEach((bouton) => {
+    avatarActuel.src = avatarChoisi;
+    options
+        .find((o) => o.dataset.avatar === avatarChoisi)
+        ?.classList.add("selectionne");
+
+    options.forEach((bouton) => {
         bouton.addEventListener("click", () => {
             avatarChoisi = bouton.dataset.avatar;
             avatarActuel.src = avatarChoisi;
-
-            galerie.querySelectorAll(".avatar-option").forEach((element) => {
-                element.classList.remove("selectionne");
-            });
+            options.forEach((o) => o.classList.remove("selectionne"));
             bouton.classList.add("selectionne");
-
-            const message = document.getElementById("message-profil");
-            if (message) message.textContent = "";
         });
     });
 
-    return () => avatarChoisi;
-}
 
-
-
-function setupRegister(form, getAvatar) {
-    const nickname = document.getElementById("nickname");
+    const name = document.getElementById("name");
     const email = document.getElementById("email");
     const password = document.getElementById("password");
-    const confirm = document.getElementById("password-confirm"); // facultatif
-
-    setupEmailHint();
-
 
     const rules = [
-        [nickname, () => nickname.value.trim().length >= 3 && nickname.value.trim().length <= 30,
+        [name, () => name.value.trim().length >= 3 && name.value.trim().length <= 30,
             "The nickname must be between 3 and 30 characters."],
-        [email, () => isValidEmail(email.value),
+        [email, () => isValidEmail(email.value.trim()),
             "Please enter a valid e-mail address."],
         [password, () => password.value.length >= 8,
             "The password must contain at least 8 characters."],
-        [confirm, () => confirm.value === password.value,
-            "The passwords do not match."]
     ];
 
     form.addEventListener("submit", (event) => {
         for (const [field, isOk, text] of rules) {
-            if (!field) continue;
+            if (!field || isOk()) continue;
 
-            if (!isOk()) {
-                event.preventDefault();
-                notify("Register", text, "error");
-                field.focus();
-                return;
-            }
+            event.preventDefault();
+            notify("Register", text, "error");
+            field.focus();
+            return;
         }
-
 
         let inputAvatar = form.querySelector('input[name="avatar"]');
         if (!inputAvatar) {
@@ -85,30 +70,6 @@ function setupRegister(form, getAvatar) {
             inputAvatar.name = "avatar";
             form.appendChild(inputAvatar);
         }
-        inputAvatar.value = getAvatar();
+        inputAvatar.value = avatarChoisi;
     });
-}
-
-const form = document.getElementById("form-profil");
-const avatarActuel = document.getElementById("avatar-actuel");
-const galerie = document.getElementById("galerie-avatars");
-
-if (form && avatarActuel && galerie) {
-    const getAvatar = setupAvatarPicker(avatarActuel, galerie);
-
-    if (form.getAttribute("action") === "/register") {
-        setupRegister(form, getAvatar);
-    } else {
-        setupProfileEdit(form, avatarActuel, getAvatar);
-    }
-}
-
-if (new URLSearchParams(window.location.search).get("registered") === "1") {
-    notify("Register", "Your account has been created.");
-}
-
-
-const serverError = document.getElementById("error-message");
-if (serverError && serverError.textContent.trim() !== "") {
-    notify("Register", serverError.textContent.trim(), "error");
-}
+})();

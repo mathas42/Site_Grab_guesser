@@ -21,6 +21,13 @@ const avatars = [
     "/images/avatars/avatar14.png"
 ];
 
+function fail(req, res, status, message, page, code) {
+    if (req.is("json")) {
+        return res.status(status).json({ message });
+    }
+    return res.redirect(`${page}?error=${code}`);
+}
+
 router.get("/register", (req, res) => {
     res.render("register", {
         avatars,
@@ -83,8 +90,6 @@ router.get("/register", (req, res) => {
  */
 router.post("/register", (req, res) => {
     const { name, email, password, avatar } = req.body;
-
-    // Vérifier que l'avatar choisi est autorisé
     const avatarChoisi = avatars.includes(avatar) ? avatar : avatars[0];
 
     db.query(
@@ -93,11 +98,11 @@ router.post("/register", (req, res) => {
         (error, results) => {
             if (error) {
                 console.error(error);
-                res.status(500).json({ message: "An error occurred" });
+                fail(req, res, 500, "An error occurred", "/register", "server");
             } else if (results.some((user) => user.email === email)) {
-                res.status(409).json({ message: "Email already taken" });
+                fail(req, res, 409, "Email already taken", "/register", "email");
             } else if (results.length > 0) {
-                res.status(409).json({ message: "Nickname already taken" });
+                fail(req, res, 409, "Nickname already taken", "/register", "nickname");
             } else {
                 bcrypt
                     .hash(password, 10)
@@ -108,16 +113,16 @@ router.post("/register", (req, res) => {
                             (error) => {
                                 if (error) {
                                     console.error(error);
-                                    res.status(500).json({ message: "An error occurred" });
+                                    fail(req, res, 500, "An error occurred", "/register", "server");
                                 } else {
-                                    return res.redirect("/login");
+                                    return res.redirect("/login?registered=1");
                                 }
                             }
                         );
                     })
                     .catch((err) => {
                         console.error(err);
-                        res.status(500).json({ message: "An error occurred" });
+                        fail(req, res, 500, "An error occurred", "/register", "server");
                     })  
             }
         }
@@ -188,20 +193,20 @@ router.post("/login", (req, res) => {
     db.query("SELECT * FROM users WHERE email = ?", [email], (error, results) => {
         if (error) {
             console.error(error);
-            res.status(500).json({ message: "An error occurred" });
+            fail(req, res, 500, "An error occurred", "/login", "server");
         } else if (results.length === 0) {
-            res.status(401).json({ message: "Email or password incorrect" });
+            fail(req, res, 401, "Email or password incorrect", "/login", "invalid");
         } else {
             const user = results[0];
             const hash_password = user.hash_password;
             bcrypt.compare(password, hash_password, (err, response) => {
                 if (err) {
                     console.error(err);
-                    return res.status(500).send("An error occurred");
+                    return fail(req, res, 500, "An error occurred", "/login", "server");
                 }
 
                 if (!response) {
-                    return res.status(401).send("Email or password incorrect");
+                    return fail(req, res, 401, "Email or password incorrect", "/login", "invalid");
                 }
                 req.session.userId = user.id;
                 req.session.nickname = user.nickname;
@@ -212,7 +217,7 @@ router.post("/login", (req, res) => {
                 else{
                     req.session.isAdmin = false;
                 }
-                return res.redirect("/dashboard");
+                return res.redirect("/dashboard?login=1");
             });
         }
     });
