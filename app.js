@@ -162,8 +162,8 @@ app.get("/result", requireLoginPage, (req, res) => {
  *               items:
  *                 type: object
  *                 properties:
- *                   id: { type: integer, description: "Product ID", example: 0 }
- *                   nom: { type: string, description: "Dish name", example: "" }
+ *                   id: { type: integer, description: "Product ID", example: 3 }
+ *                   nom: { type: string, description: "Dish name", example: "Shawarma beef" }
  *                   nom_restaurant: { type: string, description: "Name of the restaurant", example: "Shawarma Al Sham - Bandar Tasik Selatan" }
  *                   image: { type: string, description: "Dish image", example: "/images/Shawarma_beef.jpg" }
  *                   description: { type: string, description: "Description of the dish", example: "Shawarma is a popular Middle Eastern dish, particularly associated with Levantine cuisine." }
@@ -1051,8 +1051,9 @@ app.post("/api/fin-partie-hard", (req, res) => {
  * /api/avatar:
  *   post:
  *     summary: "Change the player's avatar"
+ *     deprecated: true
  *     description: |
- *       Saves the chosen avatar for the player and updates it.
+ *       Saves the chosen avatar for the player and updates it. No longer used by the site: use `POST /api/profil` instead.
  *
  *       **Body parameters (JSON):**
  *       - `avatar` (string) : path of the chosen avatar, from `/images/avatars/avatar1.png` to `/images/avatars/avatar14.png`
@@ -1171,6 +1172,64 @@ app.get("/hall_of_fame", requireLoginPage, (req, res) => {
     );
 });
 
+/**
+ * @openapi
+ * /api/catalogue:
+ *   get:
+ *     summary: "Gets a page of the catalogue"
+ *     description: |
+ *       Gives the dishes of the catalogue, page by page, sorted by name. Duplicates (same name and restaurant) are shown only once.
+ *
+ *       **Query parameters:**
+ *       - `limit` (integer, optional) : number of dishes, from 1 to 50 (12 by default)
+ *       - `offset` (integer, optional) : number of dishes to skip (0 by default)
+ *       - `search` (string, optional) : keeps only the dishes whose name or restaurant contains this text
+ *     tags: ["Produit"]
+ *     parameters:
+ *       - in: query
+ *         name: limit
+ *         required: false
+ *         schema: { type: integer, example: 12 }
+ *         description: "Number of dishes"
+ *       - in: query
+ *         name: offset
+ *         required: false
+ *         schema: { type: integer, example: 0 }
+ *         description: "Number of dishes to skip"
+ *       - in: query
+ *         name: search
+ *         required: false
+ *         schema: { type: string, example: "chicken" }
+ *         description: "Text to search in the dish or restaurant name"
+ *     responses:
+ *       200:
+ *         description: "OK"
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 produits:
+ *                   type: array
+ *                   items:
+ *                     type: object
+ *                     properties:
+ *                       id: { type: integer, description: "Product ID", example: 3 }
+ *                       nom: { type: string, description: "Dish name", example: "Shawarma beef" }
+ *                       nom_restaurant: { type: string, description: "Name of the restaurant", example: "Shawarma Al Sham - Bandar Tasik Selatan" }
+ *                       image: { type: string, description: "Dish image", example: "/images/Shawarma_beef.jpg" }
+ *                       description: { type: string, description: "Description of the dish", example: "Shawarma is a popular Middle Eastern dish." }
+ *                       prix: { type: string, description: "Price of the dish", example: "12.90" }
+ *                 total: { type: integer, description: "Total number of dishes matching the search", example: 85 }
+ *       500:
+ *         description: "Database error"
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 erreur: { type: string, example: "Erreur BDD" }
+ */
 app.get("/api/catalogue", (req, res) => {
     const limit = Math.min(Math.max(parseInt(req.query.limit, 10) || 12, 1), 50);
     const offset = Math.max(parseInt(req.query.offset, 10) || 0, 0);
