@@ -10,13 +10,27 @@ body.secret_mode {
 }
 
 @keyframes tilt_easter_egg {
-    0%   { transform: rotate(0deg); }
-    15%  { transform: rotate(-4deg); }
-    35%  { transform: rotate(4deg); }
-    55%  { transform: rotate(-3deg); }
-    75%  { transform: rotate(2deg); }
-    90%  { transform: rotate(-1deg); }
-    100% { transform: rotate(0deg); }
+    0% {
+        transform: rotate(0deg);
+    }
+    15% {
+        transform: rotate(-4deg);
+    }
+    35% {
+        transform: rotate(4deg);
+    }
+    55% {
+        transform: rotate(-3deg);
+    }
+    75% {
+        transform: rotate(2deg);
+    }
+    90% {
+        transform: rotate(-1deg);
+    }
+    100% {
+        transform: rotate(0deg);
+    }
 }
 .wrapper {
     position: fixed;
@@ -28,11 +42,11 @@ body.secret_mode {
 }
 
 .bubble {
-    --x: 10%;          
-    --size: 60px;     
-    --dur: 14s;        
-    --delay: 0s;       
-    --sway: 30px;     
+    --x: 10%;
+    --size: 60px;
+    --dur: 14s;
+    --delay: 0s;
+    --sway: 30px;
 
     position: absolute;
     bottom: calc(var(--size) * -1.5);
@@ -41,17 +55,18 @@ body.secret_mode {
     height: var(--size);
     border: 2px solid rgb(255 255 255 / 0.55);
     border-radius: 50%;
-    background: radial-gradient(circle at 30% 28%,
+    background: radial-gradient(
+        circle at 30% 28%,
         rgb(255 255 255 / 0.28),
         rgb(255 255 255 / 0.06) 55%,
-        transparent 75%);
+        transparent 75%
+    );
     opacity: 0;
     will-change: transform, opacity;
     animation:
         bubble-rise var(--dur) linear var(--delay) infinite,
         bubble-sway calc(var(--dur) / 4) ease-in-out var(--delay) infinite alternate;
 }
-
 
 .bubble .dot {
     position: absolute;
@@ -76,32 +91,110 @@ body.secret_mode {
 }
 
 @keyframes bubble-rise {
-    0%   { transform: translateY(0) scale(0.7); opacity: 0; }
-    10%  { opacity: 0.9; }
-    85%  { opacity: 0.9; }
-    100% { transform: translateY(calc(-100vh - 200px)) scale(1.1); opacity: 0; }
+    0% {
+        transform: translateY(0) scale(0.7);
+        opacity: 0;
+    }
+    10% {
+        opacity: 0.9;
+    }
+    85% {
+        opacity: 0.9;
+    }
+    100% {
+        transform: translateY(calc(-100vh - 200px)) scale(1.1);
+        opacity: 0;
+    }
 }
 
 @keyframes bubble-sway {
-    from { translate: calc(var(--sway) * -1) 0; }
-    to   { translate: var(--sway) 0; }
+    from {
+        translate: calc(var(--sway) * -1) 0;
+    }
+    to {
+        translate: var(--sway) 0;
+    }
 }
 
 @keyframes icon-wobble {
-    from { transform: rotate(-12deg); }
-    to   { transform: rotate(12deg); }
+    from {
+        transform: rotate(-12deg);
+    }
+    to {
+        transform: rotate(12deg);
+    }
 }
 
-.bubble:nth-child(1)  { --x:  8%; --size:  60px; --dur: 14s; --delay:  -2s; --sway: 30px; }
-.bubble:nth-child(2)  { --x: 18%; --size:  44px; --dur: 10s; --delay:  -6s; --sway: 20px; }
-.bubble:nth-child(3)  { --x: 28%; --size:  84px; --dur: 18s; --delay: -11s; --sway: 45px; }
-.bubble:nth-child(4)  { --x: 38%; --size:  44px; --dur:  9s; --delay:  -3s; --sway: 18px; }
-.bubble:nth-child(5)  { --x: 47%; --size:  56px; --dur: 13s; --delay:  -8s; --sway: 28px; }
-.bubble:nth-child(6)  { --x: 56%; --size: 100px; --dur: 20s; --delay: -14s; --sway: 50px; }
-.bubble:nth-child(7)  { --x: 65%; --size:  48px; --dur: 11s; --delay:  -5s; --sway: 22px; }
-.bubble:nth-child(8)  { --x: 74%; --size:  72px; --dur: 16s; --delay:  -1s; --sway: 38px; }
-.bubble:nth-child(9)  { --x: 84%; --size:  44px; --dur: 10s; --delay:  -9s; --sway: 20px; }
-.bubble:nth-child(10) { --x: 92%; --size:  60px; --dur: 15s; --delay: -12s; --sway: 30px; }
+.bubble:nth-child(1) {
+    --x: 8%;
+    --size: 60px;
+    --dur: 14s;
+    --delay: -2s;
+    --sway: 30px;
+}
+.bubble:nth-child(2) {
+    --x: 18%;
+    --size: 44px;
+    --dur: 10s;
+    --delay: -6s;
+    --sway: 20px;
+}
+.bubble:nth-child(3) {
+    --x: 28%;
+    --size: 84px;
+    --dur: 18s;
+    --delay: -11s;
+    --sway: 45px;
+}
+.bubble:nth-child(4) {
+    --x: 38%;
+    --size: 44px;
+    --dur: 9s;
+    --delay: -3s;
+    --sway: 18px;
+}
+.bubble:nth-child(5) {
+    --x: 47%;
+    --size: 56px;
+    --dur: 13s;
+    --delay: -8s;
+    --sway: 28px;
+}
+.bubble:nth-child(6) {
+    --x: 56%;
+    --size: 100px;
+    --dur: 20s;
+    --delay: -14s;
+    --sway: 50px;
+}
+.bubble:nth-child(7) {
+    --x: 65%;
+    --size: 48px;
+    --dur: 11s;
+    --delay: -5s;
+    --sway: 22px;
+}
+.bubble:nth-child(8) {
+    --x: 74%;
+    --size: 72px;
+    --dur: 16s;
+    --delay: -1s;
+    --sway: 38px;
+}
+.bubble:nth-child(9) {
+    --x: 84%;
+    --size: 44px;
+    --dur: 10s;
+    --delay: -9s;
+    --sway: 20px;
+}
+.bubble:nth-child(10) {
+    --x: 92%;
+    --size: 60px;
+    --dur: 15s;
+    --delay: -12s;
+    --sway: 30px;
+}
 
 body:has(#login),
 body:has(#regist) {
@@ -116,7 +209,7 @@ body:has(#regist) {
     flex-direction: column;
     align-items: center;
     width: min(100% - 32px, 420px);
-    margin: auto;              
+    margin: auto;
     padding: clamp(16px, 4vw, 28px);
     background: rgba(255, 255, 255, 0.9);
     border-radius: 8px;
@@ -131,7 +224,6 @@ body:has(#regist) {
 #regist h2 {
     margin: 0 0 12px;
 }
-
 
 #login form,
 #regist form {
@@ -166,7 +258,6 @@ body:has(#regist) {
     font-size: inherit;
 }
 
-
 #regist form > div:not(:has(label)) {
     display: flex;
     flex-direction: column;
@@ -195,8 +286,12 @@ body:has(#regist) {
 }
 
 @media (max-width: 600px) {
-    .bubble:nth-child(n + 8) { display: none; }
-    .bubble { --sway: 14px; }
+    .bubble:nth-child(n + 8) {
+        display: none;
+    }
+    .bubble {
+        --sway: 14px;
+    }
 }
 
 @media (max-width: 480px) {
@@ -241,7 +336,9 @@ body:has(#regist) {
     font-weight: 700;
     font-size: 14px;
     text-decoration: none;
-    transition: background-color 0.2s ease, transform 0.2s ease;
+    transition:
+        background-color 0.2s ease,
+        transform 0.2s ease;
 }
 
 #home-link img {
@@ -303,11 +400,37 @@ body:has(#regist) {
     font-size: inherit;
 }
 
-#account,#log-in{
+#account,
+#log-in {
     text-decoration: none;
 }
 
-#account:hover,#log-in:hover{
+#account:hover,
+#log-in:hover {
     text-decoration: underline;
-     color:var(--dark-green) ;
+    color: var(--dark-green);
+}
+
+/* Large screens */
+@media (min-width: 1440px) and (min-height: 800px) {
+    #login {
+        max-width: 600px;
+        height: 300px;
+    }
+
+    #login p {
+        margin: 50px;
+    }
+}
+
+/* Large screens */
+@media (min-width: 1440px) and (min-height: 950px) {
+    #login {
+        max-width: 600px;
+        height: 360px;
+    }
+
+    #login p {
+        margin: 80px;
+    }
 }

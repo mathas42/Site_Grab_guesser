@@ -537,16 +537,16 @@ footer {
     color: var(--green-grab);
 }
 
-#yellow:hover{
+#yellow:hover {
     color: var(--green-dark-grab);
 }
 
-.bold{
+.bold {
     font-weight: bold;
     font-size: large;
 }
 
-.bold:hover{
+.bold:hover {
     color: var(--green-grab);
 }
 
@@ -805,7 +805,7 @@ footer {
 #tutorial-body {
     display: flex;
     flex-direction: column;
-    gap: 28px;                       
+    gap: 28px;
 }
 
 #tutorial .question {
@@ -825,7 +825,7 @@ footer {
 }
 
 #tutorial p {
-    max-width: 52ch;                 
+    max-width: 52ch;
     margin: 0 auto;
     font-size: clamp(0.95rem, 2.4vw, 1.05rem);
     line-height: 1.6;
@@ -902,11 +902,11 @@ footer {
 /*Responsive styles */
 @media (max-width: 480px) {
     #title {
-        font-size: clamp(2.5rem, 13vw, 3.75rem); 
+        font-size: clamp(2.5rem, 13vw, 3.75rem);
         line-height: 1.05;
         text-align: center;
-        text-wrap: balance;     
-        max-width: 9ch;        
+        text-wrap: balance;
+        max-width: 9ch;
         margin: 20px auto 0;
     }
 
@@ -1006,9 +1006,188 @@ footer {
     }
 
     #stats .stat-card:first-child {
-        grid-column: 1 / -1;                 
-        justify-self: center;                
-        box-sizing: border-box;              
-        width: calc((100% - 16px) / 2);      
+        grid-column: 1 / -1;
+        justify-self: center;
+        box-sizing: border-box;
+        width: calc((100% - 16px) / 2);
+    }
+}
+
+/* Large screens */
+@media (min-width: 1440px) and (min-height: 800px) {
+    body {
+        font-size: 1.4rem;
+    }
+
+    #title {
+        font-size: clamp(100px, 7vw, 150px);
+        margin: 70px auto 50px;
+        max-width: 1400px;
+    }
+
+    #screen,
+    #screen-footer {
+        font-size: 36px;
+        gap: 30px;
+    }
+
+    #info {
+        margin: 25px 40px 0;
+        padding: 20px;
+    }
+
+    #center {
+        gap: 50px;
+    }
+
+    #barre,
+    #reponse {
+        width: min(650px, 45vw);
+        height: 35px;
+    }
+
+    .produit {
+        gap: 40px;
+    }
+
+    .produit img {
+        height: clamp(370px, 35vh, 550px);
+        width: auto;
+    }
+
+    .name_dish,
+    .resto {
+        max-width: 650px;
+    }
+
+    #sec {
+        width: min(850px, 70vw);
+        height: auto;
+        min-height: 120px;
+        padding: 15px;
+    }
+
+    #sec > div {
+        gap: 80px;
+    }
+
+    #hint,
+    #temperature {
+        width: 220px;
+        height: 40px;
+        font-size: 1.1rem;
+    }
+
+    #valider-small,
+    #valider-white,
+    .next-class,
+    .next2-class {
+        width: 280px;
+        height: 70px;
+        font-size: 1.5rem;
+    }
+
+    #tutorial-content {
+        max-width: 900px;
+    }
+
+    #stats {
+        max-width: 1000px;
+        gap: 25px;
+    }
+
+    .stat-card {
+        padding: 25px;
+    }
+}
+
+@media (min-width: 1440px) and (min-height: 950px) {
+    body {
+        font-size: 1.4rem;
+    }
+
+    .next-class {
+        font-size: 60px;
+    }
+
+    #title {
+        font-size: clamp(100px, 7vw, 150px);
+        margin: 70px auto 50px;
+        max-width: 1700px;
+    }
+
+    #screen,
+    #screen-footer {
+        font-size: 44px;
+        gap: 35px;
+    }
+
+    #info {
+        margin: 25px 40px 0;
+        padding: 20px;
+    }
+
+    #center {
+        gap: 60px;
+    }
+
+    #barre,
+    #reponse {
+        width: min(650px, 45vw);
+        height: 45px;
+    }
+
+    .produit {
+        gap: 50px;
+    }
+
+    .produit img {
+        height: clamp(420px, 35vh, 550px);
+        width: auto;
+    }
+
+    .name_dish,
+    .resto {
+        max-width: 700px;
+    }
+
+    #sec {
+        width: min(950px, 70vw);
+        height: auto;
+        min-height: 140px;
+        padding: 18px;
+    }
+
+    #sec > div {
+        gap: 90px;
+    }
+
+    #hint,
+    #temperature {
+        width: 250px;
+        height: 50px;
+        font-size: 1.1rem;
+    }
+
+    #valider-small,
+    #valider-white,
+    .next-class,
+    .next2-class {
+        width: 320px;
+        height: 90px;
+        font-size: 1.9rem;
+    }
+
+    #tutorial-content {
+        max-width: 940px;
+    }
+
+    #stats {
+        max-width: 1100px;
+        gap: 25px;
+    }
+
+    .stat-card {
+        padding: 35px;
     }
 }
