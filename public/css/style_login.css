@@ -4,28 +4,15 @@ body.secret_mode {
 }
 
 @keyframes tilt_easter_egg {
-    0% {
-        transform: rotate(0deg);
-    }
-    15% {
-        transform: rotate(-4deg);
-    }
-    35% {
-        transform: rotate(4deg);
-    }
-    55% {
-        transform: rotate(-3deg);
-    }
-    75% {
-        transform: rotate(2deg);
-    }
-    90% {
-        transform: rotate(-1deg);
-    }
-    100% {
-        transform: rotate(0deg);
-    }
+    0%   { transform: rotate(0deg); }
+    15%  { transform: rotate(-4deg); }
+    35%  { transform: rotate(4deg); }
+    55%  { transform: rotate(-3deg); }
+    75%  { transform: rotate(2deg); }
+    90%  { transform: rotate(-1deg); }
+    100% { transform: rotate(0deg); }
 }
+
 .wrapper {
     position: fixed;
     inset: 0;
@@ -36,11 +23,11 @@ body.secret_mode {
 }
 
 .bubble {
-    --x: 10%;
-    --size: 60px;
-    --dur: 14s;
-    --delay: 0s;
-    --sway: 30px;
+    --x: 10%;          
+    --size: 60px;     
+    --dur: 14s;       
+    --delay: 0s;       
+    --sway: 30px;     
 
     position: absolute;
     bottom: calc(var(--size) * -1.5);
@@ -49,12 +36,10 @@ body.secret_mode {
     height: var(--size);
     border: 2px solid rgb(255 255 255 / 0.55);
     border-radius: 50%;
-    background: radial-gradient(
-        circle at 30% 28%,
+    background: radial-gradient(circle at 30% 28%,
         rgb(255 255 255 / 0.28),
         rgb(255 255 255 / 0.06) 55%,
-        transparent 75%
-    );
+        transparent 75%);
     opacity: 0;
     will-change: transform, opacity;
     animation:
@@ -74,6 +59,7 @@ body.secret_mode {
     transform: rotate(-35deg);
 }
 
+
 .bubble img.icon {
     position: absolute;
     inset: 0;
@@ -85,114 +71,68 @@ body.secret_mode {
 }
 
 @keyframes bubble-rise {
-    0% {
-        transform: translateY(0) scale(0.7);
-        opacity: 0;
-    }
-    10% {
-        opacity: 0.9;
-    }
-    85% {
-        opacity: 0.9;
-    }
-    100% {
-        transform: translateY(calc(-100vh - 200px)) scale(1.1);
-        opacity: 0;
-    }
+    0%   { transform: translateY(0) scale(0.7); opacity: 0; }
+    10%  { opacity: 0.9; }
+    85%  { opacity: 0.9; }
+    100% { transform: translateY(calc(-100vh - 200px)) scale(1.1); opacity: 0; }
 }
 
 @keyframes bubble-sway {
-    from {
-        translate: calc(var(--sway) * -1) 0;
-    }
-    to {
-        translate: var(--sway) 0;
-    }
+    from { translate: calc(var(--sway) * -1) 0; }
+    to   { translate: var(--sway) 0; }
 }
 
 @keyframes icon-wobble {
-    from {
-        transform: rotate(-12deg);
-    }
-    to {
-        transform: rotate(12deg);
-    }
+    from { transform: rotate(-12deg); }
+    to   { transform: rotate(12deg); }
 }
 
-.bubble:nth-child(1) {
-    --x: 8%;
-    --size: 60px;
-    --dur: 14s;
-    --delay: -2s;
-    --sway: 30px;
+.bubble:nth-child(1)  { --x:  8%; --size:  60px; --dur: 14s; --delay:  -2s; --sway: 30px; }
+.bubble:nth-child(2)  { --x: 18%; --size:  44px; --dur: 10s; --delay:  -6s; --sway: 20px; }
+.bubble:nth-child(3)  { --x: 28%; --size:  84px; --dur: 18s; --delay: -11s; --sway: 45px; }
+.bubble:nth-child(4)  { --x: 38%; --size:  44px; --dur:  9s; --delay:  -3s; --sway: 18px; }
+.bubble:nth-child(5)  { --x: 47%; --size:  56px; --dur: 13s; --delay:  -8s; --sway: 28px; }
+.bubble:nth-child(6)  { --x: 56%; --size: 100px; --dur: 20s; --delay: -14s; --sway: 50px; }
+.bubble:nth-child(7)  { --x: 65%; --size:  48px; --dur: 11s; --delay:  -5s; --sway: 22px; }
+.bubble:nth-child(8)  { --x: 74%; --size:  72px; --dur: 16s; --delay:  -1s; --sway: 38px; }
+.bubble:nth-child(9)  { --x: 84%; --size:  44px; --dur: 10s; --delay:  -9s; --sway: 20px; }
+.bubble:nth-child(10) { --x: 92%; --size:  60px; --dur: 15s; --delay: -12s; --sway: 30px; }
+
+
+#home-link {
+    position: fixed;
+    top: 15px;
+    left: 15px;
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+    padding: 8px 10px;
+    border-radius: var(--radius);
+    color: var(--text-on-dark);
+    font-size: 14px;
+    font-weight: 700;
+    text-decoration: none;
+    transition: background-color 0.2s ease, transform 0.2s ease;
 }
-.bubble:nth-child(2) {
-    --x: 18%;
-    --size: 44px;
-    --dur: 10s;
-    --delay: -6s;
-    --sway: 20px;
+
+#home-link img {
+    width: 34px;
+    height: 34px;
+    filter: brightness(0) invert(1);
 }
-.bubble:nth-child(3) {
-    --x: 28%;
-    --size: 84px;
-    --dur: 18s;
-    --delay: -11s;
-    --sway: 45px;
+
+#home-link:hover {
+    background-color: var(--green-dark-grab);
+    transform: scale(1.1);
 }
-.bubble:nth-child(4) {
-    --x: 38%;
-    --size: 44px;
-    --dur: 9s;
-    --delay: -3s;
-    --sway: 18px;
-}
-.bubble:nth-child(5) {
-    --x: 47%;
-    --size: 56px;
-    --dur: 13s;
-    --delay: -8s;
-    --sway: 28px;
-}
-.bubble:nth-child(6) {
-    --x: 56%;
-    --size: 100px;
-    --dur: 20s;
-    --delay: -14s;
-    --sway: 50px;
-}
-.bubble:nth-child(7) {
-    --x: 65%;
-    --size: 48px;
-    --dur: 11s;
-    --delay: -5s;
-    --sway: 22px;
-}
-.bubble:nth-child(8) {
-    --x: 74%;
-    --size: 72px;
-    --dur: 16s;
-    --delay: -1s;
-    --sway: 38px;
-}
-.bubble:nth-child(9) {
-    --x: 84%;
-    --size: 44px;
-    --dur: 10s;
-    --delay: -9s;
-    --sway: 20px;
-}
-.bubble:nth-child(10) {
-    --x: 92%;
-    --size: 60px;
-    --dur: 15s;
-    --delay: -12s;
-    --sway: 30px;
-}
+
 
 body:has(#login),
 body:has(#regist) {
     gap: 24px;
+    padding-block: 24px;
 }
 
 #login,
@@ -202,7 +142,7 @@ body:has(#regist) {
     display: flex;
     flex-direction: column;
     align-items: center;
-    width: min(100% - 32px, 420px);
+    width: min(100% - 32px, 380px);  
     margin: auto;
     padding: clamp(16px, 4vw, 28px);
     background: rgba(255, 255, 255, 0.9);
@@ -218,6 +158,7 @@ body:has(#regist) {
 #regist h2 {
     margin: 0 0 12px;
 }
+
 
 #login form,
 #regist form {
@@ -247,7 +188,7 @@ body:has(#regist) {
     height: 25px;
     margin: 3px;
     padding: 2px;
-    border: 1px var(--green-grab) solid;
+    border: 1px solid var(--green-grab);
     border-radius: 3px;
     font-size: inherit;
 }
@@ -266,7 +207,14 @@ body:has(#regist) {
     justify-content: center;
     gap: 8px;
     max-width: 100%;
+    margin: 0;
 }
+
+#regist .avatar-option {
+    width: clamp(52px, 15vw, 70px);
+    height: clamp(52px, 15vw, 70px);
+}
+
 
 #account,
 #log-in {
@@ -276,16 +224,28 @@ body:has(#regist) {
 #account:hover,
 #log-in:hover {
     text-decoration: underline;
-    color: var(--green-dark-grab, var(--dark-green));
+    color: var(--green-dark-grab);
+}
+
+
+@media (min-width: 1440px) and (min-height: 800px) {
+    #login {
+        width: min(100% - 32px, 520px);
+    }
+
+    #login p {
+        margin: 28px 0 8px;
+    }
 }
 
 @media (max-width: 600px) {
-    .bubble:nth-child(n + 8) {
-        display: none;
+    body:has(#login),
+    body:has(#regist) {
+        padding-top: 92px;
     }
-    .bubble {
-        --sway: 14px;
-    }
+
+    .bubble:nth-child(n + 8) { display: none; }
+    .bubble { --sway: 14px; }
 }
 
 @media (max-width: 480px) {
@@ -296,9 +256,17 @@ body:has(#regist) {
 
     .form-text {
         width: 100%;
+        height: 42px;
         margin: 0;
+        padding: 4px 10px;
+    }
+
+    #home-link {
+        top: 8px;
+        left: 8px;
     }
 }
+
 
 @media (prefers-reduced-motion: reduce) {
     body.secret_mode,
@@ -311,120 +279,5 @@ body:has(#regist) {
         bottom: auto;
         top: 50%;
         opacity: 0.35;
-    }
-}
-
-/* Lien maison en haut à gauche */
-#home-link {
-    position: fixed;
-    top: 15px;
-    left: 15px;
-    z-index: 10;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 2px;
-    padding: 8px 10px;
-    border-radius: var(--radius);
-    color: var(--text-on-dark);
-    font-weight: 700;
-    font-size: 14px;
-    text-decoration: none;
-    transition:
-        background-color 0.2s ease,
-        transform 0.2s ease;
-}
-
-#home-link img {
-    width: 34px;
-    height: 34px;
-    filter: brightness(0) invert(1);
-}
-
-#home-link:hover {
-    background-color: var(--green-dark-grab);
-    transform: scale(1.1);
-}
-
-#login {
-    position: relative;
-    z-index: 1;
-    max-width: 420px;
-    margin: 20vh auto 0;
-    padding: 20px;
-    background: rgba(255, 255, 255, 0.9);
-    border-radius: 8px;
-    text-align: center;
-}
-
-#login > form > div {
-    height: 40px;
-}
-
-#login label {
-    display: inline-block;
-    width: 90px;
-    text-align: right;
-}
-
-#regist {
-    position: relative;
-    z-index: 1;
-    max-width: 620px;
-    margin: 40px auto 0;
-    padding: 20px;
-    background: rgba(255, 255, 255, 0.9);
-    border-radius: 8px;
-    text-align: center;
-}
-
-#regist label {
-    display: inline-block;
-    width: 90px;
-    text-align: right;
-}
-
-.form-text {
-    width: 250px;
-    height: 25px;
-    margin: 3px;
-    padding: 2px;
-    border: 1px rgb(30, 134, 30) solid;
-    border-radius: 3px;
-    font-size: inherit;
-}
-
-#account,
-#log-in {
-    text-decoration: none;
-}
-
-#account:hover,
-#log-in:hover {
-    text-decoration: underline;
-    color: var(--dark-green);
-}
-
-/* Large screens */
-@media (min-width: 1440px) and (min-height: 800px) {
-    #login {
-        max-width: 600px;
-        height: 300px;
-    }
-
-    #login p {
-        margin: 50px;
-    }
-}
-
-/* Large screens */
-@media (min-width: 1440px) and (min-height: 950px) {
-    #login {
-        max-width: 600px;
-        height: 360px;
-    }
-
-    #login p {
-        margin: 80px;
     }
 }

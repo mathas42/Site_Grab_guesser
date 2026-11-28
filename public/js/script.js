@@ -786,6 +786,7 @@ function breadcrumb() {
     const box = document.getElementById("historic-path");
     const path = window.location.pathname.toLowerCase().replace(/\/$/, "") || "/";
     const trail = [["/", PAGE_NAMES["/"]]];
+    if (!box) return; 
 
     if (path !== "/") {
         if (path !== "/dashboard" && !OUTSIDE_MENU.includes(path)) {

@@ -15,10 +15,7 @@ html(lang="en")
         include components/notification.pug 
         include components/mixin.pug
         +bubble()
-        a#home-link(href="/", aria-label="Back to home")
-            img(src="/images/nav/home-svgrepo-com.svg", alt="")
-            span Home
-
+        +homeLink()
         div#regist
             h2 Register
             form#form-profil2(action="/register", method="POST", novalidate)

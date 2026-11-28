@@ -45,3 +45,8 @@ mixin bubble()
             div.bubble
                 img.icon(src=food, alt="")
                 span.dot
+
+mixin homeLink()
+    a#home-link(href="/", aria-label="Back to home")
+            img(src="/images/nav/home-svgrepo-com.svg", alt="")
+            span Home

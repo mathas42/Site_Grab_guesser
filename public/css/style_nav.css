@@ -22,7 +22,6 @@ body {
     gap: 20px;
 }
 
-/* Liens centrés dans la barre (grands écrans) */
 #nav-container {
     position: absolute;
     left: 50%;
@@ -105,7 +104,6 @@ nav .avatar-profil:hover {
     box-sizing: border-box;
 }
 
-/* Lien Admin mis en valeur */
 #nav-container a#nav-admin {
     color: rgb(255, 204, 108);
 }
@@ -128,6 +126,7 @@ nav .avatar-profil:hover {
     padding: 20px;
     box-sizing: border-box;
     background: var(--green-grab);
+    border-radius: var(--radius);
 }
 
 #nav-menu a,
@@ -151,18 +150,13 @@ nav .avatar-profil:hover {
     color: var(--text-on-dark);
 }
 
-#nav-menu .nav-svg {
+.menu-icon {
+    flex-shrink: 0;
     width: 22px;
     height: 22px;
-    padding: 0;
-    flex-shrink: 0;
-    filter: brightness(0) saturate(100%) invert(76%) sepia(4%) saturate(1655%) hue-rotate(93deg)
-        brightness(117%) contrast(92%);
-}
-
-#nav-menu a:hover .nav-svg,
-#nav-menu .LogOut:hover .nav-svg {
-    filter: brightness(0) invert(1);
+    background-color: currentColor;
+    -webkit-mask: var(--icon) center / contain no-repeat;
+    mask: var(--icon) center / contain no-repeat;
 }
 
 #register {
@@ -184,16 +178,13 @@ nav .avatar-profil:hover {
         width: 100%;
         max-width: 100px;
     }
+
+    #nav-menu {
+        border: 2px solid black;             
+    }
 }
 
 @media (max-width: 768px) {
-    #nav-menu {
-        width: 180px;
-        font-size: 18px;
-        top: 100px;
-        right: 20px;
-    }
-
     #main-nav2 {
         flex-wrap: wrap;
         gap: 8px 12px;
@@ -218,6 +209,10 @@ nav .avatar-profil:hover {
         flex: 1 1 100%;
         width: 100%;
         max-width: none;
+    }
+
+    #nav-menu {
+        border: 2px solid black;             
     }
 }
 
@@ -251,34 +246,22 @@ nav .avatar-profil:hover {
         height: 35px;
     }
 
-    #nav-menu {
-        width: 130px;
-        font-size: 15px;
-        top: 100px;
-        right: 5px;
-        border: 2px solid black;
-    }
-
-    #main-nav2 #nav-container2 {
-        position: relative;
-        justify-content: space-between;
+    #nav-menu a,
+    #nav-menu .LogOut {
         width: 100%;
-        margin-left: 0;
+        min-height: 40px;         
+        gap: 10px;
+        padding: 0 12px;
     }
 
-    #main-nav2 .avatar-profil {
-        padding: 0;
-        margin: 0;
+    #nav-menu {
+        width:300px;
+        font-size: 1.7rem;      
+        gap: 18px;             
     }
 
-    #main-nav2 #user-name {
-        position: absolute;
-        left: 50%;
-        transform: translateX(-50%);
-        text-align: center;
-    }
-
-    #main-nav2 #nav-hamburger {
-        margin-left: auto;
+    #nav-menu .menu-icon {
+        width: 1.4em;         
+        height: 1.4em;
     }
 }

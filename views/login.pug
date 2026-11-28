@@ -13,9 +13,7 @@ html(lang="en")
         include components/notification.pug
         include components/mixin.pug
         +bubble()
-        a#home-link(href="/", aria-label="Back to home")
-            img(src="/images/nav/home-svgrepo-com.svg", alt="")
-            span Home
+        +homeLink()
         div#login
             h2 Log-in to your account
             form(action="/login", method="POST")
