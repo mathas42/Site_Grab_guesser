@@ -29,7 +29,7 @@ SET description = CASE
     THEN 'Chicken shawarma is a well-known Middle Eastern street food. The meat is marinated with spices, stacked on a vertical spit and slowly roasted. It is commonly served with flatbread, vegetables, garlic sauce and other regional accompaniments.'
 
     WHEN nom = 'Chicken Special Set'
-    THEN 'The name suggests a chicken-based meal served as a set, a popular format throughout Asian food courts. Such meals often combine a main dish with rice, vegetables or sauces. The exact ingredients and cultural influences depend on the restaurant recipe.'
+    THEN 'A chicken meal set featuring a crispy chicken burger and a chicken wrap. It offers two different ways to enjoy chicken in one meal, combining a burger with a soft tortilla wrap filled with seasoned chicken and sauce. A convenient and filling fast-food combination.'
 
     WHEN nom = 'Purple Sweet Potato Finger (3Pcs)'
     THEN 'Sweet potatoes have been cultivated and eaten across Asia for centuries and are especially popular in many East and Southeast Asian snacks. Purple varieties contain natural pigments called anthocyanins, which give them their distinctive color. These finger-shaped portions offer a convenient way to enjoy the vegetable as a snack.'
@@ -53,7 +53,7 @@ SET description = CASE
     THEN 'Salmon is an important ingredient in many European and contemporary international cuisines. Truffles are prized fungi associated especially with French and Italian fine dining, while mashed potatoes are a familiar European accompaniment. Together, these ingredients create a modern restaurant-style combination of fish, earthy aromas and creamy texture.'
 
     WHEN nom = 'THE CLASSIC'
-    THEN 'The name suggests a classic-style café dish, but its exact ingredients cannot be established from the name alone. Classic café meals often draw on European and Western breakfast or brunch traditions. The specific ingredients depend on the restaurant menu.'
+    THEN 'A classic snowflake-shaped biscuit with a crisp texture and a delicate, lightly sweet flavor. Its distinctive shape gives it a decorative appearance, making it a simple yet enjoyable sweet treat to have with a drink or as a snack.'
 
     WHEN nom = 'Hummus Beef Shawarma'
     THEN 'This dish combines two popular elements of Levantine cuisine: hummus and beef shawarma. Hummus is a creamy preparation of chickpeas, tahini, lemon and garlic, while shawarma uses seasoned meat roasted on a vertical spit. Together they represent the region’s tradition of sharing flavorful dips, meats and flatbreads.'
